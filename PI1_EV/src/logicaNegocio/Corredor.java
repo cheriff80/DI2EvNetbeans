@@ -17,12 +17,12 @@ public class Corredor implements Serializable {
     //atributos
     private String nombre;
     private String DNI;
-    private Date fechaNacimiento;
+    private String fechaNacimiento;
     private String direccion;
     private String telefonoContacto;
 
     //constructor
-    public Corredor(String nombre, String DNI, Date fechaNacimiento, String direccion, String telefonoContacto) {
+    public Corredor(String nombre, String DNI, String fechaNacimiento, String direccion, String telefonoContacto) {
         this.nombre = nombre;
         this.DNI = DNI;
         this.fechaNacimiento = fechaNacimiento;
@@ -47,11 +47,11 @@ public class Corredor implements Serializable {
         this.DNI = DNI;
     }
 
-    public Date getFechaNacimiento() {
+    public String getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(Date fechaNacimiento) {
+    public void setFechaNacimiento(String fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 

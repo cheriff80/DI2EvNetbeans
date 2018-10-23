@@ -5,6 +5,7 @@
  */
 package interfaz;
 
+import java.sql.Date;
 import logicaNegocio.LogicaAplicacion;
 
 /**
@@ -13,14 +14,14 @@ import logicaNegocio.LogicaAplicacion;
  */
 public class PantallaCorredor extends javax.swing.JDialog {
 
-    private LogicaAplicacion logicaAplicacion ;
-    private PantallaPrincipal ppal;
-    
-    
-    public PantallaCorredor(java.awt.Frame parent, boolean modal,LogicaAplicacion logicaAplicacion) {
+    /**
+     * Creates new form PantallaCorredor
+     */
+    private LogicaAplicacion logicaAplicacion;
+    public PantallaCorredor(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        this.logicaAplicacion=new LogicaAplicacion();
         initComponents();
-        logicaAplicacion = new LogicaAplicacion();
     }
 
     /**
@@ -32,13 +33,34 @@ public class PantallaCorredor extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanelConsultasCorredor = new javax.swing.JPanel();
+        jLabelNombre = new javax.swing.JLabel();
+        jTextFieldNombre = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jTextFieldDni = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jSpinnerFechaNacimiento = new javax.swing.JSpinner();
+        jLabelFechaNacimiento = new javax.swing.JLabel();
+        jTextFieldDireccion = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jTextFieldTelefono = new javax.swing.JTextField();
         jButtonAniadir = new javax.swing.JButton();
-        jButtonModificar = new javax.swing.JButton();
         jButtonBorrar = new javax.swing.JButton();
-        jButtonConsultar = new javax.swing.JButton();
+        jButtonModificar = new javax.swing.JButton();
+        jButtonVerLista = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jLabelNombre.setText("Nombre: ");
+
+        jLabel1.setText("DNI:");
+
+        jLabel2.setText("Fecha de nacimiento:");
+
+        jSpinnerFechaNacimiento.setModel(new javax.swing.SpinnerDateModel());
+
+        jLabelFechaNacimiento.setText("Dirección: ");
+
+        jLabel3.setText("Teléfono:");
 
         jButtonAniadir.setText("AÑADIR");
         jButtonAniadir.addActionListener(new java.awt.event.ActionListener() {
@@ -47,76 +69,148 @@ public class PantallaCorredor extends javax.swing.JDialog {
             }
         });
 
-        jButtonModificar.setText("MODIFICAR");
-
         jButtonBorrar.setText("BORRAR");
 
-        jButtonConsultar.setText("CONSULTAR");
+        jButtonModificar.setText("MODIFICAR");
 
-        javax.swing.GroupLayout jPanelConsultasCorredorLayout = new javax.swing.GroupLayout(jPanelConsultasCorredor);
-        jPanelConsultasCorredor.setLayout(jPanelConsultasCorredorLayout);
-        jPanelConsultasCorredorLayout.setHorizontalGroup(
-            jPanelConsultasCorredorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButtonAniadir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanelConsultasCorredorLayout.createSequentialGroup()
-                .addComponent(jButtonModificar)
-                .addGap(26, 26, 26)
-                .addComponent(jButtonBorrar, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE))
-            .addGroup(jPanelConsultasCorredorLayout.createSequentialGroup()
-                .addGap(60, 60, 60)
-                .addComponent(jButtonConsultar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanelConsultasCorredorLayout.setVerticalGroup(
-            jPanelConsultasCorredorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelConsultasCorredorLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButtonAniadir)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanelConsultasCorredorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonModificar)
-                    .addComponent(jButtonBorrar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButtonConsultar)
-                .addContainerGap(24, Short.MAX_VALUE))
-        );
+        jButtonVerLista.setText("VER LISTA");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(75, 75, 75)
-                .addComponent(jPanelConsultasCorredor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(105, Short.MAX_VALUE))
+                .addGap(36, 36, 36)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButtonAniadir)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonBorrar)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonModificar)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonVerLista))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelNombre)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabelFechaNacimiento)
+                            .addComponent(jLabel3))
+                        .addGap(70, 70, 70)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jTextFieldNombre)
+                                .addComponent(jTextFieldDni)
+                                .addComponent(jSpinnerFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTextFieldDireccion, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))
+                            .addComponent(jTextFieldTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(31, Short.MAX_VALUE)
-                .addComponent(jPanelConsultasCorredor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(119, 119, 119))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelNombre)
+                    .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jTextFieldDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jSpinnerFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelFechaNacimiento)
+                    .addComponent(jTextFieldDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(jTextFieldTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonAniadir)
+                    .addComponent(jButtonBorrar)
+                    .addComponent(jButtonModificar)
+                    .addComponent(jButtonVerLista))
+                .addGap(55, 55, 55))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonAniadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAniadirActionPerformed
-        PantallaDatosCorredor pantalla = new PantallaDatosCorredor(ppal,true,logicaAplicacion);
-        pantalla.setVisible(true);
         
+        String nombre = jTextFieldNombre.getText();
+        String dni = jTextFieldDni.getText();
+        String fechaNacimiento =  jSpinnerFechaNacimiento.getValue().toString();
+        String direccion = jTextFieldDireccion.getText();
+        String telefonoContacto = jTextFieldTelefono.getText();
+        
+        logicaAplicacion.aniadirCorredor(nombre, dni, fechaNacimiento, direccion, telefonoContacto);
+        logicaAplicacion.guardarLista();
+        this.setVisible(false);
     }//GEN-LAST:event_jButtonAniadirActionPerformed
 
     /**
      * @param args the command line arguments
      */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(PantallaCorredor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(PantallaCorredor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(PantallaCorredor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(PantallaCorredor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
 
+        /* Create and display the dialog */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                PantallaCorredor dialog = new PantallaCorredor(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAniadir;
     private javax.swing.JButton jButtonBorrar;
-    private javax.swing.JButton jButtonConsultar;
     private javax.swing.JButton jButtonModificar;
-    private javax.swing.JPanel jPanelConsultasCorredor;
+    private javax.swing.JButton jButtonVerLista;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabelFechaNacimiento;
+    private javax.swing.JLabel jLabelNombre;
+    private javax.swing.JSpinner jSpinnerFechaNacimiento;
+    private javax.swing.JTextField jTextFieldDireccion;
+    private javax.swing.JTextField jTextFieldDni;
+    private javax.swing.JTextField jTextFieldNombre;
+    private javax.swing.JTextField jTextFieldTelefono;
     // End of variables declaration//GEN-END:variables
 }

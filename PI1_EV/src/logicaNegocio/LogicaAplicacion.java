@@ -6,9 +6,11 @@
 package logicaNegocio;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.Date;
@@ -30,6 +32,8 @@ public class LogicaAplicacion {
 
     File archivo = new File("C:\\Users\\esauj\\OneDrive\\Documentos\\NetBeansProjects\\DI1819\\PI1_EV\\src\\archivoCSV\\listaCorredores.csv");
 
+    
+
     //nueva clase para que no nos imprima la cabecera cuando añadamos corredores
     public class MyAppendingObjectOutputStream extends ObjectOutputStream {
 
@@ -41,6 +45,32 @@ public class LogicaAplicacion {
         protected void writeStreamHeader() throws IOException {
             reset(); // no escribe la cabecera
         }
+    }
+    
+    public void cargarLista(){
+        
+        FileInputStream fis = null;
+        ObjectInputStream ois = null;
+        Corredor c;
+        
+        try {
+            fis = new FileInputStream(archivo);
+            ois = new ObjectInputStream(fis);
+            
+            while((c=(Corredor)ois.readObject())!= null){
+               if(c instanceof Corredor){ 
+                listaCorredores.add(c);//añado el corredor
+                
+               }
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(LogicaAplicacion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(LogicaAplicacion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(LogicaAplicacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     public void guardarLista() {
@@ -54,7 +84,8 @@ public class LogicaAplicacion {
 
         try {
             fos = new FileOutputStream(archivo, true);
-            oos = new ObjectOutputStream(oos);
+            oos = new ObjectOutputStream(fos);
+            maoos = new MyAppendingObjectOutputStream(fos);
 
             //confirmamos si existe o no el archivo para añadir el objeto sin o con cabecera
             if (archivo.exists()) {
@@ -85,7 +116,7 @@ public class LogicaAplicacion {
 
     }
 
-    public void aniadirCorredor(String nombre, String dni, Date fechaNacimiento, String direccion, String telefonoContacto) {
+    public void aniadirCorredor(String nombre, String dni, String fechaNacimiento, String direccion, String telefonoContacto) {
 
         //creamos un nuevo corredor con el constructor
         Corredor c = new Corredor(nombre, dni, fechaNacimiento, direccion, telefonoContacto);
