@@ -20,6 +20,17 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import com.opencsv.*;
+import com.opencsv.bean.StatefulBeanToCsv;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.Writer;
+import java.util.LinkedList;
+import java.util.StringTokenizer;
+import jdk.nashorn.internal.codegen.CompilerConstants;
+import org.openide.util.Exceptions;
 
 /**
  *
@@ -28,12 +39,29 @@ import java.util.logging.Logger;
 public class LogicaAplicacion {
 
     //instanciamos la lista de corredores, sin duplicados y ordenados por el nombre de insercion
-    Set<Corredor> listaCorredores = new LinkedHashSet<>();
-
-    File archivo = new File("C:\\Users\\esauj\\OneDrive\\Documentos\\NetBeansProjects\\DI1819\\PI1_EV\\src\\archivoCSV\\listaCorredores.csv");
-
+    private LinkedList<Corredor> listaCorredores = new LinkedList<>();
     
+    
+    //declaramos la ruta absoluta del archivo CSV
+    private final File NOMBRE_ARCHIVO_CSV = new File("C:\\Users\\esauj\\OneDrive\\Documentos\\NetBeansProjects\\DI1819\\PI1_EV\\src\\archivoCSV\\listaCorredores.csv");
+    private final File NOMBRE_ARCHIVO = new File("C:\\Users\\esauj\\OneDrive\\Documentos\\NetBeansProjects\\DI1819\\PI1_EV\\src\\archivoCSV\\listaCorredores.dat");
 
+    public void tokenizar(String linea){
+        Corredor c;
+        
+        StringTokenizer tokens = new StringTokenizer(linea,",");
+        while(tokens.hasMoreTokens()){
+            String nombre = tokens.nextToken();
+            String dni = tokens.nextToken();
+            String fechaNacimiento = tokens.nextToken();
+            String direccion = tokens.nextToken();
+            String telefono = tokens.nextToken();
+            
+            c = new Corredor(nombre,dni,fechaNacimiento,direccion,telefono);
+            listaCorredores.add(c);
+        }
+        
+    } 
     //nueva clase para que no nos imprima la cabecera cuando añadamos corredores
     public class MyAppendingObjectOutputStream extends ObjectOutputStream {
 
@@ -46,36 +74,36 @@ public class LogicaAplicacion {
             reset(); // no escribe la cabecera
         }
     }
-    
-    public void cargarLista(){
-        
+
+    public void cargarListaBytes() {
+
         FileInputStream fis = null;
         ObjectInputStream ois = null;
-        Corredor c;
+        LinkedList<Corredor> ps ;
         
+
         try {
-            fis = new FileInputStream(archivo);
-            ois = new ObjectInputStream(fis);
             
-            while((c=(Corredor)ois.readObject())!= null){
-               if(c instanceof Corredor){ 
-                listaCorredores.add(c);//añado el corredor
+            if(NOMBRE_ARCHIVO.exists()){
+                 fis = new FileInputStream(NOMBRE_ARCHIVO);
+            ois = new ObjectInputStream(fis);
+
+                ps = (LinkedList<Corredor>) ois.readObject();
+                listaCorredores = ps;
                 
-               }
             }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(LogicaAplicacion.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(LogicaAplicacion.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(LogicaAplicacion.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
+    
+    
+    
+    public void guardarListaBytes() {
 
-    public void guardarLista() {
-
-        
         FileOutputStream fos = null;
         ObjectOutputStream oos = null;
         MyAppendingObjectOutputStream maoos = null;
@@ -83,20 +111,20 @@ public class LogicaAplicacion {
         Iterator it = listaCorredores.iterator();
 
         try {
-            fos = new FileOutputStream(archivo, true);
+            fos = new FileOutputStream(NOMBRE_ARCHIVO, true);
             oos = new ObjectOutputStream(fos);
             maoos = new MyAppendingObjectOutputStream(fos);
 
-            //confirmamos si existe o no el archivo para añadir el objeto sin o con cabecera
-            if (archivo.exists()) {
+            //confirmamos si existe o no el NOMBRE_ARCHIVO_CSV para añadir el objeto sin o con cabecera
+            if (NOMBRE_ARCHIVO.exists()) {
 
-                //iteramos la lista de corredores de la sesiion y la añadimos al archivo
+                //iteramos la lista de corredores de la sesion y la añadimos al NOMBRE_ARCHIVO_CSV
                 while (it.hasNext()) {
                     c = (Corredor) (it.next());
                     maoos.writeObject(c);
                 }
             } else {
-                //iteramos la lista de corredores de la sesiion y la añadimos al archivo
+                //iteramos la lista de corredores de la sesion y la añadimos al NOMBRE_ARCHIVO_CSV
 
                 while (it.hasNext()) {
                     c = (Corredor) (it.next());
@@ -115,17 +143,88 @@ public class LogicaAplicacion {
         }
 
     }
+    
+    public void cargarCSV(){
+        
+        FileReader fr = null;
+        BufferedReader br = null;
+        String linea;
+        
+        try {
+            fr= new FileReader(NOMBRE_ARCHIVO_CSV);
+            br = new BufferedReader(fr);
+            linea =  br.readLine();
+            while(linea!=null){
+                tokenizar(linea);
+                
+                linea = br.readLine();
+            }
+            
+            br.close();
+            fr.close();
+            
+            
+            
+        } catch (FileNotFoundException ex) {
+            System.out.println("No se ha encontrado el archivo");;
+        } catch (IOException ex) {
+            System.out.println("Error en la entrada o salida");;
+        }
+        
+        
+    }
+    
+    
 
-    public void aniadirCorredor(String nombre, String dni, String fechaNacimiento, String direccion, String telefonoContacto) {
+    public void guardarCsv() {
+        
+        FileWriter fw =null;
+        BufferedWriter bw = null;
+        
 
-        //creamos un nuevo corredor con el constructor
-        Corredor c = new Corredor(nombre, dni, fechaNacimiento, direccion, telefonoContacto);
+        try {
+
+            fw = new FileWriter(NOMBRE_ARCHIVO_CSV,true);
+            bw = new BufferedWriter(fw);
+            
+            //declaro el bucle 
+            for(Corredor corredor:listaCorredores){
+                
+              bw.write(corredor.getNombre()+","+corredor.getDNI()+","+corredor.getFechaNacimiento()+","
+              +corredor.getDireccion()+","+corredor.getTelefonoContacto()+'\n');
+            }
+            
+            //cierro el buffer
+            bw.flush();
+            bw.close();
+            
+        } catch (IOException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+
+    }
+
+    public void aniadirCorredor(Corredor corredor) {
 
         //añadimos el corredor a la lista
-        listaCorredores.add(c);
-
-        //cargamos el corredor y lo guardamos en el archivo
-        guardarLista();
+        listaCorredores.add(corredor);
     }
+    
+    public void borrarCorredor(Corredor corredor){
+        //borramos el corredor de la lista
+        listaCorredores.remove(corredor);
+        guardarCsv();
+    }
+
+    public LinkedList<Corredor> getListaCorredores() {
+        
+        return listaCorredores;
+    }
+
+    public void setListaCorredores(LinkedList<Corredor> listaCorredores) {
+        this.listaCorredores = listaCorredores;
+    }
+    
+    
 
 }

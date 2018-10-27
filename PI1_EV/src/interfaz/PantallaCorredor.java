@@ -5,7 +5,9 @@
  */
 package interfaz;
 
-import java.sql.Date;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
+import logicaNegocio.Corredor;
 import logicaNegocio.LogicaAplicacion;
 
 /**
@@ -18,10 +20,72 @@ public class PantallaCorredor extends javax.swing.JDialog {
      * Creates new form PantallaCorredor
      */
     private LogicaAplicacion logicaAplicacion;
-    public PantallaCorredor(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
-        this.logicaAplicacion=new LogicaAplicacion();
+    private PantallaPrincipal pp;
+    private Corredor corredorModificar;
+    
+    public PantallaCorredor(java.awt.Frame parent, boolean modal, LogicaAplicacion logicaAplicacion) {
+        
+        pp = (PantallaPrincipal) parent;
+        logicaAplicacion = new LogicaAplicacion();
         initComponents();
+        
+    }
+    
+    public PantallaCorredor(java.awt.Frame parent, boolean modal, LogicaAplicacion logicaAplicacion, Corredor corredorModificar) {
+        super(parent, modal);
+        pp = (PantallaPrincipal) parent;
+        this.logicaAplicacion = logicaAplicacion;
+        
+        this.corredorModificar = corredorModificar;
+        
+        initComponents();
+        jButtonBorrar.setVisible(false);
+        jButtonModificar.setVisible(false);
+        jButtonVerLista.setVisible(false);
+        jTextFieldNombre.setText(corredorModificar.getNombre());
+        jTextFieldDni.setText(corredorModificar.getDNI());
+        jTextFieldDireccion.setText(corredorModificar.getDireccion());
+        jTextFieldTelefono.setText(corredorModificar.getTelefonoContacto());
+    }
+    
+    public JSpinner getjSpinnerFechaNacimiento() {
+        return jSpinnerFechaNacimiento;
+    }
+    
+    public void setjSpinnerFechaNacimiento(JSpinner jSpinnerFechaNacimiento) {
+        this.jSpinnerFechaNacimiento = jSpinnerFechaNacimiento;
+    }
+    
+    public JTextField getjTextFieldDireccion() {
+        return jTextFieldDireccion;
+    }
+    
+    public void setjTextFieldDireccion(JTextField jTextFieldDireccion) {
+        this.jTextFieldDireccion = jTextFieldDireccion;
+    }
+    
+    public JTextField getjTextFieldDni() {
+        return jTextFieldDni;
+    }
+    
+    public void setjTextFieldDni(JTextField jTextFieldDni) {
+        this.jTextFieldDni = jTextFieldDni;
+    }
+    
+    public JTextField getjTextFieldNombre() {
+        return jTextFieldNombre;
+    }
+    
+    public void setjTextFieldNombre(JTextField jTextFieldNombre) {
+        this.jTextFieldNombre = jTextFieldNombre;
+    }
+    
+    public JTextField getjTextFieldTelefono() {
+        return jTextFieldTelefono;
+    }
+    
+    public void setjTextFieldTelefono(JTextField jTextFieldTelefono) {
+        this.jTextFieldTelefono = jTextFieldTelefono;
     }
 
     /**
@@ -70,10 +134,25 @@ public class PantallaCorredor extends javax.swing.JDialog {
         });
 
         jButtonBorrar.setText("BORRAR");
+        jButtonBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonBorrarActionPerformed(evt);
+            }
+        });
 
         jButtonModificar.setText("MODIFICAR");
+        jButtonModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonModificarActionPerformed(evt);
+            }
+        });
 
         jButtonVerLista.setText("VER LISTA");
+        jButtonVerLista.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonVerListaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -146,56 +225,42 @@ public class PantallaCorredor extends javax.swing.JDialog {
         
         String nombre = jTextFieldNombre.getText();
         String dni = jTextFieldDni.getText();
-        String fechaNacimiento =  jSpinnerFechaNacimiento.getValue().toString();
+        String fechaNacimiento = jSpinnerFechaNacimiento.getValue().toString();
         String direccion = jTextFieldDireccion.getText();
         String telefonoContacto = jTextFieldTelefono.getText();
         
-        logicaAplicacion.aniadirCorredor(nombre, dni, fechaNacimiento, direccion, telefonoContacto);
-        logicaAplicacion.guardarLista();
-        this.setVisible(false);
+        Corredor corredor = new Corredor(nombre, dni, fechaNacimiento, direccion, telefonoContacto);
+        
+        pp.getLogicaAplicacion().aniadirCorredor(corredor);
+        pp.getLogicaAplicacion().guardarCsv();
+        
+        dispose();
     }//GEN-LAST:event_jButtonAniadirActionPerformed
+    
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PantallaCorredor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PantallaCorredor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PantallaCorredor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PantallaCorredor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void jButtonVerListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVerListaActionPerformed
+        
+        PantallaListaCorredores pantallaListaCorredores = new PantallaListaCorredores(pp, true, logicaAplicacion);
+        
+        pantallaListaCorredores.setVisible(true);
+        dispose();
 
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                PantallaCorredor dialog = new PantallaCorredor(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+    }//GEN-LAST:event_jButtonVerListaActionPerformed
+
+    private void jButtonBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBorrarActionPerformed
+        
+        PantallaListaCorredores pantallaListaCorredores = new PantallaListaCorredores(pp, true, logicaAplicacion);
+        dispose();
+        pantallaListaCorredores.setVisible(true);
+    }//GEN-LAST:event_jButtonBorrarActionPerformed
+
+    private void jButtonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonModificarActionPerformed
+        
+        PantallaListaCorredores pantallaListaCorredores = new PantallaListaCorredores(pp, true, logicaAplicacion);
+        dispose();
+        pantallaListaCorredores.setVisible(true);
+    }//GEN-LAST:event_jButtonModificarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAniadir;

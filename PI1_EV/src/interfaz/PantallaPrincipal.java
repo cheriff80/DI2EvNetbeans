@@ -5,6 +5,9 @@
  */
 package interfaz;
 
+import java.awt.HeadlessException;
+import java.io.File;
+import javax.swing.JButton;
 import logicaNegocio.LogicaAplicacion;
 
 /**
@@ -16,13 +19,24 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     /**
      * Creates new form PantallaPrincipal
      */
-    private final LogicaAplicacion logicaAplicacion;
     
-    public PantallaPrincipal() {
-        this.logicaAplicacion= new LogicaAplicacion();
+    private LogicaAplicacion logicaAplicacion;
+    private final File NOMBRE_ARCHIVO_CSV = new File("C:\\Users\\esauj\\OneDrive\\Documentos\\NetBeansProjects\\DI1819\\PI1_EV\\src\\archivoCSV\\listaCorredores.csv");
+    
+    
+    public PantallaPrincipal()  {
+        logicaAplicacion = new LogicaAplicacion();
+        if(NOMBRE_ARCHIVO_CSV.exists()){
+            logicaAplicacion.cargarCSV();
+        }
+        
         initComponents();
     }
 
+    public LogicaAplicacion getLogicaAplicacion() {
+        return logicaAplicacion;
+    }
+    
     
 
     /**
@@ -67,8 +81,8 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
     private void jButtonCorredorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCorredorActionPerformed
         
-        PantallaCorredor pantallaCorredor = new PantallaCorredor(this,true);
-        pantallaCorredor.setLocationRelativeTo(this);
+        PantallaCorredor pantallaCorredor = new PantallaCorredor(this,true,logicaAplicacion);
+        pantallaCorredor.setLocationRelativeTo(null);
         pantallaCorredor.setVisible(true);
     }//GEN-LAST:event_jButtonCorredorActionPerformed
 

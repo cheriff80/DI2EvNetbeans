@@ -71,4 +71,18 @@ public class Corredor implements Serializable {
         this.telefonoContacto = telefonoContacto;
     }
 
+    
+    public String[] toStringArray() {
+    
+    String [] s = new String [5];
+    s[0]= nombre;
+    s[1]= DNI;
+    s[2]= fechaNacimiento;
+    s[3]= direccion;
+    s[4]= telefonoContacto;
+    return s;
+    }
+    
+    
+
 }
