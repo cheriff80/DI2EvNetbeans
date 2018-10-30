@@ -43,8 +43,8 @@ public class LogicaAplicacion {
     
     
     //declaramos la ruta absoluta del archivo CSV
-    private final File NOMBRE_ARCHIVO_CSV = new File("C:\\Users\\esauj\\OneDrive\\Documentos\\NetBeansProjects\\DI1819\\PI1_EV\\src\\archivoCSV\\listaCorredores.csv");
-    private final File NOMBRE_ARCHIVO = new File("C:\\Users\\esauj\\OneDrive\\Documentos\\NetBeansProjects\\DI1819\\PI1_EV\\src\\archivoCSV\\listaCorredores.dat");
+    private final File NOMBRE_ARCHIVO_CSV = new File("archivoCSV\\listaCorredores.csv");
+    private final File NOMBRE_ARCHIVO = new File("archivoCSV\\listaCorredores.dat");
 
     public void tokenizar(String linea){
         Corredor c;

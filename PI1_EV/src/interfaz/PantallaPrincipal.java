@@ -5,10 +5,16 @@
  */
 package interfaz;
 
+import com.easynth.lookandfeel.EaSynthLookAndFeel;
 import java.awt.HeadlessException;
 import java.io.File;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import logicaNegocio.LogicaAplicacion;
+import org.openide.util.Exceptions;
 
 /**
  *
@@ -21,7 +27,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
      */
     
     private LogicaAplicacion logicaAplicacion;
-    private final File NOMBRE_ARCHIVO_CSV = new File("C:\\Users\\esauj\\OneDrive\\Documentos\\NetBeansProjects\\DI1819\\PI1_EV\\src\\archivoCSV\\listaCorredores.csv");
+    private final File NOMBRE_ARCHIVO_CSV = new File("archivoCSV\\listaCorredores.csv");
     
     
     public PantallaPrincipal()  {
@@ -31,6 +37,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         }
         
         initComponents();
+        cambiarLookAndFeel();
     }
 
     public LogicaAplicacion getLogicaAplicacion() {
@@ -124,4 +131,13 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCorredor;
     // End of variables declaration//GEN-END:variables
+
+    private void cambiarLookAndFeel() {
+        try {
+            UIManager.setLookAndFeel(EaSynthLookAndFeel.class.getCanonicalName());
+            SwingUtilities.updateComponentTreeUI(this);
+        } catch (Throwable e){
+            JOptionPane.showConfirmDialog(this, "Error estableciendo Look And Feel.");
+        }
+    }
 }
