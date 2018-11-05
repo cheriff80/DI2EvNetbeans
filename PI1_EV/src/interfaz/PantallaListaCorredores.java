@@ -8,7 +8,7 @@ package interfaz;
 import com.sun.javafx.scene.SceneHelper;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-import logicaNegocio.Corredor;
+import beans.Corredor;
 import logicaNegocio.LogicaAplicacion;
 
 /**

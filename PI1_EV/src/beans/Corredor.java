@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package logicaNegocio;
+package beans;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -17,12 +18,12 @@ public class Corredor implements Serializable {
     //atributos
     private String nombre;
     private String DNI;
-    private String fechaNacimiento;
+    private Date fechaNacimiento;
     private String direccion;
     private String telefonoContacto;
 
     //constructor
-    public Corredor(String nombre, String DNI, String fechaNacimiento, String direccion, String telefonoContacto) {
+    public Corredor(String nombre, String DNI, Date fechaNacimiento, String direccion, String telefonoContacto) {
         this.nombre = nombre;
         this.DNI = DNI;
         this.fechaNacimiento = fechaNacimiento;
@@ -47,11 +48,11 @@ public class Corredor implements Serializable {
         this.DNI = DNI;
     }
 
-    public String getFechaNacimiento() {
+    public Date getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(String fechaNacimiento) {
+    public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 
@@ -71,18 +72,17 @@ public class Corredor implements Serializable {
         this.telefonoContacto = telefonoContacto;
     }
 
-    
     public String[] toStringArray() {
-    
-    String [] s = new String [5];
-    s[0]= nombre;
-    s[1]= DNI;
-    s[2]= fechaNacimiento;
-    s[3]= direccion;
-    s[4]= telefonoContacto;
-    return s;
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-YYYY");
+       
+        String[] s = new String[5];
+        s[0] = nombre;
+        s[1] = DNI;
+        s[2] = sdf.format(fechaNacimiento);
+        s[3] = direccion;
+        s[4] = telefonoContacto;
+        return s;
     }
-    
-    
 
 }

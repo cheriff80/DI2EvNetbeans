@@ -7,8 +7,16 @@ package interfaz;
 
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
-import logicaNegocio.Corredor;
+import beans.Corredor;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.SpinnerDateModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.text.DateFormatter;
 import logicaNegocio.LogicaAplicacion;
+import org.netbeans.validation.api.builtin.stringvalidation.StringValidators;
+import org.netbeans.validation.api.ui.ValidationGroup;
 
 /**
  *
@@ -29,16 +37,33 @@ public class PantallaCorredor extends javax.swing.JDialog {
         logicaAplicacion = new LogicaAplicacion();
         initComponents();
         
+         //validamos el botón Aceptar
+        validationPanel.addChangeListener((ChangeEvent ce) -> {
+            if(validationPanel.getProblem()==null){
+                jButtonAniadir.setEnabled(true);
+            }else{
+                jButtonAniadir.setEnabled(false);
+            }
+        });
+        
+        //bloque validación de los campos
+        ValidationGroup group = validationPanel.getValidationGroup();
+        group.add(jTextFieldNombre, StringValidators.REQUIRE_NON_EMPTY_STRING);
+        group.add(jTextFieldDni, StringValidators.maxLength(9),StringValidators.minLength(9));
+        group.add(jTextFieldTelefono, StringValidators.REQUIRE_NON_EMPTY_STRING);
+        group.add(jTextFieldDireccion, StringValidators.REQUIRE_NON_EMPTY_STRING);
+        
+       
+        
     }
     
     public PantallaCorredor(java.awt.Frame parent, boolean modal, LogicaAplicacion logicaAplicacion, Corredor corredorModificar) {
         super(parent, modal);
         pp = (PantallaPrincipal) parent;
         this.logicaAplicacion = logicaAplicacion;
-        
         this.corredorModificar = corredorModificar;
-        
         initComponents();
+        
         jButtonBorrar.setVisible(false);
         jButtonModificar.setVisible(false);
         jButtonVerLista.setVisible(false);
@@ -111,20 +136,29 @@ public class PantallaCorredor extends javax.swing.JDialog {
         jButtonBorrar = new javax.swing.JButton();
         jButtonModificar = new javax.swing.JButton();
         jButtonVerLista = new javax.swing.JButton();
+        validationPanel = new org.netbeans.validation.api.ui.swing.ValidationPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabelNombre.setText("Nombre: ");
 
+        jTextFieldNombre.setName("Nombre"); // NOI18N
+
         jLabel1.setText("DNI:");
+
+        jTextFieldDni.setName("DNI"); // NOI18N
 
         jLabel2.setText("Fecha de nacimiento:");
 
-        jSpinnerFechaNacimiento.setModel(new javax.swing.SpinnerDateModel());
+        jSpinnerFechaNacimiento.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(1541445651935L), null, null, java.util.Calendar.DAY_OF_YEAR));
 
         jLabelFechaNacimiento.setText("Dirección: ");
 
+        jTextFieldDireccion.setName("Dirección"); // NOI18N
+
         jLabel3.setText("Teléfono:");
+
+        jTextFieldTelefono.setName("Teléfono"); // NOI18N
 
         jButtonAniadir.setText("AÑADIR");
         jButtonAniadir.addActionListener(new java.awt.event.ActionListener() {
@@ -158,8 +192,8 @@ public class PantallaCorredor extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(36, 36, 36)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(27, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButtonAniadir)
@@ -177,19 +211,21 @@ public class PantallaCorredor extends javax.swing.JDialog {
                             .addComponent(jLabelFechaNacimiento)
                             .addComponent(jLabel3))
                         .addGap(70, 70, 70)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jTextFieldNombre)
-                                .addComponent(jTextFieldDni)
-                                .addComponent(jSpinnerFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jTextFieldDireccion, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))
-                            .addComponent(jTextFieldTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextFieldNombre)
+                            .addComponent(jTextFieldDni)
+                            .addComponent(jSpinnerFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldDireccion, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                            .addComponent(jTextFieldTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(validationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(15, 15, 15))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addGap(10, 10, 10)
+                .addComponent(validationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelNombre)
                     .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -215,7 +251,7 @@ public class PantallaCorredor extends javax.swing.JDialog {
                     .addComponent(jButtonBorrar)
                     .addComponent(jButtonModificar)
                     .addComponent(jButtonVerLista))
-                .addGap(55, 55, 55))
+                .addGap(24, 24, 24))
         );
 
         pack();
@@ -223,9 +259,12 @@ public class PantallaCorredor extends javax.swing.JDialog {
 
     private void jButtonAniadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAniadirActionPerformed
         
+        //doy formato a la fecha
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+       
         String nombre = jTextFieldNombre.getText();
         String dni = jTextFieldDni.getText();
-        String fechaNacimiento = jSpinnerFechaNacimiento.getValue().toString();
+        Date fechaNacimiento = (Date) jSpinnerFechaNacimiento.getValue();
         String direccion = jTextFieldDireccion.getText();
         String telefonoContacto = jTextFieldTelefono.getText();
         
@@ -277,5 +316,6 @@ public class PantallaCorredor extends javax.swing.JDialog {
     private javax.swing.JTextField jTextFieldDni;
     private javax.swing.JTextField jTextFieldNombre;
     private javax.swing.JTextField jTextFieldTelefono;
+    private org.netbeans.validation.api.ui.swing.ValidationPanel validationPanel;
     // End of variables declaration//GEN-END:variables
 }

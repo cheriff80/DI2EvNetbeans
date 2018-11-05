@@ -23,10 +23,10 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace pref="27" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <Component id="jButtonAniadir" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jButtonBorrar" min="-2" max="-2" attributes="0"/>
@@ -35,7 +35,7 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jButtonVerLista" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabelNombre" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -44,25 +44,26 @@
                           <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="jTextFieldNombre" max="32767" attributes="0"/>
-                              <Component id="jTextFieldDni" max="32767" attributes="0"/>
-                              <Component id="jSpinnerFechaNacimiento" min="-2" pref="127" max="-2" attributes="0"/>
-                              <Component id="jTextFieldDireccion" alignment="0" pref="300" max="32767" attributes="0"/>
-                          </Group>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="jTextFieldNombre" max="32767" attributes="0"/>
+                          <Component id="jTextFieldDni" max="32767" attributes="0"/>
+                          <Component id="jSpinnerFechaNacimiento" min="-2" pref="127" max="-2" attributes="0"/>
+                          <Component id="jTextFieldDireccion" alignment="0" pref="300" max="32767" attributes="0"/>
                           <Component id="jTextFieldTelefono" min="-2" pref="105" max="-2" attributes="0"/>
+                          <Component id="validationPanel" alignment="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+          <Group type="102" attributes="0">
+              <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+              <Component id="validationPanel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabelNombre" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jTextFieldNombre" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -94,7 +95,7 @@
                   <Component id="jButtonModificar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonVerLista" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -106,6 +107,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldNombre">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="Nombre" noResource="true"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
@@ -113,6 +117,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldDni">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="DNI" noResource="true"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
@@ -122,7 +129,7 @@
     <Component class="javax.swing.JSpinner" name="jSpinnerFechaNacimiento">
       <Properties>
         <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-          <SpinnerModel initial="now" stepSize="5" type="date"/>
+          <SpinnerModel initial="1541445651935" stepSize="6" type="date"/>
         </Property>
       </Properties>
     </Component>
@@ -132,6 +139,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldDireccion">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="Direcci&#xf3;n" noResource="true"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
@@ -139,6 +149,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldTelefono">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="Tel&#xe9;fono" noResource="true"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="jButtonAniadir">
       <Properties>
@@ -171,6 +184,8 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonVerListaActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="org.netbeans.validation.api.ui.swing.ValidationPanel" name="validationPanel">
     </Component>
   </SubComponents>
 </Form>

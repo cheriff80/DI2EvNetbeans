@@ -5,6 +5,7 @@
  */
 package logicaNegocio;
 
+import beans.Corredor;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -27,6 +28,8 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.Writer;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.StringTokenizer;
 import jdk.nashorn.internal.codegen.CompilerConstants;
@@ -41,25 +44,35 @@ public class LogicaAplicacion {
     //instanciamos la lista de corredores, sin duplicados y ordenados por el nombre de insercion
     private LinkedList<Corredor> listaCorredores = new LinkedList<>();
     
+    SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            
+    
     
     //declaramos la ruta absoluta del archivo CSV
     private final File NOMBRE_ARCHIVO_CSV = new File("archivoCSV\\listaCorredores.csv");
     private final File NOMBRE_ARCHIVO = new File("archivoCSV\\listaCorredores.dat");
 
     public void tokenizar(String linea){
+       
         Corredor c;
-        
+        try {
         StringTokenizer tokens = new StringTokenizer(linea,",");
         while(tokens.hasMoreTokens()){
             String nombre = tokens.nextToken();
             String dni = tokens.nextToken();
-            String fechaNacimiento = tokens.nextToken();
+            Date fechaNacimiento;
+            
+                fechaNacimiento = sdf.parse(tokens.nextToken());
+            
             String direccion = tokens.nextToken();
             String telefono = tokens.nextToken();
             
             c = new Corredor(nombre,dni,fechaNacimiento,direccion,telefono);
             listaCorredores.add(c);
         }
+        } catch (ParseException ex) {
+                Exceptions.printStackTrace(ex);
+            }
         
     } 
     //nueva clase para que no nos imprima la cabecera cuando añadamos corredores

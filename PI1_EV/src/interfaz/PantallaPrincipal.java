@@ -8,6 +8,7 @@ package interfaz;
 import com.easynth.lookandfeel.EaSynthLookAndFeel;
 import java.awt.HeadlessException;
 import java.io.File;
+import java.util.Locale;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -123,6 +124,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                Locale.setDefault(new Locale("es","ES"));//para utilizar el idioma español
                 new PantallaPrincipal().setVisible(true);
             }
         });
