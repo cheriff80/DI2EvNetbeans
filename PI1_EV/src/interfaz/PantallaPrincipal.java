@@ -57,6 +57,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         jButtonCorredor = new javax.swing.JButton();
+        jButtonCarrera = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -67,21 +68,32 @@ public class PantallaPrincipal extends javax.swing.JFrame {
             }
         });
 
+        jButtonCarrera.setText("CARRERA");
+        jButtonCarrera.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCarreraActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(75, 75, 75)
+                .addGap(64, 64, 64)
                 .addComponent(jButtonCorredor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(230, 230, 230))
+                .addGap(62, 62, 62)
+                .addComponent(jButtonCarrera)
+                .addGap(102, 102, 102))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(182, 182, 182)
-                .addComponent(jButtonCorredor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(86, 86, 86))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(204, 204, 204)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonCorredor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonCarrera))
+                .addGap(64, 64, 64))
         );
 
         pack();
@@ -93,6 +105,12 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         pantallaCorredor.setLocationRelativeTo(null);
         pantallaCorredor.setVisible(true);
     }//GEN-LAST:event_jButtonCorredorActionPerformed
+
+    private void jButtonCarreraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCarreraActionPerformed
+        PantallaCarrera pantallaCarrera = new PantallaCarrera(this,true,logicaAplicacion);
+        pantallaCarrera.setLocationRelativeTo(null);
+        pantallaCarrera.setVisible(true);
+    }//GEN-LAST:event_jButtonCarreraActionPerformed
 
     /**
      * @param args the command line arguments
@@ -131,6 +149,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonCarrera;
     private javax.swing.JButton jButtonCorredor;
     // End of variables declaration//GEN-END:variables
 

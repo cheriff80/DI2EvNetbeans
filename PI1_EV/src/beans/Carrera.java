@@ -6,33 +6,37 @@
 package beans;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  *
  * @author esauj
  */
 public class Carrera {
-    
-    private List<Corredor> listaParticipantes;
+
+    private Set <Corredor> listaParticipantes;
     private String nombreCarrera;
     private Date fecha;
     private String lugar;
     private int numMaxParticipantes;
+    private boolean acabada;
 
-    public Carrera(List<Corredor> listaParticipantes, String nombreCarrera, Date fecha, String lugar, int numMaxParticipantes) {
-        this.listaParticipantes = listaParticipantes;
+    public Carrera( String nombreCarrera, Date fecha, String lugar, int numMaxParticipantes) {
+        this.listaParticipantes = new LinkedHashSet<>() ;
         this.nombreCarrera = nombreCarrera;
         this.fecha = fecha;
         this.lugar = lugar;
         this.numMaxParticipantes = numMaxParticipantes;
+        this.acabada=false;
     }
 
-    public List<Corredor> getListaParticipantes() {
+    public Set<Corredor> getListaParticipantes() {
         return listaParticipantes;
     }
 
-    public void setListaParticipantes(List<Corredor> listaParticipantes) {
+    public void setListaParticipantes(Set<Corredor> listaParticipantes) {
         this.listaParticipantes = listaParticipantes;
     }
 
@@ -68,6 +72,16 @@ public class Carrera {
         this.numMaxParticipantes = numMaxParticipantes;
     }
     
-    
-    
+    public void dorsalCorredores (){
+        
+        int dorsal=1;
+        Iterator it = listaParticipantes.iterator();
+        while(it.hasNext()){
+            Corredor c = (Corredor) it.next();
+            c.setDorsal(dorsal);
+            dorsal++;
+        }
+        
+    } 
+
 }

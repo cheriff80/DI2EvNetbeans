@@ -5,6 +5,7 @@
  */
 package logicaNegocio;
 
+import beans.Carrera;
 import beans.Corredor;
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,23 +17,16 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import com.opencsv.*;
-import com.opencsv.bean.StatefulBeanToCsv;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.Writer;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.StringTokenizer;
-import jdk.nashorn.internal.codegen.CompilerConstants;
 import org.openide.util.Exceptions;
 
 /**
@@ -43,38 +37,58 @@ public class LogicaAplicacion {
 
     //instanciamos la lista de corredores, sin duplicados y ordenados por el nombre de insercion
     private LinkedList<Corredor> listaCorredores = new LinkedList<>();
-    
+    private Set<Carrera> listaCarreras = new LinkedHashSet<>();
+
     SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-            
-    
-    
+
     //declaramos la ruta absoluta del archivo CSV
     private final File NOMBRE_ARCHIVO_CSV = new File("archivoCSV\\listaCorredores.csv");
     private final File NOMBRE_ARCHIVO = new File("archivoCSV\\listaCorredores.dat");
+    private final File NOMBRE_ARCHIVO_CSV_CARRERAS= new File("archivoCSV\\carreras.csv");
 
-    public void tokenizar(String linea){
-       
+    public void tokenizar(String linea) {
+
         Corredor c;
         try {
+            StringTokenizer tokens = new StringTokenizer(linea, ",");
+            while (tokens.hasMoreTokens()) {
+                String nombre = tokens.nextToken();
+                String dni = tokens.nextToken();
+                Date fechaNacimiento;
+
+                fechaNacimiento = sdf.parse(tokens.nextToken());
+
+                String direccion = tokens.nextToken();
+                String telefono = tokens.nextToken();
+
+                c = new Corredor(nombre, dni, fechaNacimiento, direccion, telefono);
+                listaCorredores.add(c);
+            }
+        } catch (ParseException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+
+    }
+
+    public void tokenizarCarreras(String linea){
+        Carrera ca;
+        Date fechaCarrera=null;
+        
         StringTokenizer tokens = new StringTokenizer(linea,",");
         while(tokens.hasMoreTokens()){
-            String nombre = tokens.nextToken();
-            String dni = tokens.nextToken();
-            Date fechaNacimiento;
-            
-                fechaNacimiento = sdf.parse(tokens.nextToken());
-            
-            String direccion = tokens.nextToken();
-            String telefono = tokens.nextToken();
-            
-            c = new Corredor(nombre,dni,fechaNacimiento,direccion,telefono);
-            listaCorredores.add(c);
-        }
-        } catch (ParseException ex) {
-                Exceptions.printStackTrace(ex);
+            String nombreCarrera = tokens.nextToken();
+            try {
+                 fechaCarrera = sdf.parse(tokens.nextToken());
+            } catch (ParseException e) {
+                System.out.println("No se trata de una fecha válida");
             }
-        
-    } 
+            String lugar = tokens.nextToken();
+            int numMaxParticipantes = Integer.parseInt(tokens.nextToken());
+            
+            ca = new Carrera(nombreCarrera,fechaCarrera,lugar,numMaxParticipantes);
+            listaCarreras.add(ca);
+        }
+    }
     //nueva clase para que no nos imprima la cabecera cuando añadamos corredores
     public class MyAppendingObjectOutputStream extends ObjectOutputStream {
 
@@ -92,18 +106,17 @@ public class LogicaAplicacion {
 
         FileInputStream fis = null;
         ObjectInputStream ois = null;
-        LinkedList<Corredor> ps ;
-        
+        LinkedList<Corredor> ps;
 
         try {
-            
-            if(NOMBRE_ARCHIVO.exists()){
-                 fis = new FileInputStream(NOMBRE_ARCHIVO);
-            ois = new ObjectInputStream(fis);
+
+            if (NOMBRE_ARCHIVO.exists()) {
+                fis = new FileInputStream(NOMBRE_ARCHIVO);
+                ois = new ObjectInputStream(fis);
 
                 ps = (LinkedList<Corredor>) ois.readObject();
                 listaCorredores = ps;
-                
+
             }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(LogicaAplicacion.class.getName()).log(Level.SEVERE, null, ex);
@@ -112,9 +125,7 @@ public class LogicaAplicacion {
         }
 
     }
-    
-    
-    
+
     public void guardarListaBytes() {
 
         FileOutputStream fos = null;
@@ -156,81 +167,131 @@ public class LogicaAplicacion {
         }
 
     }
-    
-    public void cargarCSV(){
-        
+
+    public void cargarCSV() {
+
         FileReader fr = null;
         BufferedReader br = null;
         String linea;
-        
+
         try {
-            fr= new FileReader(NOMBRE_ARCHIVO_CSV);
+            fr = new FileReader(NOMBRE_ARCHIVO_CSV);
             br = new BufferedReader(fr);
-            linea =  br.readLine();
-            while(linea!=null){
+            linea = br.readLine();
+            while (linea != null) {
                 tokenizar(linea);
-                
+
                 linea = br.readLine();
             }
-            
+
             br.close();
             fr.close();
-            
-            
-            
+
         } catch (FileNotFoundException ex) {
             System.out.println("No se ha encontrado el archivo");;
         } catch (IOException ex) {
             System.out.println("Error en la entrada o salida");;
         }
-        
-        
+
     }
-    
-    
 
     public void guardarCsv() {
-        
-        FileWriter fw =null;
+
+        FileWriter fw = null;
         BufferedWriter bw = null;
-        
 
         try {
 
-            fw = new FileWriter(NOMBRE_ARCHIVO_CSV,true);
+            fw = new FileWriter(NOMBRE_ARCHIVO_CSV, true);
             bw = new BufferedWriter(fw);
-            
+
             //declaro el bucle 
-            for(Corredor corredor:listaCorredores){
-                
-              bw.write(corredor.getNombre()+","+corredor.getDNI()+","+corredor.getFechaNacimiento()+","
-              +corredor.getDireccion()+","+corredor.getTelefonoContacto()+'\n');
+            for (Corredor corredor : listaCorredores) {
+
+                bw.write(corredor.getNombre() + "," + corredor.getDNI() + "," + corredor.getFechaNacimiento() + ","
+                        + corredor.getDireccion() + "," + corredor.getTelefonoContacto() + '\n');
             }
-            
+
             //cierro el buffer
             bw.flush();
             bw.close();
-            
+
+        } catch (IOException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+
+    }
+    
+     public void cargarCSVCarreras() {
+
+        FileReader fr = null;
+        BufferedReader br = null;
+        String linea;
+
+        try {
+            fr = new FileReader(NOMBRE_ARCHIVO_CSV_CARRERAS);
+            br = new BufferedReader(fr);
+            linea = br.readLine();
+            while (linea != null) {
+                tokenizarCarreras(linea);
+
+                linea = br.readLine();
+            }
+
+            br.close();
+            fr.close();
+
+        } catch (FileNotFoundException ex) {
+            System.out.println("No se ha encontrado el archivo");;
+        } catch (IOException ex) {
+            System.out.println("Error en la entrada o salida");;
+        }
+
+    }
+
+    public void guardarCsvCarreras() {
+
+        FileWriter fw = null;
+        BufferedWriter bw = null;
+
+        try {
+
+            fw = new FileWriter(NOMBRE_ARCHIVO_CSV_CARRERAS, true);
+            bw = new BufferedWriter(fw);
+
+            //declaro el bucle 
+            for (Carrera carrera : listaCarreras) {
+
+                bw.write(carrera.getNombreCarrera() + "," + carrera.getFecha() + "," + 
+                        carrera.getLugar() + ","
+                        + carrera.getNumMaxParticipantes() +  '\n');
+            }
+
+            //cierro el buffer
+            bw.flush();
+            bw.close();
+
         } catch (IOException ex) {
             Exceptions.printStackTrace(ex);
         }
 
     }
 
+
     public void aniadirCorredor(Corredor corredor) {
 
         //añadimos el corredor a la lista
         listaCorredores.add(corredor);
     }
-    
-    public void borrarCorredor(Corredor corredor){
+
+    public void borrarCorredor(Corredor corredor) {
         //borramos el corredor de la lista
         listaCorredores.remove(corredor);
         guardarCsv();
     }
 
     public LinkedList<Corredor> getListaCorredores() {
-        
+
         return listaCorredores;
     }
 
@@ -238,6 +299,8 @@ public class LogicaAplicacion {
         this.listaCorredores = listaCorredores;
     }
     
-    
+    public void aniadirCarrera(Carrera carrera){
+        listaCarreras.add(carrera);
+    }
 
 }

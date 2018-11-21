@@ -21,6 +21,7 @@ public class Corredor implements Serializable {
     private Date fechaNacimiento;
     private String direccion;
     private String telefonoContacto;
+    private int dorsal;
 
     //constructor
     public Corredor(String nombre, String DNI, Date fechaNacimiento, String direccion, String telefonoContacto) {
@@ -32,6 +33,16 @@ public class Corredor implements Serializable {
     }
 
     //getter and setter
+
+    public int getDorsal() {
+        return dorsal;
+    }
+
+    public void setDorsal(int dorsal) {
+        this.dorsal = dorsal;
+    }
+    
+    
     public String getNombre() {
         return nombre;
     }
@@ -82,6 +93,21 @@ public class Corredor implements Serializable {
         s[2] = sdf.format(fechaNacimiento);
         s[3] = direccion;
         s[4] = telefonoContacto;
+        return s;
+    }
+    
+    public String[] toStringArrayDorsal(){
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-YYYY");
+       
+        String[] s = new String[6];
+        
+        s[0] = nombre;
+        s[1] = DNI;
+        s[2] = sdf.format(fechaNacimiento);
+        s[3] = direccion;
+        s[4] = telefonoContacto;
+        s[5] = Integer.toString(dorsal);
         return s;
     }
 
