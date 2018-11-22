@@ -42,10 +42,11 @@ public class LogicaAplicacion {
     SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 
     //declaramos la ruta absoluta del archivo CSV
-    private final File NOMBRE_ARCHIVO_CSV = new File("archivoCSV\\listaCorredores.csv");
-    private final File NOMBRE_ARCHIVO = new File("archivoCSV\\listaCorredores.dat");
-    private final File NOMBRE_ARCHIVO_CSV_CARRERAS= new File("archivoCSV\\carreras.csv");
-
+    private  File NOMBRE_ARCHIVO_CSV = new File("archivoCSV\\listaCorredores.csv");
+    private  File NOMBRE_ARCHIVO = new File("archivoCSV\\listaCorredores.dat");
+    private  File NOMBRE_ARCHIVO_CSV_CARRERAS= new File("archivoCSV\\carreras.csv");
+    private  File NOMBRE_ARCHIVO_CSV_CARRERAS_ACABADAS= new File("archivoCSV\\carrerasAcabadas.csv");
+    
     public void tokenizar(String linea) {
 
         Corredor c;
@@ -206,12 +207,13 @@ public class LogicaAplicacion {
             bw = new BufferedWriter(fw);
 
             //declaro el bucle 
+            if(NOMBRE_ARCHIVO.exists()){
             for (Corredor corredor : listaCorredores) {
 
                 bw.write(corredor.getNombre() + "," + corredor.getDNI() + "," + corredor.getFechaNacimiento() + ","
                         + corredor.getDireccion() + "," + corredor.getTelefonoContacto() + '\n');
             }
-
+            }
             //cierro el buffer
             bw.flush();
             bw.close();
@@ -248,7 +250,31 @@ public class LogicaAplicacion {
         }
 
     }
+      public void cargarCSVCarrerasAcabadas() {
 
+        FileReader fr = null;
+        BufferedReader br = null;
+        String linea;
+
+        try {
+            fr = new FileReader(NOMBRE_ARCHIVO_CSV_CARRERAS_ACABADAS);
+            br = new BufferedReader(fr);
+            linea = br.readLine();
+            while (linea != null) {
+                tokenizarCarreras(linea);
+
+                linea = br.readLine();
+            }
+
+            br.close();
+            fr.close();
+
+        } catch (FileNotFoundException ex) {
+            System.out.println("No se ha encontrado el archivo");;
+        } catch (IOException ex) {
+            System.out.println("Error en la entrada o salida");;
+        }
+      }
     public void guardarCsvCarreras() {
 
         FileWriter fw = null;
@@ -261,7 +287,7 @@ public class LogicaAplicacion {
 
             //declaro el bucle 
             for (Carrera carrera : listaCarreras) {
-
+                if(carrera.isAcabada())
                 bw.write(carrera.getNombreCarrera() + "," + carrera.getFecha() + "," + 
                         carrera.getLugar() + ","
                         + carrera.getNumMaxParticipantes() +  '\n');
@@ -277,7 +303,33 @@ public class LogicaAplicacion {
 
     }
 
+    public void guardarCsvCarrerasAcabadas() {
 
+        FileWriter fw = null;
+        BufferedWriter bw = null;
+
+        try {
+
+            fw = new FileWriter(NOMBRE_ARCHIVO_CSV_CARRERAS_ACABADAS, true);
+            bw = new BufferedWriter(fw);
+
+            //declaro el bucle 
+            for (Carrera carrera : listaCarreras) {
+                if(!carrera.isAcabada())
+                bw.write(carrera.getNombreCarrera() + "," + carrera.getFecha() + "," + 
+                        carrera.getLugar() + ","
+                        + carrera.getNumMaxParticipantes() +  '\n');
+            }
+
+            //cierro el buffer
+            bw.flush();
+            bw.close();
+
+        } catch (IOException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+
+    }
     public void aniadirCorredor(Corredor corredor) {
 
         //añadimos el corredor a la lista
@@ -302,5 +354,17 @@ public class LogicaAplicacion {
     public void aniadirCarrera(Carrera carrera){
         listaCarreras.add(carrera);
     }
+
+    public Set<Carrera> getListaCarreras() {
+        return listaCarreras;
+    }
+
+    public void setListaCarreras(Set<Carrera> listaCarreras) {
+        this.listaCarreras = listaCarreras;
+    }
+
+    
+    
+    
 
 }

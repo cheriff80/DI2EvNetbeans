@@ -29,13 +29,24 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     
     private LogicaAplicacion logicaAplicacion;
     private final File NOMBRE_ARCHIVO_CSV = new File("archivoCSV\\listaCorredores.csv");
-    
+    private final File NOMBRE_ARCHIVO_CSV_CARRERAS = new File("archivoCSV\\carreras.csv");
+    private final File NOMBRE_ARCHIVO_CSV_CARRERAS_ACABADAS = new File("archivoCSV\\carrerasAcabadas.csv");
     
     public PantallaPrincipal()  {
         logicaAplicacion = new LogicaAplicacion();
         if(NOMBRE_ARCHIVO_CSV.exists()){
             logicaAplicacion.cargarCSV();
         }
+        //cargo las carreras
+        if(NOMBRE_ARCHIVO_CSV_CARRERAS.exists()){
+            logicaAplicacion.cargarCSVCarreras();
+            
+        }
+        //cargo las carreras acabadas
+        if(NOMBRE_ARCHIVO_CSV_CARRERAS_ACABADAS.exists()){
+            logicaAplicacion.cargarCSVCarrerasAcabadas();
+        }
+      
         
         initComponents();
         cambiarLookAndFeel();
@@ -110,6 +121,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         PantallaCarrera pantallaCarrera = new PantallaCarrera(this,true,logicaAplicacion);
         pantallaCarrera.setLocationRelativeTo(null);
         pantallaCarrera.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_jButtonCarreraActionPerformed
 
     /**

@@ -150,7 +150,7 @@ public class PantallaCorredor extends javax.swing.JDialog {
 
         jLabel2.setText("Fecha de nacimiento:");
 
-        jSpinnerFechaNacimiento.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(1541445651935L), null, null, java.util.Calendar.DAY_OF_YEAR));
+        jSpinnerFechaNacimiento.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.DAY_OF_YEAR));
 
         jLabelFechaNacimiento.setText("Dirección: ");
 

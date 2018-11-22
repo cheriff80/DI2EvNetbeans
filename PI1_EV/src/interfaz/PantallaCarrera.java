@@ -5,6 +5,10 @@
  */
 package interfaz;
 
+import beans.Carrera;
+import beans.Corredor;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import logicaNegocio.LogicaAplicacion;
 
 /**
@@ -15,14 +19,22 @@ public class PantallaCarrera extends javax.swing.JDialog {
 
     /**
      * Creates new form PantallaCarrera
+     *
+     * @param parent
+     * @param modal
+     * @param la
      */
-    public PantallaCarrera(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
-        initComponents();
-    }
+    private LogicaAplicacion logicaAplicacion;
+    private PantallaPrincipal pp;
 
-    PantallaCarrera(PantallaPrincipal aThis, boolean b, LogicaAplicacion logicaAplicacion) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public PantallaCarrera(java.awt.Frame parent, boolean modal, LogicaAplicacion logicaAplicacion) {
+        super(parent, modal);
+        pp = (PantallaPrincipal) parent;
+        logicaAplicacion = new LogicaAplicacion();
+        
+        initComponents();
+        cargarTablaCarreras();
+
     }
 
     /**
@@ -35,7 +47,7 @@ public class PantallaCarrera extends javax.swing.JDialog {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTableCarrerasAcabadas = new javax.swing.JTable();
         jLabelCarrerasAcabadas = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableCarreras = new javax.swing.JTable();
@@ -47,7 +59,7 @@ public class PantallaCarrera extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTableCarrerasAcabadas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -58,7 +70,7 @@ public class PantallaCarrera extends javax.swing.JDialog {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTableCarrerasAcabadas);
 
         jLabelCarrerasAcabadas.setText(org.openide.util.NbBundle.getMessage(PantallaCarrera.class, "PantallaCarrera.jLabelCarrerasAcabadas.text")); // NOI18N
 
@@ -78,6 +90,11 @@ public class PantallaCarrera extends javax.swing.JDialog {
         jLabelCarreras.setText(org.openide.util.NbBundle.getMessage(PantallaCarrera.class, "PantallaCarrera.jLabelCarreras.text")); // NOI18N
 
         jButtonAltaCarrera.setText(org.openide.util.NbBundle.getMessage(PantallaCarrera.class, "PantallaCarrera.jButtonAltaCarrera.text")); // NOI18N
+        jButtonAltaCarrera.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAltaCarreraActionPerformed(evt);
+            }
+        });
 
         jButtonBajaCarrera.setText(org.openide.util.NbBundle.getMessage(PantallaCarrera.class, "PantallaCarrera.jButtonBajaCarrera.text")); // NOI18N
 
@@ -140,8 +157,33 @@ public class PantallaCarrera extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-   
-    
+    private void jButtonAltaCarreraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAltaCarreraActionPerformed
+        PantallaAltaCarrera pac = new PantallaAltaCarrera(pp, true, logicaAplicacion);
+        pac.setVisible(true);
+        
+        
+        dispose();
+        
+    }//GEN-LAST:event_jButtonAltaCarreraActionPerformed
+
+    private void cargarTablaCarreras() {
+
+        DefaultTableModel akf = new DefaultTableModel();
+        akf.setColumnIdentifiers(new String[]{"NOMBRE", "FECHA", "LUGAR", "Max PARTICIPANTES"});
+
+        jTableCarreras.setModel(akf);
+        //jTableCarrerasAcabadas.setModel(dtm);
+
+        //utilizamos la clase RowSorter para ordenar la tabla por columnas
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(akf);
+        jTableCarreras.setRowSorter(sorter);
+        //jTableCarrerasAcabadas.setRowSorter(sorter);
+        for (Carrera carrera : pp.getLogicaAplicacion().getListaCarreras()) {
+            akf.addRow(carrera.toStringArray());
+
+        }
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAltaCarrera;
@@ -152,7 +194,7 @@ public class PantallaCarrera extends javax.swing.JDialog {
     private javax.swing.JLabel jLabelCarrerasAcabadas;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTableCarreras;
+    private javax.swing.JTable jTableCarrerasAcabadas;
     // End of variables declaration//GEN-END:variables
 }

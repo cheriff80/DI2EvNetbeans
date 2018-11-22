@@ -33,10 +33,10 @@
                                   <Component id="jLabelNombreCarrera" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabelFecha" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
+                              <EmptySpace min="52" pref="52" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jTextFieldNombreCarrera" min="-2" pref="223" max="-2" attributes="0"/>
-                                  <Component id="jSpinnerFechaCarrera" min="-2" pref="104" max="-2" attributes="0"/>
+                                  <Component id="jSpinnerFechaCarrera" min="-2" pref="121" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
@@ -158,6 +158,11 @@
       </Events>
     </Component>
     <Component class="javax.swing.JSpinner" name="jSpinnerFechaCarrera">
+      <Properties>
+        <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+          <SpinnerModel initial="now" stepSize="5" type="date"/>
+        </Property>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

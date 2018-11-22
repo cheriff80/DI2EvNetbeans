@@ -5,6 +5,7 @@
  */
 package beans;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -31,6 +32,16 @@ public class Carrera {
         this.numMaxParticipantes = numMaxParticipantes;
         this.acabada=false;
     }
+
+    public boolean isAcabada() {
+        return acabada;
+    }
+
+    public void setAcabada(boolean acabada) {
+        this.acabada = acabada;
+    }
+    
+    
 
     public Set<Corredor> getListaParticipantes() {
         return listaParticipantes;
@@ -82,6 +93,18 @@ public class Carrera {
             dorsal++;
         }
         
-    } 
+    }
+    
+    public String[] toStringArray(){
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-YYYY");
+        String[]s = new String[4];
+        s[0]=nombreCarrera;
+        s[1]=sdf.format(fecha);
+        s[2]=lugar;
+        s[3]=Integer.toString(numMaxParticipantes);
+        
+        return s;
+    }
 
 }
