@@ -37,59 +37,69 @@ public class LogicaAplicacion {
 
     //instanciamos la lista de corredores, sin duplicados y ordenados por el nombre de insercion
     private LinkedList<Corredor> listaCorredores = new LinkedList<>();
-    private Set<Carrera> listaCarreras = new LinkedHashSet<>();
+    private LinkedList<Carrera> listaCarreras = new LinkedList<>();
 
     SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 
     //declaramos la ruta absoluta del archivo CSV
-    private  File NOMBRE_ARCHIVO_CSV = new File("archivoCSV\\listaCorredores.csv");
-    private  File NOMBRE_ARCHIVO = new File("archivoCSV\\listaCorredores.dat");
-    private  File NOMBRE_ARCHIVO_CSV_CARRERAS= new File("archivoCSV\\carreras.csv");
-    private  File NOMBRE_ARCHIVO_CSV_CARRERAS_ACABADAS= new File("archivoCSV\\carrerasAcabadas.csv");
+    private final File NOMBRE_ARCHIVO_CSV = new File("resources\\listaCorredores.csv");
+    private final File NOMBRE_ARCHIVO = new File("resources\\listaCorredores.dat");
+    private final File NOMBRE_ARCHIVO_CSV_CARRERAS = new File("resources\\carreras.csv");
+    private final File NOMBRE_ARCHIVO_CSV_CARRERAS_ACABADAS = new File("resources\\carrerasAcabadas.csv");
+    private final File NOMBRE_ARCHIVO_TEMPOTAL = new File("resources\\lista.tmp");
+
+    public File getNOMBRE_ARCHIVO_CSV() {
+        return NOMBRE_ARCHIVO_CSV;
+    }
+
+    public File getNOMBRE_ARCHIVO() {
+        return NOMBRE_ARCHIVO;
+    }
+
+    public File getNOMBRE_ARCHIVO_CSV_CARRERAS() {
+        return NOMBRE_ARCHIVO_CSV_CARRERAS;
+    }
+
+    public File getNOMBRE_ARCHIVO_CSV_CARRERAS_ACABADAS() {
+        return NOMBRE_ARCHIVO_CSV_CARRERAS_ACABADAS;
+    }
+
     
-    public void tokenizar(String linea) {
+    
+    
+    public Corredor tokenizar(String linea) {
 
-        Corredor c;
-        try {
-            StringTokenizer tokens = new StringTokenizer(linea, ",");
-            while (tokens.hasMoreTokens()) {
-                String nombre = tokens.nextToken();
-                String dni = tokens.nextToken();
-                Date fechaNacimiento;
+        Corredor c=null;
 
-                fechaNacimiento = sdf.parse(tokens.nextToken());
+        StringTokenizer tokens = new StringTokenizer(linea, ",");
+        while (tokens.hasMoreTokens()) {
+            String nombre = tokens.nextToken();
+            String dni = tokens.nextToken();
+            String fechaNacimiento = tokens.nextToken();
+            String direccion = tokens.nextToken();
+            String telefono = tokens.nextToken();
 
-                String direccion = tokens.nextToken();
-                String telefono = tokens.nextToken();
-
-                c = new Corredor(nombre, dni, fechaNacimiento, direccion, telefono);
-                listaCorredores.add(c);
-            }
-        } catch (ParseException ex) {
-            Exceptions.printStackTrace(ex);
-        }
+            c = new Corredor(nombre, dni, fechaNacimiento, direccion, telefono);
+            
+        }return c;
 
     }
 
-    public void tokenizarCarreras(String linea){
+    public void tokenizarCarreras(String linea) {
         Carrera ca;
-        Date fechaCarrera=null;
-        
-        StringTokenizer tokens = new StringTokenizer(linea,",");
-        while(tokens.hasMoreTokens()){
-            String nombreCarrera = tokens.nextToken();
-            try {
-                 fechaCarrera = sdf.parse(tokens.nextToken());
-            } catch (ParseException e) {
-                System.out.println("No se trata de una fecha válida");
-            }
-            String lugar = tokens.nextToken();
-            int numMaxParticipantes = Integer.parseInt(tokens.nextToken());
-            
-            ca = new Carrera(nombreCarrera,fechaCarrera,lugar,numMaxParticipantes);
+
+        StringTokenizer tokens = new StringTokenizer(linea, ",");
+        while (tokens.hasMoreTokens()) {
+            String nombreCarrera = tokens.nextToken().trim();
+            String fechaCarrera = tokens.nextToken().trim();
+            String lugar = tokens.nextToken().trim();
+            int numMaxParticipantes = Integer.parseInt(tokens.nextToken().trim());
+
+            ca = new Carrera(nombreCarrera, fechaCarrera, lugar, numMaxParticipantes);
             listaCarreras.add(ca);
         }
     }
+
     //nueva clase para que no nos imprima la cabecera cuando añadamos corredores
     public class MyAppendingObjectOutputStream extends ObjectOutputStream {
 
@@ -180,7 +190,7 @@ public class LogicaAplicacion {
             br = new BufferedReader(fr);
             linea = br.readLine();
             while (linea != null) {
-                tokenizar(linea);
+                listaCorredores.add(tokenizar(linea));
 
                 linea = br.readLine();
             }
@@ -196,23 +206,26 @@ public class LogicaAplicacion {
 
     }
 
-    public void guardarCsv() {
+    public void guardarCsv(File file) {
 
         FileWriter fw = null;
         BufferedWriter bw = null;
+        
 
         try {
 
-            fw = new FileWriter(NOMBRE_ARCHIVO_CSV, true);
+            fw = new FileWriter(file, true);
             bw = new BufferedWriter(fw);
-
+            
+            
             //declaro el bucle 
-            if(NOMBRE_ARCHIVO.exists()){
-            for (Corredor corredor : listaCorredores) {
+            if (NOMBRE_ARCHIVO_CSV.exists()) {
+                for (Corredor corredor : listaCorredores) {
 
-                bw.write(corredor.getNombre() + "," + corredor.getDNI() + "," + corredor.getFechaNacimiento() + ","
-                        + corredor.getDireccion() + "," + corredor.getTelefonoContacto() + '\n');
-            }
+                    bw.write(corredor.getNombre() + "," + corredor.getDNI() + "," + corredor.getFechaNacimiento() + ","
+                            + corredor.getDireccion() + "," + corredor.getTelefonoContacto() + '\n');
+                
+                }
             }
             //cierro el buffer
             bw.flush();
@@ -223,8 +236,8 @@ public class LogicaAplicacion {
         }
 
     }
-    
-     public void cargarCSVCarreras() {
+
+    public void cargarCSVCarreras() {
 
         FileReader fr = null;
         BufferedReader br = null;
@@ -250,7 +263,8 @@ public class LogicaAplicacion {
         }
 
     }
-      public void cargarCSVCarrerasAcabadas() {
+
+    public void cargarCSVCarrerasAcabadas() {
 
         FileReader fr = null;
         BufferedReader br = null;
@@ -274,23 +288,29 @@ public class LogicaAplicacion {
         } catch (IOException ex) {
             System.out.println("Error en la entrada o salida");;
         }
-      }
-    public void guardarCsvCarreras() {
+    }
 
+    public void guardarCsvCarreras(File file) {
+
+        
         FileWriter fw = null;
         BufferedWriter bw = null;
 
         try {
 
-            fw = new FileWriter(NOMBRE_ARCHIVO_CSV_CARRERAS, true);
+            fw = new FileWriter(file, true);
             bw = new BufferedWriter(fw);
 
             //declaro el bucle 
+            
+            
+          
             for (Carrera carrera : listaCarreras) {
-                if(carrera.isAcabada())
-                bw.write(carrera.getNombreCarrera() + "," + carrera.getFecha() + "," + 
-                        carrera.getLugar() + ","
-                        + carrera.getNumMaxParticipantes() +  '\n');
+                if (!carrera.isAcabada()) {
+                    bw.write(carrera.getNombreCarrera() + "," + carrera.getFecha() + ","
+                            + carrera.getLugar() + ","
+                            + carrera.getNumMaxParticipantes() + '\n');
+                }
             }
 
             //cierro el buffer
@@ -315,10 +335,11 @@ public class LogicaAplicacion {
 
             //declaro el bucle 
             for (Carrera carrera : listaCarreras) {
-                if(!carrera.isAcabada())
-                bw.write(carrera.getNombreCarrera() + "," + carrera.getFecha() + "," + 
-                        carrera.getLugar() + ","
-                        + carrera.getNumMaxParticipantes() +  '\n');
+                if (carrera.isAcabada()) {
+                    bw.write(carrera.getNombreCarrera() + "," + carrera.getFecha() + ","
+                            + carrera.getLugar() + ","
+                            + carrera.getNumMaxParticipantes() + '\n');
+                }
             }
 
             //cierro el buffer
@@ -330,6 +351,7 @@ public class LogicaAplicacion {
         }
 
     }
+
     public void aniadirCorredor(Corredor corredor) {
 
         //añadimos el corredor a la lista
@@ -339,32 +361,56 @@ public class LogicaAplicacion {
     public void borrarCorredor(Corredor corredor) {
         //borramos el corredor de la lista
         listaCorredores.remove(corredor);
-        guardarCsv();
-    }
+        
+        guardarCsv(NOMBRE_ARCHIVO_TEMPOTAL);
+        
+        //borro el archivo viejo
+        NOMBRE_ARCHIVO_CSV.delete();
+        
+        //nombre el archivo temporal que he creado como el antiguo
+        NOMBRE_ARCHIVO_TEMPOTAL.renameTo(NOMBRE_ARCHIVO_CSV);
+    } 
 
     public LinkedList<Corredor> getListaCorredores() {
-
         return listaCorredores;
     }
 
     public void setListaCorredores(LinkedList<Corredor> listaCorredores) {
         this.listaCorredores = listaCorredores;
     }
-    
-    public void aniadirCarrera(Carrera carrera){
+
+    public void aniadirCarrera(Carrera carrera) {
         listaCarreras.add(carrera);
     }
 
-    public Set<Carrera> getListaCarreras() {
+    public LinkedList<Carrera> getListaCarreras() {
         return listaCarreras;
     }
 
-    public void setListaCarreras(Set<Carrera> listaCarreras) {
+    public void setListaCarreras(LinkedList<Carrera> listaCarreras) {
         this.listaCarreras = listaCarreras;
+    }
+
+    public SimpleDateFormat getSdf() {
+        return sdf;
+    }
+
+    public void setSdf(SimpleDateFormat sdf) {
+        this.sdf = sdf;
     }
 
     
     
-    
+    public void borrarCarrera(Carrera carrera) {
+        //borramos el corredor de la lista
+        listaCarreras.remove(carrera);
+        guardarCsvCarreras(NOMBRE_ARCHIVO_TEMPOTAL);
+        
+        //borro el archivo viejo
+        NOMBRE_ARCHIVO_CSV_CARRERAS.delete();
+        
+        //nombre el archivo temporal que he creado como el antiguo
+        NOMBRE_ARCHIVO_TEMPOTAL.renameTo(NOMBRE_ARCHIVO_CSV_CARRERAS);
+    }
 
 }

@@ -28,9 +28,9 @@ public class PantallaPrincipal extends javax.swing.JFrame {
      */
     
     private LogicaAplicacion logicaAplicacion;
-    private final File NOMBRE_ARCHIVO_CSV = new File("archivoCSV\\listaCorredores.csv");
-    private final File NOMBRE_ARCHIVO_CSV_CARRERAS = new File("archivoCSV\\carreras.csv");
-    private final File NOMBRE_ARCHIVO_CSV_CARRERAS_ACABADAS = new File("archivoCSV\\carrerasAcabadas.csv");
+    private final File NOMBRE_ARCHIVO_CSV = new File("resources\\listaCorredores.csv");
+    private final File NOMBRE_ARCHIVO_CSV_CARRERAS = new File("resources\\carreras.csv");
+    private final File NOMBRE_ARCHIVO_CSV_CARRERAS_ACABADAS = new File("resources\\carrerasAcabadas.csv");
     
     public PantallaPrincipal()  {
         logicaAplicacion = new LogicaAplicacion();
@@ -121,7 +121,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         PantallaCarrera pantallaCarrera = new PantallaCarrera(this,true,logicaAplicacion);
         pantallaCarrera.setLocationRelativeTo(null);
         pantallaCarrera.setVisible(true);
-        this.setVisible(false);
+        
     }//GEN-LAST:event_jButtonCarreraActionPerformed
 
     /**

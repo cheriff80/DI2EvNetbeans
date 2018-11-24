@@ -25,7 +25,7 @@ public class PantallaAltaCarrera extends javax.swing.JDialog {
     
     public PantallaAltaCarrera(java.awt.Frame parent, boolean modal,LogicaAplicacion logicaAplicacion) {
         pp = (PantallaPrincipal) parent;
-        logicaAplicacion = new LogicaAplicacion();
+        this.logicaAplicacion = logicaAplicacion;
         
         initComponents();
     }
@@ -82,7 +82,7 @@ public class PantallaAltaCarrera extends javax.swing.JDialog {
             }
         });
 
-        jSpinnerFechaCarrera.setModel(new javax.swing.SpinnerDateModel());
+        jSpinnerFechaCarrera.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(1543043319466L), null, null, java.util.Calendar.DAY_OF_MONTH));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -155,14 +155,16 @@ public class PantallaAltaCarrera extends javax.swing.JDialog {
        
         String nombre = jTextFieldNombreCarrera.getText();
         Date fechaCarrera = (Date) jSpinnerFechaCarrera.getValue();
+        String fecha = sdf.format(fechaCarrera);
         String lugar= jTextFieldLugar.getText();
         int numMaxParticipantes = Integer.parseInt(jTextFieldMaxParticipantes.getText());
         
-        Carrera carrera = new Carrera(nombre,fechaCarrera,lugar,numMaxParticipantes);
+        Carrera carrera = new Carrera(nombre,fecha,lugar,numMaxParticipantes);
         
         pp.getLogicaAplicacion().aniadirCarrera(carrera);
-        pp.getLogicaAplicacion().guardarCsvCarreras();
+        pp.getLogicaAplicacion().guardarCsvCarreras(logicaAplicacion.getNOMBRE_ARCHIVO_CSV_CARRERAS());
         
+        pp.setVisible(true);
         dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_jButtonAñadirCarreraActionPerformed
 

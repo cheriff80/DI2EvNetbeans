@@ -19,12 +19,12 @@ public class Carrera {
 
     private Set <Corredor> listaParticipantes;
     private String nombreCarrera;
-    private Date fecha;
+    private String fecha;
     private String lugar;
     private int numMaxParticipantes;
     private boolean acabada;
 
-    public Carrera( String nombreCarrera, Date fecha, String lugar, int numMaxParticipantes) {
+    public Carrera( String nombreCarrera, String fecha, String lugar, int numMaxParticipantes) {
         this.listaParticipantes = new LinkedHashSet<>() ;
         this.nombreCarrera = nombreCarrera;
         this.fecha = fecha;
@@ -59,13 +59,15 @@ public class Carrera {
         this.nombreCarrera = nombreCarrera;
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
+
+    
 
     public String getLugar() {
         return lugar;
@@ -97,10 +99,10 @@ public class Carrera {
     
     public String[] toStringArray(){
         
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-YYYY");
+        
         String[]s = new String[4];
         s[0]=nombreCarrera;
-        s[1]=sdf.format(fecha);
+        s[1]=fecha;
         s[2]=lugar;
         s[3]=Integer.toString(numMaxParticipantes);
         

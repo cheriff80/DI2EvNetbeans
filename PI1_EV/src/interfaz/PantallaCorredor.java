@@ -31,10 +31,11 @@ public class PantallaCorredor extends javax.swing.JDialog {
     private PantallaPrincipal pp;
     private Corredor corredorModificar;
     
+    
     public PantallaCorredor(java.awt.Frame parent, boolean modal, LogicaAplicacion logicaAplicacion) {
         
         pp = (PantallaPrincipal) parent;
-        logicaAplicacion = new LogicaAplicacion();
+        this.logicaAplicacion = logicaAplicacion;
         initComponents();
         
          //validamos el botón Aceptar
@@ -150,7 +151,7 @@ public class PantallaCorredor extends javax.swing.JDialog {
 
         jLabel2.setText("Fecha de nacimiento:");
 
-        jSpinnerFechaNacimiento.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.DAY_OF_YEAR));
+        jSpinnerFechaNacimiento.setModel(new javax.swing.SpinnerDateModel());
 
         jLabelFechaNacimiento.setText("Dirección: ");
 
@@ -265,13 +266,14 @@ public class PantallaCorredor extends javax.swing.JDialog {
         String nombre = jTextFieldNombre.getText();
         String dni = jTextFieldDni.getText();
         Date fechaNacimiento = (Date) jSpinnerFechaNacimiento.getValue();
+        String fecString = sdf.format(fechaNacimiento);
         String direccion = jTextFieldDireccion.getText();
         String telefonoContacto = jTextFieldTelefono.getText();
         
-        Corredor corredor = new Corredor(nombre, dni, fechaNacimiento, direccion, telefonoContacto);
+        Corredor corredor = new Corredor(nombre, dni, fecString, direccion, telefonoContacto);
         
         pp.getLogicaAplicacion().aniadirCorredor(corredor);
-        pp.getLogicaAplicacion().guardarCsv();
+        pp.getLogicaAplicacion().guardarCsv(logicaAplicacion.getNOMBRE_ARCHIVO_CSV());
         
         dispose();
     }//GEN-LAST:event_jButtonAniadirActionPerformed
