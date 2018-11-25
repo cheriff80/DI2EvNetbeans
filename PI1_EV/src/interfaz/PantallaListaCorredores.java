@@ -20,34 +20,33 @@ public class PantallaListaCorredores extends javax.swing.JDialog {
     /**
      * Creates new form PantallaListaCorredores
      */
-    private  LogicaAplicacion logicaAplicacion;
-      PantallaPrincipal pp;
-    
+    private LogicaAplicacion logicaAplicacion;
+    PantallaPrincipal pp;
 
-    public PantallaListaCorredores(java.awt.Frame paren,boolean modal, LogicaAplicacion logicaAplicacion) {
-        super(paren,modal);
-        pp =(PantallaPrincipal)paren;
-        
-       
+    public PantallaListaCorredores(java.awt.Frame paren, boolean modal, LogicaAplicacion logicaAplicacion) {
+        super(paren, modal);
+        pp = (PantallaPrincipal) paren;
+
         initComponents();
         verTablaCorredores();
-        
+
     }
-    
+
     private void verTablaCorredores() {
-        
+
         DefaultTableModel dtm = new DefaultTableModel();
         dtm.setColumnIdentifiers(new String[]{"NOMBRE", "DNI", "FECHA NACIMIENTO", "DIRECCIÓN", "TELEFONO"});
-        
+
         jTableListaCorredores.setModel(dtm);
-        
+
         //utilizamos la clase RowSorter para ordenar la tabla por columnas
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(dtm);
         jTableListaCorredores.setRowSorter(sorter);
-        for (Corredor corredor : pp.getLogicaAplicacion().getListaCorredores() ) {
+        for (Corredor corredor : pp.getLogicaAplicacion().getListaCorredores()) {
             dtm.addRow(corredor.toStringArray());
 
         }
+        dispose();
     }
 
     /**
@@ -133,22 +132,22 @@ public class PantallaListaCorredores extends javax.swing.JDialog {
         Corredor corredor = pp.getLogicaAplicacion().getListaCorredores().get(index);
         pp.getLogicaAplicacion().borrarCorredor(corredor);
         dispose();
-        
+
     }//GEN-LAST:event_jButtonBorrarActionPerformed
 
     private void jButtonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonModificarActionPerformed
-        
+
         int index = jTableListaCorredores.convertRowIndexToModel(jTableListaCorredores.getSelectedRow());
         Corredor corredor = pp.getLogicaAplicacion().getListaCorredores().get(index);
         pp.getLogicaAplicacion().borrarCorredor(corredor);
-        PantallaCorredor pantallaCorredor = new PantallaCorredor(pp,true,logicaAplicacion,corredor);
+        
+        PantallaCorredor pantallaCorredor = new PantallaCorredor(pp, true, logicaAplicacion, corredor);
         pantallaCorredor.setVisible(true);
-        
-        dispose();
-        
-        
-    }//GEN-LAST:event_jButtonModificarActionPerformed
 
+        dispose();
+
+
+    }//GEN-LAST:event_jButtonModificarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

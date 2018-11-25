@@ -5,10 +5,10 @@
  */
 package beans;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.List;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.Set;
 
 /**
@@ -17,21 +17,33 @@ import java.util.Set;
  */
 public class Carrera {
 
-    private Set <Corredor> listaParticipantes;
+    private List <Corredor> listaParticipantes;
     private String nombreCarrera;
     private String fecha;
     private String lugar;
     private int numMaxParticipantes;
+    private int dorsales;
     private boolean acabada;
 
     public Carrera( String nombreCarrera, String fecha, String lugar, int numMaxParticipantes) {
-        this.listaParticipantes = new LinkedHashSet<>() ;
+        this.listaParticipantes = new LinkedList<>() ;
         this.nombreCarrera = nombreCarrera;
         this.fecha = fecha;
         this.lugar = lugar;
         this.numMaxParticipantes = numMaxParticipantes;
         this.acabada=false;
+        this.dorsales=1;
     }
+
+    public int getDorsales() {
+        return dorsales;
+    }
+
+    public void setDorsales(int dorsales) {
+        this.dorsales = dorsales;
+    }
+    
+    
 
     public boolean isAcabada() {
         return acabada;
@@ -40,16 +52,16 @@ public class Carrera {
     public void setAcabada(boolean acabada) {
         this.acabada = acabada;
     }
-    
-    
 
-    public Set<Corredor> getListaParticipantes() {
+    public List<Corredor> getListaParticipantes() {
         return listaParticipantes;
     }
 
-    public void setListaParticipantes(Set<Corredor> listaParticipantes) {
+    public void setListaParticipantes(List<Corredor> listaParticipantes) {
         this.listaParticipantes = listaParticipantes;
     }
+    
+    
 
     public String getNombreCarrera() {
         return nombreCarrera;
@@ -85,14 +97,16 @@ public class Carrera {
         this.numMaxParticipantes = numMaxParticipantes;
     }
     
+    
+    
     public void dorsalCorredores (){
         
-        int dorsal=1;
+        
         Iterator it = listaParticipantes.iterator();
         while(it.hasNext()){
             Corredor c = (Corredor) it.next();
-            c.setDorsal(dorsal);
-            dorsal++;
+            c.setDorsal(dorsales);
+            dorsales++;
         }
         
     }

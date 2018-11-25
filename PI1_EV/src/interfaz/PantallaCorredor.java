@@ -273,7 +273,7 @@ public class PantallaCorredor extends javax.swing.JDialog {
         Corredor corredor = new Corredor(nombre, dni, fecString, direccion, telefonoContacto);
         
         pp.getLogicaAplicacion().aniadirCorredor(corredor);
-        pp.getLogicaAplicacion().guardarCsv(logicaAplicacion.getNOMBRE_ARCHIVO_CSV());
+       // pp.getLogicaAplicacion().guardarCsv(pp.getLogicaAplicacion().getNOMBRE_ARCHIVO_CSV());
         
         dispose();
     }//GEN-LAST:event_jButtonAniadirActionPerformed

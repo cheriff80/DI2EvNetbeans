@@ -26,6 +26,8 @@ public class PantallaCarrera extends javax.swing.JDialog {
      */
     private LogicaAplicacion logicaAplicacion;
     private PantallaPrincipal pp;
+    private PantallaListaCorredores plc;
+    private Carrera carreraModificar;
     
     
 
@@ -180,8 +182,6 @@ public class PantallaCarrera extends javax.swing.JDialog {
     private void jButtonAltaCarreraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAltaCarreraActionPerformed
         PantallaAltaCarrera pac = new PantallaAltaCarrera(pp, true, logicaAplicacion);
         pac.setVisible(true);
-        
-        
         dispose();
         
     }//GEN-LAST:event_jButtonAltaCarreraActionPerformed
@@ -203,7 +203,10 @@ public class PantallaCarrera extends javax.swing.JDialog {
     }//GEN-LAST:event_jButtonBajaCarreraActionPerformed
 
     private void jButtonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonModificarActionPerformed
-        
+      int index = jTableCarreras.convertRowIndexToModel(jTableCarreras.getSelectedRow());
+        Carrera carrera = pp.getLogicaAplicacion().getListaCarreras().get(index);
+        PantallaAltaCarrera pac = new PantallaAltaCarrera(pp, logicaAplicacion, carrera, true);
+        pac.setVisible(true);
         
     }//GEN-LAST:event_jButtonModificarActionPerformed
 

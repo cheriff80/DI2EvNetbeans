@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,7 +22,6 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.StringTokenizer;
@@ -63,11 +61,7 @@ public class LogicaAplicacion {
     public File getNOMBRE_ARCHIVO_CSV_CARRERAS_ACABADAS() {
         return NOMBRE_ARCHIVO_CSV_CARRERAS_ACABADAS;
     }
-
-    
-    
-    
-    public Corredor tokenizar(String linea) {
+   public Corredor tokenizar(String linea) {
 
         Corredor c=null;
 
@@ -191,7 +185,6 @@ public class LogicaAplicacion {
             linea = br.readLine();
             while (linea != null) {
                 listaCorredores.add(tokenizar(linea));
-
                 linea = br.readLine();
             }
 
@@ -210,21 +203,15 @@ public class LogicaAplicacion {
 
         FileWriter fw = null;
         BufferedWriter bw = null;
-        
-
         try {
 
             fw = new FileWriter(file, true);
             bw = new BufferedWriter(fw);
-            
-            
             //declaro el bucle 
             if (NOMBRE_ARCHIVO_CSV.exists()) {
                 for (Corredor corredor : listaCorredores) {
-
                     bw.write(corredor.getNombre() + "," + corredor.getDNI() + "," + corredor.getFechaNacimiento() + ","
                             + corredor.getDireccion() + "," + corredor.getTelefonoContacto() + '\n');
-                
                 }
             }
             //cierro el buffer
@@ -356,6 +343,14 @@ public class LogicaAplicacion {
 
         //añadimos el corredor a la lista
         listaCorredores.add(corredor);
+        guardarCsv(NOMBRE_ARCHIVO_TEMPOTAL);
+        
+        //borro el archivo viejo
+        NOMBRE_ARCHIVO_CSV.delete();
+        
+        //nombre el archivo temporal que he creado como el antiguo
+        NOMBRE_ARCHIVO_TEMPOTAL.renameTo(NOMBRE_ARCHIVO_CSV);
+        
     }
 
     public void borrarCorredor(Corredor corredor) {
@@ -381,6 +376,13 @@ public class LogicaAplicacion {
 
     public void aniadirCarrera(Carrera carrera) {
         listaCarreras.add(carrera);
+        guardarCsvCarreras(NOMBRE_ARCHIVO_TEMPOTAL);
+        
+        //borro el archivo viejo
+        NOMBRE_ARCHIVO_CSV_CARRERAS.delete();
+        
+        //nombre el archivo temporal que he creado como el antiguo
+        NOMBRE_ARCHIVO_TEMPOTAL.renameTo(NOMBRE_ARCHIVO_CSV_CARRERAS);
     }
 
     public LinkedList<Carrera> getListaCarreras() {
@@ -399,8 +401,6 @@ public class LogicaAplicacion {
         this.sdf = sdf;
     }
 
-    
-    
     public void borrarCarrera(Carrera carrera) {
         //borramos el corredor de la lista
         listaCarreras.remove(carrera);
@@ -413,4 +413,5 @@ public class LogicaAplicacion {
         NOMBRE_ARCHIVO_TEMPOTAL.renameTo(NOMBRE_ARCHIVO_CSV_CARRERAS);
     }
 
+    
 }

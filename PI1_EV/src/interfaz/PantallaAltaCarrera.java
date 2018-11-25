@@ -7,8 +7,12 @@ package interfaz;
 
 import beans.Carrera;
 import beans.Corredor;
+import beans.ListaCorredores;
+import java.awt.Frame;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
+import javax.swing.DefaultListModel;
 import logicaNegocio.LogicaAplicacion;
 
 /**
@@ -22,13 +26,36 @@ public class PantallaAltaCarrera extends javax.swing.JDialog {
      */
     private LogicaAplicacion logicaAplicacion;
     private PantallaPrincipal pp;
+    private ListaCorredores dlm = new ListaCorredores();
+    private ListaCorredores dlm2 = new ListaCorredores();
+    private Carrera c;
+    private Corredor corredor;
+    private int dorsal=1;
     
     public PantallaAltaCarrera(java.awt.Frame parent, boolean modal,LogicaAplicacion logicaAplicacion) {
         pp = (PantallaPrincipal) parent;
         this.logicaAplicacion = logicaAplicacion;
         
         initComponents();
+        jButtonModificarCarrera.setVisible(false);
+        jButtonAniadir.setVisible(false);
+        jButtonListaCorredores.setVisible(false);
+        
     }
+
+    public PantallaAltaCarrera(java.awt.Frame parent,LogicaAplicacion logicaAplicacion, Carrera c, boolean bln) {
+        pp = (PantallaPrincipal) parent;
+        this.logicaAplicacion = logicaAplicacion;
+        this.c = c;
+        initComponents();
+        jButtonAñadirCarrera.setVisible(false);
+        jTextFieldNombreCarrera.setText(c.getNombreCarrera());
+        jTextFieldLugar.setText(c.getLugar());
+        jTextFieldMaxParticipantes.setText(Integer.toString(c.getNumMaxParticipantes()));
+        cargarListaParticipantes(c);
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -48,6 +75,16 @@ public class PantallaAltaCarrera extends javax.swing.JDialog {
         jTextFieldMaxParticipantes = new javax.swing.JTextField();
         jButtonAñadirCarrera = new javax.swing.JButton();
         jSpinnerFechaCarrera = new javax.swing.JSpinner();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jListCorredoresAniadidos = new javax.swing.JList<>();
+        jButtonListaCorredores = new javax.swing.JButton();
+        jButtonAniadir = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jListCorrredores = new javax.swing.JList<>();
+        jLabelListaCorredores = new javax.swing.JLabel();
+        jLabelCorredoresCarrera = new javax.swing.JLabel();
+        jButtonModificarCarrera = new javax.swing.JButton();
+        jButtonBorrarCorredores = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -84,12 +121,57 @@ public class PantallaAltaCarrera extends javax.swing.JDialog {
 
         jSpinnerFechaCarrera.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(1543043319466L), null, null, java.util.Calendar.DAY_OF_MONTH));
 
+        jScrollPane1.setViewportView(jListCorredoresAniadidos);
+
+        jButtonListaCorredores.setText(org.openide.util.NbBundle.getMessage(PantallaAltaCarrera.class, "PantallaAltaCarrera.jButtonListaCorredores.text")); // NOI18N
+        jButtonListaCorredores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonListaCorredoresActionPerformed(evt);
+            }
+        });
+
+        jButtonAniadir.setText(org.openide.util.NbBundle.getMessage(PantallaAltaCarrera.class, "PantallaAltaCarrera.jButtonAniadir.text")); // NOI18N
+        jButtonAniadir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAniadirActionPerformed(evt);
+            }
+        });
+
+        jListCorrredores.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { " " };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane2.setViewportView(jListCorrredores);
+
+        jLabelListaCorredores.setText(org.openide.util.NbBundle.getMessage(PantallaAltaCarrera.class, "PantallaAltaCarrera.jLabelListaCorredores.text")); // NOI18N
+
+        jLabelCorredoresCarrera.setText(org.openide.util.NbBundle.getMessage(PantallaAltaCarrera.class, "PantallaAltaCarrera.jLabelCorredoresCarrera.text")); // NOI18N
+
+        jButtonModificarCarrera.setText(org.openide.util.NbBundle.getMessage(PantallaAltaCarrera.class, "PantallaAltaCarrera.jButtonModificarCarrera.text")); // NOI18N
+
+        jButtonBorrarCorredores.setText(org.openide.util.NbBundle.getMessage(PantallaAltaCarrera.class, "PantallaAltaCarrera.jButtonBorrarCorredores.text")); // NOI18N
+        jButtonBorrarCorredores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonBorrarCorredoresActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jButtonModificarCarrera, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGap(33, 33, 33)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jScrollPane2)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(47, 47, 47)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -110,9 +192,20 @@ public class PantallaAltaCarrera extends javax.swing.JDialog {
                                     .addComponent(jTextFieldLugar, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jTextFieldMaxParticipantes, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(178, 178, 178)
+                        .addGap(199, 199, 199)
+                        .addComponent(jLabelListaCorredores))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(194, 194, 194)
+                        .addComponent(jLabelCorredoresCarrera))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(69, 69, 69)
                         .addComponent(jButtonAñadirCarrera)))
-                .addGap(16, 35, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButtonListaCorredores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonAniadir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonBorrarCorredores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -133,9 +226,29 @@ public class PantallaAltaCarrera extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldMaxParticipantes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelMaxParticipantes))
-                .addGap(42, 42, 42)
-                .addComponent(jButtonAñadirCarrera)
-                .addContainerGap(66, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonListaCorredores)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonAniadir)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButtonBorrarCorredores)
+                        .addGap(210, 210, 210))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(46, 46, 46)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButtonAñadirCarrera)
+                            .addComponent(jButtonModificarCarrera))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabelListaCorredores)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(jLabelCorredoresCarrera)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(83, Short.MAX_VALUE))))
         );
 
         pack();
@@ -159,23 +272,78 @@ public class PantallaAltaCarrera extends javax.swing.JDialog {
         String lugar= jTextFieldLugar.getText();
         int numMaxParticipantes = Integer.parseInt(jTextFieldMaxParticipantes.getText());
         
-        Carrera carrera = new Carrera(nombre,fecha,lugar,numMaxParticipantes);
+        c = new Carrera(nombre,fecha,lugar,numMaxParticipantes);
+        //logicaAplicacion.getListaCarreras().add(c);
         
-        pp.getLogicaAplicacion().aniadirCarrera(carrera);
-        pp.getLogicaAplicacion().guardarCsvCarreras(logicaAplicacion.getNOMBRE_ARCHIVO_CSV_CARRERAS());
+        pp.getLogicaAplicacion().aniadirCarrera(c);
+       
         
         pp.setVisible(true);
         dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_jButtonAñadirCarreraActionPerformed
 
+    private void jButtonListaCorredoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonListaCorredoresActionPerformed
+        
+        Iterator it = logicaAplicacion.getListaCorredores().iterator();
+        for (Corredor corredor : logicaAplicacion.getListaCorredores()) {
+            corredor=(Corredor)it.next();
+            
+            dlm.addCorredor(corredor);
+        }
+        jListCorrredores.setModel(dlm);
+        
+    }//GEN-LAST:event_jButtonListaCorredoresActionPerformed
+    
+    private void jButtonAniadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAniadirActionPerformed
+      
+       int index = jListCorrredores.getSelectedIndex();
+       Corredor corredor = pp.getLogicaAplicacion().getListaCorredores().get(index);
+       corredor.setDorsal(c.getDorsales());
+       c.dorsalCorredores();
+       dlm2.addCorredor(corredor);
+       c.getListaParticipantes().add(corredor);
+       jListCorredoresAniadidos.setModel(dlm2);
+       
+        
+    }//GEN-LAST:event_jButtonAniadirActionPerformed
 
+    private void jButtonBorrarCorredoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBorrarCorredoresActionPerformed
+        
+        
+        int index = jListCorredoresAniadidos.getSelectedIndex();
+       Corredor corredor = c.getListaParticipantes().get(index);
+       dlm2.eliminarCorredor(index);
+       
+    }//GEN-LAST:event_jButtonBorrarCorredoresActionPerformed
+
+    private void cargarListaParticipantes(Carrera carrera){
+        
+        Iterator it = carrera.getListaParticipantes().iterator();
+        for (Corredor corredor : carrera.getListaParticipantes()) {
+            corredor=(Corredor)it.next();
+            dlm.addCorredor(corredor);
+        }
+        jListCorredoresAniadidos.setModel(dlm2);
+        
+     
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonAniadir;
     private javax.swing.JButton jButtonAñadirCarrera;
+    private javax.swing.JButton jButtonBorrarCorredores;
+    private javax.swing.JButton jButtonListaCorredores;
+    private javax.swing.JButton jButtonModificarCarrera;
+    private javax.swing.JLabel jLabelCorredoresCarrera;
     private javax.swing.JLabel jLabelFecha;
+    private javax.swing.JLabel jLabelListaCorredores;
     private javax.swing.JLabel jLabelLugar;
     private javax.swing.JLabel jLabelMaxParticipantes;
     private javax.swing.JLabel jLabelNombreCarrera;
+    private javax.swing.JList<String> jListCorredoresAniadidos;
+    private javax.swing.JList<String> jListCorrredores;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSpinner jSpinnerFechaCarrera;
     private javax.swing.JTextField jTextFieldLugar;
     private javax.swing.JTextField jTextFieldMaxParticipantes;
