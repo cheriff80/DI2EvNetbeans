@@ -12,6 +12,8 @@ import java.awt.Frame;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import javax.swing.DefaultListModel;
 import logicaNegocio.LogicaAplicacion;
 
@@ -35,11 +37,11 @@ public class PantallaAltaCarrera extends javax.swing.JDialog {
     public PantallaAltaCarrera(java.awt.Frame parent, boolean modal,LogicaAplicacion logicaAplicacion) {
         pp = (PantallaPrincipal) parent;
         this.logicaAplicacion = logicaAplicacion;
-        
         initComponents();
         jButtonModificarCarrera.setVisible(false);
         jButtonAniadir.setVisible(false);
         jButtonListaCorredores.setVisible(false);
+        jButtonBorrarCorredores.setVisible(false);
         
     }
 
@@ -54,6 +56,26 @@ public class PantallaAltaCarrera extends javax.swing.JDialog {
         jTextFieldMaxParticipantes.setText(Integer.toString(c.getNumMaxParticipantes()));
         cargarListaParticipantes(c);
     }
+    
+    //Constructor consulta
+     public PantallaAltaCarrera(java.awt.Frame parent,LogicaAplicacion logicaAplicacion, Carrera c, boolean bln,boolean bn) {
+        pp = (PantallaPrincipal) parent;
+        this.logicaAplicacion = logicaAplicacion;
+        this.c = c;
+        initComponents();
+        jListCorrredores.setVisible(false);
+        jButtonAniadir.setVisible(false);
+        jButtonListaCorredores.setVisible(false);
+        jButtonBorrarCorredores.setVisible(false);
+        jButtonModificarCarrera.setVisible(false);
+        jButtonAñadirCarrera.setVisible(false);
+        jTextFieldNombreCarrera.setText(c.getNombreCarrera());
+        jTextFieldLugar.setText(c.getLugar());
+        jTextFieldMaxParticipantes.setText(Integer.toString(c.getNumMaxParticipantes()));
+        cargarListaParticipantes(c);
+    }
+    
+    
     
     
 
@@ -149,6 +171,11 @@ public class PantallaAltaCarrera extends javax.swing.JDialog {
         jLabelCorredoresCarrera.setText(org.openide.util.NbBundle.getMessage(PantallaAltaCarrera.class, "PantallaAltaCarrera.jLabelCorredoresCarrera.text")); // NOI18N
 
         jButtonModificarCarrera.setText(org.openide.util.NbBundle.getMessage(PantallaAltaCarrera.class, "PantallaAltaCarrera.jButtonModificarCarrera.text")); // NOI18N
+        jButtonModificarCarrera.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonModificarCarreraActionPerformed(evt);
+            }
+        });
 
         jButtonBorrarCorredores.setText(org.openide.util.NbBundle.getMessage(PantallaAltaCarrera.class, "PantallaAltaCarrera.jButtonBorrarCorredores.text")); // NOI18N
         jButtonBorrarCorredores.addActionListener(new java.awt.event.ActionListener() {
@@ -272,6 +299,7 @@ public class PantallaAltaCarrera extends javax.swing.JDialog {
         String lugar= jTextFieldLugar.getText();
         int numMaxParticipantes = Integer.parseInt(jTextFieldMaxParticipantes.getText());
         
+        
         c = new Carrera(nombre,fecha,lugar,numMaxParticipantes);
         //logicaAplicacion.getListaCarreras().add(c);
         
@@ -291,6 +319,7 @@ public class PantallaAltaCarrera extends javax.swing.JDialog {
             dlm.addCorredor(corredor);
         }
         jListCorrredores.setModel(dlm);
+        jButtonListaCorredores.setVisible(false);
         
     }//GEN-LAST:event_jButtonListaCorredoresActionPerformed
     
@@ -298,8 +327,6 @@ public class PantallaAltaCarrera extends javax.swing.JDialog {
       
        int index = jListCorrredores.getSelectedIndex();
        Corredor corredor = pp.getLogicaAplicacion().getListaCorredores().get(index);
-       corredor.setDorsal(c.getDorsales());
-       c.dorsalCorredores();
        dlm2.addCorredor(corredor);
        c.getListaParticipantes().add(corredor);
        jListCorredoresAniadidos.setModel(dlm2);
@@ -309,19 +336,47 @@ public class PantallaAltaCarrera extends javax.swing.JDialog {
 
     private void jButtonBorrarCorredoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBorrarCorredoresActionPerformed
         
-        
         int index = jListCorredoresAniadidos.getSelectedIndex();
        Corredor corredor = c.getListaParticipantes().get(index);
+       logicaAplicacion.borrarCorredorCarrera(corredor, c);
        dlm2.eliminarCorredor(index);
        
+       
     }//GEN-LAST:event_jButtonBorrarCorredoresActionPerformed
+
+    private void jButtonModificarCarreraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonModificarCarreraActionPerformed
+        
+        //borro la anterior carrera para generar 
+        logicaAplicacion.borrarCarrera(c);
+        //doy formato a la fecha
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+       
+        //genero la nueva carrera
+        String nombre = jTextFieldNombreCarrera.getText();
+        Date fechaCarrera = (Date) jSpinnerFechaCarrera.getValue();
+        String fecha = sdf.format(fechaCarrera);
+        String lugar= jTextFieldLugar.getText();
+        int numMaxParticipantes = Integer.parseInt(jTextFieldMaxParticipantes.getText());
+        LinkedList<Corredor> listaCorredores = (LinkedList<Corredor>) c.getListaParticipantes();
+        c.darDorsalesCorredores();
+        c = new Carrera(listaCorredores,nombre,fecha,lugar,numMaxParticipantes);
+        
+        //logicaAplicacion.getListaCarreras().add(c);
+        pp.getLogicaAplicacion().aniadirCarrera(c);
+       
+        //hacemos visible la pantalla principal
+        pp.setVisible(true);
+        //Cerramos la ventana
+        dispose();        // TODO add your handling code here:
+    
+    }//GEN-LAST:event_jButtonModificarCarreraActionPerformed
 
     private void cargarListaParticipantes(Carrera carrera){
         
         Iterator it = carrera.getListaParticipantes().iterator();
         for (Corredor corredor : carrera.getListaParticipantes()) {
             corredor=(Corredor)it.next();
-            dlm.addCorredor(corredor);
+            dlm2.addCorredor(corredor);
         }
         jListCorredoresAniadidos.setModel(dlm2);
         

@@ -123,6 +123,11 @@ public class PantallaCarrera extends javax.swing.JDialog {
         });
 
         jButtonConsultar.setText(org.openide.util.NbBundle.getMessage(PantallaCarrera.class, "PantallaCarrera.jButtonConsultar.text")); // NOI18N
+        jButtonConsultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonConsultarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -194,7 +199,6 @@ public class PantallaCarrera extends javax.swing.JDialog {
         int index = jTableCarreras.convertRowIndexToModel(jTableCarreras.getSelectedRow());
         Carrera carrera = pp.getLogicaAplicacion().getListaCarreras().get(index);
         pp.getLogicaAplicacion().borrarCarrera(carrera);
-        
         cargarTablaCarreras();
         this.setVisible(false);
         pp.setVisible(true);
@@ -209,6 +213,13 @@ public class PantallaCarrera extends javax.swing.JDialog {
         pac.setVisible(true);
         
     }//GEN-LAST:event_jButtonModificarActionPerformed
+
+    private void jButtonConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsultarActionPerformed
+         int index = jTableCarreras.convertRowIndexToModel(jTableCarreras.getSelectedRow());
+        Carrera carrera = pp.getLogicaAplicacion().getListaCarreras().get(index);
+        PantallaAltaCarrera pac = new PantallaAltaCarrera(pp, logicaAplicacion, carrera, true,true);
+        pac.setVisible(true);
+    }//GEN-LAST:event_jButtonConsultarActionPerformed
 
     private void cargarTablaCarreras() {
 

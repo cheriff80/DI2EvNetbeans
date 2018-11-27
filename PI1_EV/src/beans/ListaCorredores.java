@@ -24,7 +24,7 @@ public class ListaCorredores extends AbstractListModel {
     @Override
     public Object getElementAt(int i) {
       Corredor c = lista.get(i);
-      return c.getDorsal() +" - "+ c.getNombre()+" , " +c.getDNI();
+      return c.getNombre()+" , " +c.getDNI();
     }
     
     public void addCorredor(Corredor c){

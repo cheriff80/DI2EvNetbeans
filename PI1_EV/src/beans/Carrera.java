@@ -17,7 +17,7 @@ import java.util.Set;
  */
 public class Carrera {
 
-    private List <Corredor> listaParticipantes;
+    private LinkedList<Corredor> listaParticipantes;
     private String nombreCarrera;
     private String fecha;
     private String lugar;
@@ -25,14 +25,24 @@ public class Carrera {
     private int dorsales;
     private boolean acabada;
 
-    public Carrera( String nombreCarrera, String fecha, String lugar, int numMaxParticipantes) {
-        this.listaParticipantes = new LinkedList<>() ;
+    public Carrera(String nombreCarrera, String fecha, String lugar, int numMaxParticipantes) {
+        this.listaParticipantes = new LinkedList<>();
         this.nombreCarrera = nombreCarrera;
         this.fecha = fecha;
         this.lugar = lugar;
         this.numMaxParticipantes = numMaxParticipantes;
-        this.acabada=false;
-        this.dorsales=1;
+        this.acabada = false;
+        this.dorsales = 1;
+    }
+
+    public Carrera(LinkedList<Corredor> listaParticipantes, String nombreCarrera, String fecha, String lugar, int numMaxParticipantes) {
+        this.listaParticipantes = listaParticipantes;
+        this.nombreCarrera = nombreCarrera;
+        this.fecha = fecha;
+        this.lugar = lugar;
+        this.numMaxParticipantes = numMaxParticipantes;
+        this.acabada = false;
+        this.dorsales = 1;
     }
 
     public int getDorsales() {
@@ -42,8 +52,6 @@ public class Carrera {
     public void setDorsales(int dorsales) {
         this.dorsales = dorsales;
     }
-    
-    
 
     public boolean isAcabada() {
         return acabada;
@@ -56,12 +64,6 @@ public class Carrera {
     public List<Corredor> getListaParticipantes() {
         return listaParticipantes;
     }
-
-    public void setListaParticipantes(List<Corredor> listaParticipantes) {
-        this.listaParticipantes = listaParticipantes;
-    }
-    
-    
 
     public String getNombreCarrera() {
         return nombreCarrera;
@@ -79,8 +81,6 @@ public class Carrera {
         this.fecha = fecha;
     }
 
-    
-
     public String getLugar() {
         return lugar;
     }
@@ -96,30 +96,27 @@ public class Carrera {
     public void setNumMaxParticipantes(int numMaxParticipantes) {
         this.numMaxParticipantes = numMaxParticipantes;
     }
-    
-    
-    
-    public void dorsalCorredores (){
-        
-        
+
+    public void darDorsalesCorredores() {
         Iterator it = listaParticipantes.iterator();
-        while(it.hasNext()){
-            Corredor c = (Corredor) it.next();
-            c.setDorsal(dorsales);
-            dorsales++;
+        Corredor c;
+        for (int i = 1; i < listaParticipantes.size(); i++) {
+            while (it.hasNext()) {
+                c = (Corredor) it.next();
+                c.setDorsal(dorsales);
+                dorsales++;
+            }
         }
-        
     }
-    
-    public String[] toStringArray(){
-        
-        
-        String[]s = new String[4];
-        s[0]=nombreCarrera;
-        s[1]=fecha;
-        s[2]=lugar;
-        s[3]=Integer.toString(numMaxParticipantes);
-        
+
+    public String[] toStringArray() {
+
+        String[] s = new String[4];
+        s[0] = nombreCarrera;
+        s[1] = fecha;
+        s[2] = lugar;
+        s[3] = Integer.toString(numMaxParticipantes);
+
         return s;
     }
 
