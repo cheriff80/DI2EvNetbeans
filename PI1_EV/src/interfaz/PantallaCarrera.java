@@ -39,6 +39,7 @@ public class PantallaCarrera extends javax.swing.JDialog {
         initComponents();
         cargarTablaCarreras();
         
+        
 
     }
 
@@ -61,6 +62,7 @@ public class PantallaCarrera extends javax.swing.JDialog {
         jButtonBajaCarrera = new javax.swing.JButton();
         jButtonModificar = new javax.swing.JButton();
         jButtonConsultar = new javax.swing.JButton();
+        jButtonStartCarrera = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -129,6 +131,13 @@ public class PantallaCarrera extends javax.swing.JDialog {
             }
         });
 
+        jButtonStartCarrera.setText(org.openide.util.NbBundle.getMessage(PantallaCarrera.class, "PantallaCarrera.jButtonStartCarrera.text")); // NOI18N
+        jButtonStartCarrera.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonStartCarreraActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -150,13 +159,16 @@ public class PantallaCarrera extends javax.swing.JDialog {
                         .addGap(46, 46, 46))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(143, 143, 143)
-                .addComponent(jButtonAltaCarrera)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonBajaCarrera)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonModificar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonConsultar)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButtonStartCarrera, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButtonAltaCarrera)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonBajaCarrera)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonModificar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonConsultar)))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -178,7 +190,9 @@ public class PantallaCarrera extends javax.swing.JDialog {
                     .addComponent(jButtonBajaCarrera)
                     .addComponent(jButtonModificar)
                     .addComponent(jButtonConsultar))
-                .addContainerGap(123, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonStartCarrera)
+                .addContainerGap(85, Short.MAX_VALUE))
         );
 
         pack();
@@ -202,6 +216,7 @@ public class PantallaCarrera extends javax.swing.JDialog {
         cargarTablaCarreras();
         this.setVisible(false);
         pp.setVisible(true);
+        dispose();
         
         
     }//GEN-LAST:event_jButtonBajaCarreraActionPerformed
@@ -211,15 +226,30 @@ public class PantallaCarrera extends javax.swing.JDialog {
         Carrera carrera = pp.getLogicaAplicacion().getListaCarreras().get(index);
         PantallaAltaCarrera pac = new PantallaAltaCarrera(pp, logicaAplicacion, carrera, true);
         pac.setVisible(true);
+        dispose();
         
     }//GEN-LAST:event_jButtonModificarActionPerformed
 
     private void jButtonConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsultarActionPerformed
-         int index = jTableCarreras.convertRowIndexToModel(jTableCarreras.getSelectedRow());
+        
+        int index = jTableCarreras.convertRowIndexToModel(jTableCarreras.getSelectedRow());
         Carrera carrera = pp.getLogicaAplicacion().getListaCarreras().get(index);
         PantallaAltaCarrera pac = new PantallaAltaCarrera(pp, logicaAplicacion, carrera, true,true);
         pac.setVisible(true);
+        dispose();
     }//GEN-LAST:event_jButtonConsultarActionPerformed
+
+    private void jButtonStartCarreraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStartCarreraActionPerformed
+       
+       int index = jTableCarreras.convertRowIndexToModel(jTableCarreras.getSelectedRow());
+       Carrera carrera = logicaAplicacion.getListaCarreras().get(index);
+       PantallaCronometro pantallaCronometro = new PantallaCronometro(pp,true, logicaAplicacion, carrera);
+       pantallaCronometro.setVisible(true);
+       dispose();
+           
+       
+       
+    }//GEN-LAST:event_jButtonStartCarreraActionPerformed
 
     private void cargarTablaCarreras() {
 
@@ -232,6 +262,7 @@ public class PantallaCarrera extends javax.swing.JDialog {
         //utilizamos la clase RowSorter para ordenar la tabla por columnas
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(akf);
         jTableCarreras.setRowSorter(sorter);
+        
         //jTableCarrerasAcabadas.setRowSorter(sorter);
         for (Carrera carrera : pp.getLogicaAplicacion().getListaCarreras()) {
             akf.addRow(carrera.toStringArray());
@@ -245,6 +276,7 @@ public class PantallaCarrera extends javax.swing.JDialog {
     private javax.swing.JButton jButtonBajaCarrera;
     private javax.swing.JButton jButtonConsultar;
     private javax.swing.JButton jButtonModificar;
+    private javax.swing.JButton jButtonStartCarrera;
     private javax.swing.JLabel jLabelCarreras;
     private javax.swing.JLabel jLabelCarrerasAcabadas;
     private javax.swing.JScrollPane jScrollPane1;

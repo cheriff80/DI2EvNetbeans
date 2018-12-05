@@ -358,16 +358,16 @@ public class PantallaAltaCarrera extends javax.swing.JDialog {
         String lugar= jTextFieldLugar.getText();
         int numMaxParticipantes = Integer.parseInt(jTextFieldMaxParticipantes.getText());
         LinkedList<Corredor> listaCorredores = (LinkedList<Corredor>) c.getListaParticipantes();
-        c.darDorsalesCorredores();
-        c = new Carrera(listaCorredores,nombre,fecha,lugar,numMaxParticipantes);
         
+        c = new Carrera(listaCorredores,nombre,fecha,lugar,numMaxParticipantes);
+        c.darDorsalesCorredores();
         //logicaAplicacion.getListaCarreras().add(c);
         pp.getLogicaAplicacion().aniadirCarrera(c);
        
         //hacemos visible la pantalla principal
         pp.setVisible(true);
         //Cerramos la ventana
-        dispose();        // TODO add your handling code here:
+        dispose();      
     
     }//GEN-LAST:event_jButtonModificarCarreraActionPerformed
 

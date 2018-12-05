@@ -22,6 +22,7 @@ public class Corredor implements Serializable {
     private String direccion;
     private String telefonoContacto;
     private int dorsal;
+    private String tiempoFinal;
 
     //constructor
     public Corredor(String nombre, String DNI, String fechaNacimiento, String direccion, String telefonoContacto) {
@@ -33,6 +34,16 @@ public class Corredor implements Serializable {
     }
 
     //getter and setter
+
+    public String getTiempoFinal() {
+        return tiempoFinal;
+    }
+
+    public void setTiempoFinal(String tiempoFinal) {
+        this.tiempoFinal = tiempoFinal;
+    }
+    
+    
 
     public int getDorsal() {
         return dorsal;

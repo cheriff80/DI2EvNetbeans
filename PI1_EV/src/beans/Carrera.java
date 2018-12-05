@@ -18,6 +18,7 @@ import java.util.Set;
 public class Carrera {
 
     private LinkedList<Corredor> listaParticipantes;
+    private LinkedList<Corredor> listaFinalCarrera;
     private String nombreCarrera;
     private String fecha;
     private String lugar;
@@ -27,23 +28,30 @@ public class Carrera {
 
     public Carrera(String nombreCarrera, String fecha, String lugar, int numMaxParticipantes) {
         this.listaParticipantes = new LinkedList<>();
+        this.listaFinalCarrera = new LinkedList<>();
         this.nombreCarrera = nombreCarrera;
         this.fecha = fecha;
         this.lugar = lugar;
         this.numMaxParticipantes = numMaxParticipantes;
         this.acabada = false;
         this.dorsales = 1;
+        this.listaFinalCarrera=listaFinalCarrera;
     }
 
     public Carrera(LinkedList<Corredor> listaParticipantes, String nombreCarrera, String fecha, String lugar, int numMaxParticipantes) {
         this.listaParticipantes = listaParticipantes;
+        this.listaFinalCarrera = new LinkedList<>();
         this.nombreCarrera = nombreCarrera;
         this.fecha = fecha;
         this.lugar = lugar;
         this.numMaxParticipantes = numMaxParticipantes;
         this.acabada = false;
         this.dorsales = 1;
+        
     }
+    
+    
+    
 
     public int getDorsales() {
         return dorsales;
@@ -64,6 +72,11 @@ public class Carrera {
     public List<Corredor> getListaParticipantes() {
         return listaParticipantes;
     }
+    
+    public List<Corredor> getListaFinalCarrera() {
+        return listaFinalCarrera;
+    }
+    
 
     public String getNombreCarrera() {
         return nombreCarrera;
@@ -96,6 +109,8 @@ public class Carrera {
     public void setNumMaxParticipantes(int numMaxParticipantes) {
         this.numMaxParticipantes = numMaxParticipantes;
     }
+    
+    
 
     public void darDorsalesCorredores() {
         Iterator it = listaParticipantes.iterator();
