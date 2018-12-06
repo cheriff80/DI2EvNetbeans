@@ -36,6 +36,7 @@ public class LogicaAplicacion {
     //instanciamos la lista de corredores, sin duplicados y ordenados por el nombre de insercion
     private LinkedList<Corredor> listaCorredores = new LinkedList<>();
     private LinkedList<Carrera> listaCarreras = new LinkedList<>();
+    private LinkedList<Carrera> listaCarrerasAcabadas = new LinkedList<>();
 
     SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 
@@ -82,7 +83,7 @@ public class LogicaAplicacion {
     }
 
     public Carrera tokenizarCarreras(String linea) {
-        Carrera ca=null;
+        Carrera ca = null;
 
         StringTokenizer tokens = new StringTokenizer(linea, ",");
 
@@ -94,108 +95,68 @@ public class LogicaAplicacion {
 
             ca = new Carrera(nombreCarrera, fechaCarrera, lugar, numMaxParticipantes);
             listaCarreras.add(ca);
-        }return ca;
+        }
+        return ca;
     }
-    
-    public void tokenizarDNI(String linea,Carrera carrera,logicaNegocio.LogicaAplicacion la){
-        
-        StringTokenizer tokens = new StringTokenizer(linea,",");
-        while(tokens.hasMoreTokens()){
+     public Carrera tokenizarCarrerasAcabadas(String linea) {
+        Carrera ca = null;
+
+        StringTokenizer tokens = new StringTokenizer(linea, ",");
+
+        while (tokens.hasMoreTokens()) {
+            String nombreCarrera = tokens.nextToken().trim();
+            String fechaCarrera = tokens.nextToken().trim();
+            String lugar = tokens.nextToken().trim();
+            int numMaxParticipantes = Integer.parseInt(tokens.nextToken().trim());
+
+            ca = new Carrera(nombreCarrera, fechaCarrera, lugar, numMaxParticipantes);
+            listaCarrerasAcabadas.add(ca);
+        }
+        return ca;
+    }
+
+    public void tokenizarDNI(String linea, Carrera carrera, logicaNegocio.LogicaAplicacion la) {
+
+        StringTokenizer tokens = new StringTokenizer(linea, ",");
+        while (tokens.hasMoreTokens()) {
             int dorsal = Integer.parseInt(tokens.nextToken().trim());
             String DNI = tokens.nextToken().trim();
             Iterator it = la.listaCorredores.iterator();
             for (Corredor corredor : la.listaCorredores) {
-              while(it.hasNext()){
-                corredor = (Corredor) it.next();
-                corredor.setDorsal(dorsal);
-                if(corredor.getDNI().equalsIgnoreCase(DNI)){
-                    carrera.getListaParticipantes().add(corredor);
-                }
-            }  
-            }
-            
-        }
-        
-        
-    }
-
-    //nueva clase para que no nos imprima la cabecera cuando añadamos corredores
-    public class MyAppendingObjectOutputStream extends ObjectOutputStream {
-
-        public MyAppendingObjectOutputStream(OutputStream out) throws IOException {
-            super(out);
-        }
-
-        @Override
-        protected void writeStreamHeader() throws IOException {
-            reset(); // no escribe la cabecera
-        }
-    }
-
-    public void cargarListaBytes() {
-
-        FileInputStream fis = null;
-        ObjectInputStream ois = null;
-        LinkedList<Corredor> ps;
-
-        try {
-
-            if (NOMBRE_ARCHIVO.exists()) {
-                fis = new FileInputStream(NOMBRE_ARCHIVO);
-                ois = new ObjectInputStream(fis);
-
-                ps = (LinkedList<Corredor>) ois.readObject();
-                listaCorredores = ps;
-
-            }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(LogicaAplicacion.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException | ClassNotFoundException ex) {
-            Logger.getLogger(LogicaAplicacion.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
-
-    public void guardarListaBytes() {
-
-        FileOutputStream fos = null;
-        ObjectOutputStream oos = null;
-        MyAppendingObjectOutputStream maoos = null;
-        Corredor c;
-        Iterator it = listaCorredores.iterator();
-
-        try {
-            fos = new FileOutputStream(NOMBRE_ARCHIVO, true);
-            oos = new ObjectOutputStream(fos);
-            maoos = new MyAppendingObjectOutputStream(fos);
-
-            //confirmamos si existe o no el NOMBRE_ARCHIVO_CSV para añadir el objeto sin o con cabecera
-            if (NOMBRE_ARCHIVO.exists()) {
-
-                //iteramos la lista de corredores de la sesion y la añadimos al NOMBRE_ARCHIVO_CSV
                 while (it.hasNext()) {
-                    c = (Corredor) (it.next());
-                    maoos.writeObject(c);
-                }
-            } else {
-                //iteramos la lista de corredores de la sesion y la añadimos al NOMBRE_ARCHIVO_CSV
-
-                while (it.hasNext()) {
-                    c = (Corredor) (it.next());
-                    oos.writeObject(c);
+                    corredor = (Corredor) it.next();
+                    corredor.setDorsal(dorsal);
+                    if (corredor.getDNI().equalsIgnoreCase(DNI)) {
+                        carrera.getListaParticipantes().add(corredor);
+                    }
                 }
             }
 
-            //cerramos los flujos
-            fos.close();
-            oos.close();
-
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(LogicaAplicacion.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(LogicaAplicacion.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
 
+    public void tokenizarCorredoresAcabada(String linea, Carrera carrera, logicaNegocio.LogicaAplicacion la) {
+
+        StringTokenizer tokens = new StringTokenizer(linea, ",");
+        while (tokens.hasMoreTokens()) {
+            int posicion = Integer.parseInt(tokens.nextToken().trim());
+            int dorsal = Integer.parseInt(tokens.nextToken().trim());
+            String tiempoCarrera = tokens.nextToken().trim();
+            String DNI = tokens.nextToken().trim();
+            Iterator it = la.listaCorredores.iterator();
+            for (Corredor corredor : la.listaCorredores) {
+                while (it.hasNext()) {
+                    corredor = (Corredor) it.next();
+                    corredor.setPosicionCarrera(posicion);
+                    corredor.setDorsal(dorsal);
+                    corredor.setTiempoFinal(tiempoCarrera);
+                    if (corredor.getDNI().equalsIgnoreCase(DNI)) {
+                        carrera.getListaFinalCarrera().add(corredor);
+                    }
+                }
+            }
+
+        }
     }
 
     public void cargarCSV() {
@@ -236,7 +197,7 @@ public class LogicaAplicacion {
             if (NOMBRE_ARCHIVO_CSV.exists()) {
                 for (Corredor corredor : listaCorredores) {
                     bw.write(corredor.getNombre() + "," + corredor.getDNI() + "," + corredor.getFechaNacimiento() + ","
-                            + corredor.getDireccion() + "," + corredor.getTelefonoContacto()+'\n');
+                            + corredor.getDireccion() + "," + corredor.getTelefonoContacto() + '\n');
                 }
             }
             //cierro el buffer
@@ -261,10 +222,10 @@ public class LogicaAplicacion {
             br = new BufferedReader(fr);
             linea = br.readLine();
             while (linea != null) {
-                
+
                 carrera = tokenizarCarreras(linea);
                 linea = br.readLine();
-                tokenizarDNI(linea, carrera,this);
+                tokenizarDNI(linea, carrera, this);
                 linea = br.readLine();
             }
 
@@ -284,14 +245,16 @@ public class LogicaAplicacion {
         FileReader fr = null;
         BufferedReader br = null;
         String linea;
+        Carrera carrera;
 
         try {
             fr = new FileReader(NOMBRE_ARCHIVO_CSV_CARRERAS_ACABADAS);
             br = new BufferedReader(fr);
             linea = br.readLine();
             while (linea != null) {
-                tokenizarCarreras(linea);
-
+                carrera = tokenizarCarrerasAcabadas(linea);
+                linea = br.readLine();
+                tokenizarCorredoresAcabada(linea, carrera, this);
                 linea = br.readLine();
             }
 
@@ -322,7 +285,7 @@ public class LogicaAplicacion {
                         + carrera.getLugar() + ","
                         + carrera.getNumMaxParticipantes() + '\n');
                 for (Corredor corredor : carrera.getListaParticipantes()) {
-                    bw.write(corredor.getDorsal()+","+corredor.getDNI() + ",");
+                    bw.write(corredor.getDorsal() + "," + corredor.getDNI() + ",");
 
                 }
                 bw.write("\n");
@@ -338,7 +301,7 @@ public class LogicaAplicacion {
 
     }
 
-    public void guardarCsvCarrerasAcabadas() {
+    public void guardarCsvCarrerasAcabadas(File file) {
 
         FileWriter fw = null;
         BufferedWriter bw = null;
@@ -354,9 +317,12 @@ public class LogicaAplicacion {
                 bw.write(carrera.getNombreCarrera() + "," + carrera.getFecha() + ","
                         + carrera.getLugar() + ","
                         + carrera.getNumMaxParticipantes() + '\n');
-                for (Corredor corredor : carrera.getListaParticipantes()) {
-                    bw.write(corredor.getDNI() + ",");
+                for (Corredor corredor : carrera.getListaFinalCarrera()) {
+                    bw.write(corredor.getPosicionCarrera() + "," + corredor.getDorsal() + "," + corredor.getTiempoFinal()
+                            + "," + corredor.getDNI()
+                            + ",");
                 }
+                bw.write("\n");
             }
             //cierro el buffer
             bw.flush();
@@ -422,6 +388,15 @@ public class LogicaAplicacion {
         this.listaCarreras = listaCarreras;
     }
 
+    public LinkedList<Carrera> getListaCarrerasAcabadas() {
+        return listaCarrerasAcabadas;
+    }
+
+    public void setListaCarrerasAcabadas(LinkedList<Carrera> listaCarrerasAcabadas) {
+        this.listaCarrerasAcabadas = listaCarrerasAcabadas;
+    }
+    
+
     public SimpleDateFormat getSdf() {
         return sdf;
     }
@@ -441,10 +416,23 @@ public class LogicaAplicacion {
         //nombre el archivo temporal que he creado como el antiguo
         NOMBRE_ARCHIVO_TEMPORAL.renameTo(NOMBRE_ARCHIVO_CSV_CARRERAS);
     }
+    public void borrarCarreraAcabada(Carrera carrera) {
+        //borramos el corredor de la lista
+        listaCarrerasAcabadas.remove(carrera);
+        guardarCsvCarrerasAcabadas(NOMBRE_ARCHIVO_TEMPORAL);
+
+        //borro el archivo viejo
+        NOMBRE_ARCHIVO_CSV_CARRERAS_ACABADAS.delete();
+
+        //nombre el archivo temporal que he creado como el antiguo
+        NOMBRE_ARCHIVO_TEMPORAL.renameTo(NOMBRE_ARCHIVO_CSV_CARRERAS_ACABADAS);
+    }
     
-    public void borrarCorredorCarrera(Corredor corredor,Carrera carrera){
-       
-          //borramos el corredor de la lista
+    
+
+    public void borrarCorredorCarrera(Corredor corredor, Carrera carrera) {
+
+        //borramos el corredor de la lista
         carrera.getListaParticipantes().remove(corredor);
         guardarCsvCarreras(NOMBRE_ARCHIVO_TEMPORAL);
 

@@ -28,18 +28,15 @@ public class PantallaCarrera extends javax.swing.JDialog {
     private PantallaPrincipal pp;
     private PantallaListaCorredores plc;
     private Carrera carreraModificar;
-    
-    
 
     public PantallaCarrera(java.awt.Frame parent, boolean modal, LogicaAplicacion logicaAplicacion) {
-        
+
         pp = (PantallaPrincipal) parent;
         this.logicaAplicacion = logicaAplicacion;
-        
+
         initComponents();
         cargarTablaCarreras();
-        
-        
+        cargarTablaCarrerasAcabadas();
 
     }
 
@@ -143,22 +140,23 @@ public class PantallaCarrera extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(65, 65, 65)
+                        .addGap(20, 20, 20)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(130, 130, 130)
                         .addComponent(jLabelCarrerasAcabadas)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabelCarreras)
-                        .addGap(135, 135, 135))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(46, 46, 46))))
+                        .addGap(46, 46, 46))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabelCarreras)
+                        .addGap(186, 186, 186))))
             .addGroup(layout.createSequentialGroup()
-                .addGap(143, 143, 143)
+                .addGap(208, 208, 208)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButtonStartCarrera, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
@@ -169,7 +167,7 @@ public class PantallaCarrera extends javax.swing.JDialog {
                         .addComponent(jButtonModificar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonConsultar)))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -202,7 +200,7 @@ public class PantallaCarrera extends javax.swing.JDialog {
         PantallaAltaCarrera pac = new PantallaAltaCarrera(pp, true, logicaAplicacion);
         pac.setVisible(true);
         dispose();
-        
+
     }//GEN-LAST:event_jButtonAltaCarreraActionPerformed
 
     private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
@@ -210,45 +208,58 @@ public class PantallaCarrera extends javax.swing.JDialog {
     }//GEN-LAST:event_formComponentResized
 
     private void jButtonBajaCarreraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBajaCarreraActionPerformed
-        int index = jTableCarreras.convertRowIndexToModel(jTableCarreras.getSelectedRow());
-        Carrera carrera = pp.getLogicaAplicacion().getListaCarreras().get(index);
-        pp.getLogicaAplicacion().borrarCarrera(carrera);
-        cargarTablaCarreras();
-        this.setVisible(false);
-        pp.setVisible(true);
-        dispose();
-        
-        
+        int index;
+        Carrera carrera;
+        //tengo el foco en una carrera de la tabla carreras
+        if (jTableCarreras.getSelectedRow() == 0) {
+            index = jTableCarreras.convertRowIndexToModel(jTableCarreras.getSelectedRow());
+            carrera = pp.getLogicaAplicacion().getListaCarreras().get(index);
+            pp.getLogicaAplicacion().borrarCarrera(carrera);
+            cargarTablaCarreras();
+            this.setVisible(false);
+            pp.setVisible(true);
+            dispose();
+        } if (jTableCarrerasAcabadas.getSelectedRow() == 0) {
+          
+                index = jTableCarrerasAcabadas.convertRowIndexToModel(jTableCarrerasAcabadas.getSelectedRow());
+                carrera = pp.getLogicaAplicacion().getListaCarrerasAcabadas().get(index);
+                pp.getLogicaAplicacion().borrarCarreraAcabada(carrera);
+                cargarTablaCarrerasAcabadas();
+                this.setVisible(false);
+                pp.setVisible(true);
+                dispose();
+            
+
+        }
     }//GEN-LAST:event_jButtonBajaCarreraActionPerformed
 
     private void jButtonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonModificarActionPerformed
-      int index = jTableCarreras.convertRowIndexToModel(jTableCarreras.getSelectedRow());
+        int index = jTableCarreras.convertRowIndexToModel(jTableCarreras.getSelectedRow());
         Carrera carrera = pp.getLogicaAplicacion().getListaCarreras().get(index);
         PantallaAltaCarrera pac = new PantallaAltaCarrera(pp, logicaAplicacion, carrera, true);
         pac.setVisible(true);
         dispose();
-        
+
     }//GEN-LAST:event_jButtonModificarActionPerformed
 
     private void jButtonConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsultarActionPerformed
-        
+
         int index = jTableCarreras.convertRowIndexToModel(jTableCarreras.getSelectedRow());
         Carrera carrera = pp.getLogicaAplicacion().getListaCarreras().get(index);
-        PantallaAltaCarrera pac = new PantallaAltaCarrera(pp, logicaAplicacion, carrera, true,true);
+        PantallaAltaCarrera pac = new PantallaAltaCarrera(pp, logicaAplicacion, carrera, true, true);
         pac.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButtonConsultarActionPerformed
 
     private void jButtonStartCarreraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStartCarreraActionPerformed
-       
-       int index = jTableCarreras.convertRowIndexToModel(jTableCarreras.getSelectedRow());
-       Carrera carrera = logicaAplicacion.getListaCarreras().get(index);
-       PantallaCronometro pantallaCronometro = new PantallaCronometro(pp,true, logicaAplicacion, carrera);
-       pantallaCronometro.setVisible(true);
-       dispose();
-           
-       
-       
+
+        int index = jTableCarreras.convertRowIndexToModel(jTableCarreras.getSelectedRow());
+        Carrera carrera = logicaAplicacion.getListaCarreras().get(index);
+        PantallaCronometro pantallaCronometro = new PantallaCronometro(pp, true, logicaAplicacion, carrera);
+        pantallaCronometro.setVisible(true);
+        dispose();
+
+
     }//GEN-LAST:event_jButtonStartCarreraActionPerformed
 
     private void cargarTablaCarreras() {
@@ -257,14 +268,35 @@ public class PantallaCarrera extends javax.swing.JDialog {
         akf.setColumnIdentifiers(new String[]{"NOMBRE", "FECHA", "LUGAR", "Max PARTICIPANTES"});
 
         jTableCarreras.setModel(akf);
+        jTableCarreras.setRowSelectionAllowed(true);
         //jTableCarrerasAcabadas.setModel(dtm);
 
         //utilizamos la clase RowSorter para ordenar la tabla por columnas
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(akf);
         jTableCarreras.setRowSorter(sorter);
-        
+
         //jTableCarrerasAcabadas.setRowSorter(sorter);
         for (Carrera carrera : pp.getLogicaAplicacion().getListaCarreras()) {
+            akf.addRow(carrera.toStringArray());
+
+        }
+    }
+
+    private void cargarTablaCarrerasAcabadas() {
+
+        DefaultTableModel akf = new DefaultTableModel();
+        akf.setColumnIdentifiers(new String[]{"NOMBRE", "FECHA", "LUGAR", "Max PARTICIPANTES"});
+
+        jTableCarrerasAcabadas.setModel(akf);
+        jTableCarrerasAcabadas.setRowSelectionAllowed(true);
+        //jTableCarrerasAcabadas.setModel(dtm);
+
+        //utilizamos la clase RowSorter para ordenar la tabla por columnas
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(akf);
+        jTableCarrerasAcabadas.setRowSorter(sorter);
+
+        //jTableCarrerasAcabadas.setRowSorter(sorter);
+        for (Carrera carrera : pp.getLogicaAplicacion().getListaCarrerasAcabadas()) {
             akf.addRow(carrera.toStringArray());
 
         }

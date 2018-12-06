@@ -152,19 +152,11 @@ public class PantallaCronometro extends javax.swing.JDialog {
     }//GEN-LAST:event_jButtonStartActionPerformed
 
     private void jButtonStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStopActionPerformed
-        cronometro.stop();
-        if (cronometro.getT().isRunning()) {
-            cronometro.start();
-            jButtonStart.setEnabled(true);
-        }
-        jButtonStart.setText("INICIAR");
-        jButtonPause.setEnabled(false);
-        jButtonStop.setEnabled(false);
-        cronometro.setH(0);
-        cronometro.setMin(0);
-        cronometro.setSeg(0);
-        cronometro.setCs(0);
-        cronometro.actualizarLabel();
+        
+        logicaAplicacion.guardarCsvCarrerasAcabadas(logicaAplicacion.getNOMBRE_ARCHIVO_CSV_CARRERAS_ACABADAS());
+        logicaAplicacion.getListaCarrerasAcabadas().add(carrera);
+        logicaAplicacion.borrarCarrera(carrera);
+        dispose();
     }//GEN-LAST:event_jButtonStopActionPerformed
 
     private void jButtonPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPauseActionPerformed
@@ -176,6 +168,7 @@ public class PantallaCronometro extends javax.swing.JDialog {
     private void jTextFieldDorsalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldDorsalActionPerformed
 
         int dorsal = Integer.parseInt(jTextFieldDorsal.getText());
+        int j = 1;
         String tiempoFinal = cronometro.getTiempoFinal();
         Iterator it = carrera.getListaParticipantes().iterator();
         for (Corredor corredor : carrera.getListaParticipantes()) {
@@ -183,6 +176,8 @@ public class PantallaCronometro extends javax.swing.JDialog {
                 corredor = (Corredor) it.next();
                 if (corredor.getDorsal() == dorsal) {
                     corredor.setTiempoFinal(tiempoFinal);
+                    corredor.setPosicionCarrera(j);
+                    j++;
                     carrera.getListaFinalCarrera().add(corredor);
                     
                 }
