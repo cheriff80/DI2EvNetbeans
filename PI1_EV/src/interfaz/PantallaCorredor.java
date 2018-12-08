@@ -30,41 +30,38 @@ public class PantallaCorredor extends javax.swing.JDialog {
     private LogicaAplicacion logicaAplicacion;
     private PantallaPrincipal pp;
     private Corredor corredorModificar;
-    
-    
+
     public PantallaCorredor(java.awt.Frame parent, boolean modal, LogicaAplicacion logicaAplicacion) {
-        
+
         pp = (PantallaPrincipal) parent;
         this.logicaAplicacion = logicaAplicacion;
         initComponents();
-        
-         //validamos el botón Aceptar
+
+        //validamos el botón Aceptar
         validationPanel.addChangeListener((ChangeEvent ce) -> {
-            if(validationPanel.getProblem()==null){
+            if (validationPanel.getProblem() == null) {
                 jButtonAniadir.setEnabled(true);
-            }else{
+            } else {
                 jButtonAniadir.setEnabled(false);
             }
         });
-        
+
         //bloque validación de los campos
         ValidationGroup group = validationPanel.getValidationGroup();
         group.add(jTextFieldNombre, StringValidators.REQUIRE_NON_EMPTY_STRING);
-        group.add(jTextFieldDni, StringValidators.maxLength(9),StringValidators.minLength(9));
+        group.add(jTextFieldDni, StringValidators.maxLength(9), StringValidators.minLength(9));
         group.add(jTextFieldTelefono, StringValidators.REQUIRE_NON_EMPTY_STRING);
         group.add(jTextFieldDireccion, StringValidators.REQUIRE_NON_EMPTY_STRING);
-        
-       
-        
+
     }
-    
+
     public PantallaCorredor(java.awt.Frame parent, boolean modal, LogicaAplicacion logicaAplicacion, Corredor corredorModificar) {
         super(parent, modal);
         pp = (PantallaPrincipal) parent;
         this.logicaAplicacion = logicaAplicacion;
         this.corredorModificar = corredorModificar;
         initComponents();
-        
+
         jButtonBorrar.setVisible(false);
         jButtonModificar.setVisible(false);
         jButtonVerLista.setVisible(false);
@@ -73,43 +70,43 @@ public class PantallaCorredor extends javax.swing.JDialog {
         jTextFieldDireccion.setText(corredorModificar.getDireccion());
         jTextFieldTelefono.setText(corredorModificar.getTelefonoContacto());
     }
-    
+
     public JSpinner getjSpinnerFechaNacimiento() {
         return jSpinnerFechaNacimiento;
     }
-    
+
     public void setjSpinnerFechaNacimiento(JSpinner jSpinnerFechaNacimiento) {
         this.jSpinnerFechaNacimiento = jSpinnerFechaNacimiento;
     }
-    
+
     public JTextField getjTextFieldDireccion() {
         return jTextFieldDireccion;
     }
-    
+
     public void setjTextFieldDireccion(JTextField jTextFieldDireccion) {
         this.jTextFieldDireccion = jTextFieldDireccion;
     }
-    
+
     public JTextField getjTextFieldDni() {
         return jTextFieldDni;
     }
-    
+
     public void setjTextFieldDni(JTextField jTextFieldDni) {
         this.jTextFieldDni = jTextFieldDni;
     }
-    
+
     public JTextField getjTextFieldNombre() {
         return jTextFieldNombre;
     }
-    
+
     public void setjTextFieldNombre(JTextField jTextFieldNombre) {
         this.jTextFieldNombre = jTextFieldNombre;
     }
-    
+
     public JTextField getjTextFieldTelefono() {
         return jTextFieldTelefono;
     }
-    
+
     public void setjTextFieldTelefono(JTextField jTextFieldTelefono) {
         this.jTextFieldTelefono = jTextFieldTelefono;
     }
@@ -259,49 +256,47 @@ public class PantallaCorredor extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonAniadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAniadirActionPerformed
-        
+
         //doy formato a la fecha
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-       
+
         String nombre = jTextFieldNombre.getText();
         String dni = jTextFieldDni.getText();
         Date fechaNacimiento = (Date) jSpinnerFechaNacimiento.getValue();
         String fecString = sdf.format(fechaNacimiento);
         String direccion = jTextFieldDireccion.getText();
         String telefonoContacto = jTextFieldTelefono.getText();
-        
+
         Corredor corredor = new Corredor(nombre, dni, fecString, direccion, telefonoContacto);
-        
+
         pp.getLogicaAplicacion().aniadirCorredor(corredor);
-       // pp.getLogicaAplicacion().guardarCsv(pp.getLogicaAplicacion().getNOMBRE_ARCHIVO_CSV());
-        
+        // pp.getLogicaAplicacion().guardarCsv(pp.getLogicaAplicacion().getNOMBRE_ARCHIVO_CSV());
+
         dispose();
     }//GEN-LAST:event_jButtonAniadirActionPerformed
-    
 
     private void jButtonVerListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVerListaActionPerformed
-        
+
         PantallaListaCorredores pantallaListaCorredores = new PantallaListaCorredores(pp, true, logicaAplicacion);
-        
+
         pantallaListaCorredores.setVisible(true);
         dispose();
 
     }//GEN-LAST:event_jButtonVerListaActionPerformed
 
     private void jButtonBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBorrarActionPerformed
-        
+
         PantallaListaCorredores pantallaListaCorredores = new PantallaListaCorredores(pp, true, logicaAplicacion);
         dispose();
         pantallaListaCorredores.setVisible(true);
     }//GEN-LAST:event_jButtonBorrarActionPerformed
 
     private void jButtonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonModificarActionPerformed
-        
+
         PantallaListaCorredores pantallaListaCorredores = new PantallaListaCorredores(pp, true, logicaAplicacion);
         dispose();
         pantallaListaCorredores.setVisible(true);
     }//GEN-LAST:event_jButtonModificarActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAniadir;

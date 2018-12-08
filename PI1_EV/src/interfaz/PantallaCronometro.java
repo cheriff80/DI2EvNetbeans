@@ -22,7 +22,7 @@ public class PantallaCronometro extends javax.swing.JDialog {
      */
     private LogicaAplicacion logicaAplicacion;
     private Carrera carrera;
-
+    
     public PantallaCronometro(java.awt.Frame parent, boolean modal, LogicaAplicacion logicaAplicacion, Carrera carrera) {
         super(parent, modal);
         this.carrera = carrera;
@@ -34,11 +34,12 @@ public class PantallaCronometro extends javax.swing.JDialog {
             @Override
             public void dobleClick() {
                 jLabelDorsalCorredor.setVisible(true);
+                jTextFieldDorsal.setText(null);
                 jTextFieldDorsal.setVisible(true);
-
+                
             }
         });
-
+        
     }
 
     /**
@@ -150,23 +151,24 @@ public class PantallaCronometro extends javax.swing.JDialog {
         jButtonPause.setEnabled(true);
         jButtonStop.setEnabled(true);
     }//GEN-LAST:event_jButtonStartActionPerformed
-
+    
     private void jButtonStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStopActionPerformed
         
         logicaAplicacion.guardarCsvCarrerasAcabadas(logicaAplicacion.getNOMBRE_ARCHIVO_CSV_CARRERAS_ACABADAS());
         logicaAplicacion.getListaCarrerasAcabadas().add(carrera);
         logicaAplicacion.borrarCarrera(carrera);
+        logicaAplicacion.informeCarreraAcabada(carrera);
         dispose();
     }//GEN-LAST:event_jButtonStopActionPerformed
-
+    
     private void jButtonPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPauseActionPerformed
         cronometro.stop();
         jButtonStart.setEnabled(true);
         jButtonPause.setEnabled(false);
     }//GEN-LAST:event_jButtonPauseActionPerformed
-
+    
     private void jTextFieldDorsalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldDorsalActionPerformed
-
+        
         int dorsal = Integer.parseInt(jTextFieldDorsal.getText());
         int j = 1;
         String tiempoFinal = cronometro.getTiempoFinal();
@@ -185,9 +187,8 @@ public class PantallaCronometro extends javax.swing.JDialog {
         }
         jTextFieldDorsal.setVisible(false);
         jLabelDorsalCorredor.setVisible(false);
-
+        
     }//GEN-LAST:event_jTextFieldDorsalActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Cronometro.Cronometro cronometro;

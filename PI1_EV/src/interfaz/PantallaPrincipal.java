@@ -8,7 +8,10 @@ package interfaz;
 import com.easynth.lookandfeel.EaSynthLookAndFeel;
 import java.awt.HeadlessException;
 import java.io.File;
+import java.net.URL;
 import java.util.Locale;
+import javax.help.HelpBroker;
+import javax.help.HelpSet;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -26,37 +29,34 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     /**
      * Creates new form PantallaPrincipal
      */
-    
     private LogicaAplicacion logicaAplicacion;
     private final File NOMBRE_ARCHIVO_CSV = new File("resources\\listaCorredores.csv");
     private final File NOMBRE_ARCHIVO_CSV_CARRERAS = new File("resources\\carreras.csv");
     private final File NOMBRE_ARCHIVO_CSV_CARRERAS_ACABADAS = new File("resources\\carrerasAcabadas.csv");
-    
-    public PantallaPrincipal()  {
+
+    public PantallaPrincipal() {
         logicaAplicacion = new LogicaAplicacion();
-        if(NOMBRE_ARCHIVO_CSV.exists()){
+        if (NOMBRE_ARCHIVO_CSV.exists()) {
             logicaAplicacion.cargarCSV();
         }
         //cargo las carreras
-        if(NOMBRE_ARCHIVO_CSV_CARRERAS.exists()){
+        if (NOMBRE_ARCHIVO_CSV_CARRERAS.exists()) {
             logicaAplicacion.cargarCSVCarreras();
-            
+
         }
         //cargo las carreras acabadas
-        if(NOMBRE_ARCHIVO_CSV_CARRERAS_ACABADAS.exists()){
+        if (NOMBRE_ARCHIVO_CSV_CARRERAS_ACABADAS.exists()) {
             logicaAplicacion.cargarCSVCarrerasAcabadas();
         }
-      
-        
+
         initComponents();
         cambiarLookAndFeel();
+        cargarAyuda();
     }
 
     public LogicaAplicacion getLogicaAplicacion() {
         return logicaAplicacion;
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -69,6 +69,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
         jButtonCorredor = new javax.swing.JButton();
         jButtonCarrera = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -86,21 +87,38 @@ public class PantallaPrincipal extends javax.swing.JFrame {
             }
         });
 
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 132, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(64, 64, 64)
                 .addComponent(jButtonCorredor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(62, 62, 62)
                 .addComponent(jButtonCarrera)
                 .addGap(102, 102, 102))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(204, 204, 204)
+                .addGap(54, 54, 54)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonCorredor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonCarrera))
@@ -111,18 +129,39 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonCorredorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCorredorActionPerformed
-        
-        PantallaCorredor pantallaCorredor = new PantallaCorredor(this,true,logicaAplicacion);
+
+        PantallaCorredor pantallaCorredor = new PantallaCorredor(this, true, logicaAplicacion);
         pantallaCorredor.setLocationRelativeTo(null);
         pantallaCorredor.setVisible(true);
     }//GEN-LAST:event_jButtonCorredorActionPerformed
 
     private void jButtonCarreraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCarreraActionPerformed
-        PantallaCarrera pantallaCarrera = new PantallaCarrera(this,true,logicaAplicacion);
+        PantallaCarrera pantallaCarrera = new PantallaCarrera(this, true, logicaAplicacion);
         pantallaCarrera.setLocationRelativeTo(null);
         pantallaCarrera.setVisible(true);
-        
+
     }//GEN-LAST:event_jButtonCarreraActionPerformed
+//Método llamado al cargar la ayuda.
+
+    private void cargarAyuda() {
+        try {
+            // Carga el fichero de ayuda
+            File fichero = new File("src/help/help_set.hs");
+            URL hsURL = fichero.toURI().toURL();
+
+            // Crea el HelpSet y el HelpBroker
+            HelpSet helpset = new HelpSet(getClass().getClassLoader(), hsURL);
+            HelpBroker hb = helpset.createHelpBroker();
+
+            // Pone ayuda a item de menu al pulsar F1
+            hb.enableHelpKey(getRootPane(), "principal", helpset);
+            hb.enableHelpKey(jButtonCorredor, "corredores", helpset);
+            hb.enableHelpKey(jButtonCarrera, "carrera", helpset);
+        } catch (Exception e) {
+            System.out.println("Error al cargar la ayuda: " + e);
+        }
+
+    }
 
     /**
      * @param args the command line arguments
@@ -154,7 +193,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                Locale.setDefault(new Locale("es","ES"));//para utilizar el idioma español
+                Locale.setDefault(new Locale("es", "ES"));//para utilizar el idioma español
                 new PantallaPrincipal().setVisible(true);
             }
         });
@@ -163,13 +202,14 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCarrera;
     private javax.swing.JButton jButtonCorredor;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 
     private void cambiarLookAndFeel() {
         try {
             UIManager.setLookAndFeel(EaSynthLookAndFeel.class.getCanonicalName());
             SwingUtilities.updateComponentTreeUI(this);
-        } catch (Throwable e){
+        } catch (Throwable e) {
             JOptionPane.showConfirmDialog(this, "Error estableciendo Look And Feel.");
         }
     }

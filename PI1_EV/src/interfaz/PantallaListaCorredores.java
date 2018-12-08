@@ -140,15 +140,13 @@ public class PantallaListaCorredores extends javax.swing.JDialog {
         int index = jTableListaCorredores.convertRowIndexToModel(jTableListaCorredores.getSelectedRow());
         Corredor corredor = pp.getLogicaAplicacion().getListaCorredores().get(index);
         pp.getLogicaAplicacion().borrarCorredor(corredor);
-        
+
         PantallaCorredor pantallaCorredor = new PantallaCorredor(pp, true, logicaAplicacion, corredor);
         pantallaCorredor.setVisible(true);
 
         dispose();
 
-
     }//GEN-LAST:event_jButtonModificarActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonBorrar;

@@ -32,9 +32,9 @@ public class PantallaAltaCarrera extends javax.swing.JDialog {
     private ListaCorredores dlm2 = new ListaCorredores();
     private Carrera c;
     private Corredor corredor;
-    private int dorsal=1;
-    
-    public PantallaAltaCarrera(java.awt.Frame parent, boolean modal,LogicaAplicacion logicaAplicacion) {
+    private int dorsal = 1;
+
+    public PantallaAltaCarrera(java.awt.Frame parent, boolean modal, LogicaAplicacion logicaAplicacion) {
         pp = (PantallaPrincipal) parent;
         this.logicaAplicacion = logicaAplicacion;
         initComponents();
@@ -42,10 +42,10 @@ public class PantallaAltaCarrera extends javax.swing.JDialog {
         jButtonAniadir.setVisible(false);
         jButtonListaCorredores.setVisible(false);
         jButtonBorrarCorredores.setVisible(false);
-        
+
     }
 
-    public PantallaAltaCarrera(java.awt.Frame parent,LogicaAplicacion logicaAplicacion, Carrera c, boolean bln) {
+    public PantallaAltaCarrera(java.awt.Frame parent, LogicaAplicacion logicaAplicacion, Carrera c, boolean bln) {
         pp = (PantallaPrincipal) parent;
         this.logicaAplicacion = logicaAplicacion;
         this.c = c;
@@ -56,9 +56,9 @@ public class PantallaAltaCarrera extends javax.swing.JDialog {
         jTextFieldMaxParticipantes.setText(Integer.toString(c.getNumMaxParticipantes()));
         cargarListaParticipantes(c);
     }
-    
+
     //Constructor consulta
-     public PantallaAltaCarrera(java.awt.Frame parent,LogicaAplicacion logicaAplicacion, Carrera c, boolean bln,boolean bn) {
+    public PantallaAltaCarrera(java.awt.Frame parent, LogicaAplicacion logicaAplicacion, Carrera c, boolean bln, boolean bn) {
         pp = (PantallaPrincipal) parent;
         this.logicaAplicacion = logicaAplicacion;
         this.c = c;
@@ -74,10 +74,6 @@ public class PantallaAltaCarrera extends javax.swing.JDialog {
         jTextFieldMaxParticipantes.setText(Integer.toString(c.getNumMaxParticipantes()));
         cargarListaParticipantes(c);
     }
-    
-    
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -290,97 +286,92 @@ public class PantallaAltaCarrera extends javax.swing.JDialog {
     }//GEN-LAST:event_jTextFieldLugarActionPerformed
 
     private void jButtonAñadirCarreraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirCarreraActionPerformed
- //doy formato a la fecha
+        //doy formato a la fecha
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-       
+
         String nombre = jTextFieldNombreCarrera.getText();
         Date fechaCarrera = (Date) jSpinnerFechaCarrera.getValue();
         String fecha = sdf.format(fechaCarrera);
-        String lugar= jTextFieldLugar.getText();
+        String lugar = jTextFieldLugar.getText();
         int numMaxParticipantes = Integer.parseInt(jTextFieldMaxParticipantes.getText());
-        
-        
-        c = new Carrera(nombre,fecha,lugar,numMaxParticipantes);
+
+        c = new Carrera(nombre, fecha, lugar, numMaxParticipantes);
         //logicaAplicacion.getListaCarreras().add(c);
-        
+
         pp.getLogicaAplicacion().aniadirCarrera(c);
-       
-        
+
         pp.setVisible(true);
         dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_jButtonAñadirCarreraActionPerformed
 
     private void jButtonListaCorredoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonListaCorredoresActionPerformed
-        
+
         Iterator it = logicaAplicacion.getListaCorredores().iterator();
         for (Corredor corredor : logicaAplicacion.getListaCorredores()) {
-            corredor=(Corredor)it.next();
-            
+            corredor = (Corredor) it.next();
+
             dlm.addCorredor(corredor);
         }
         jListCorrredores.setModel(dlm);
         jButtonListaCorredores.setVisible(false);
-        
+
     }//GEN-LAST:event_jButtonListaCorredoresActionPerformed
-    
+
     private void jButtonAniadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAniadirActionPerformed
-      
-       int index = jListCorrredores.getSelectedIndex();
-       Corredor corredor = pp.getLogicaAplicacion().getListaCorredores().get(index);
-       dlm2.addCorredor(corredor);
-       c.getListaParticipantes().add(corredor);
-       jListCorredoresAniadidos.setModel(dlm2);
-       
-        
+
+        int index = jListCorrredores.getSelectedIndex();
+        Corredor corredor = pp.getLogicaAplicacion().getListaCorredores().get(index);
+        dlm2.addCorredor(corredor);
+        c.getListaParticipantes().add(corredor);
+        jListCorredoresAniadidos.setModel(dlm2);
+
     }//GEN-LAST:event_jButtonAniadirActionPerformed
 
     private void jButtonBorrarCorredoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBorrarCorredoresActionPerformed
-        
+
         int index = jListCorredoresAniadidos.getSelectedIndex();
-       Corredor corredor = c.getListaParticipantes().get(index);
-       logicaAplicacion.borrarCorredorCarrera(corredor, c);
-       dlm2.eliminarCorredor(index);
-       
-       
+        Corredor corredor = c.getListaParticipantes().get(index);
+        logicaAplicacion.borrarCorredorCarrera(corredor, c);
+        dlm2.eliminarCorredor(index);
+
     }//GEN-LAST:event_jButtonBorrarCorredoresActionPerformed
 
     private void jButtonModificarCarreraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonModificarCarreraActionPerformed
-        
+
         //borro la anterior carrera para generar 
         logicaAplicacion.borrarCarrera(c);
         //doy formato a la fecha
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-       
+
         //genero la nueva carrera
         String nombre = jTextFieldNombreCarrera.getText();
         Date fechaCarrera = (Date) jSpinnerFechaCarrera.getValue();
         String fecha = sdf.format(fechaCarrera);
-        String lugar= jTextFieldLugar.getText();
+        String lugar = jTextFieldLugar.getText();
         int numMaxParticipantes = Integer.parseInt(jTextFieldMaxParticipantes.getText());
         LinkedList<Corredor> listaCorredores = (LinkedList<Corredor>) c.getListaParticipantes();
-        
-        c = new Carrera(listaCorredores,nombre,fecha,lugar,numMaxParticipantes);
+
+        c = new Carrera(listaCorredores, nombre, fecha, lugar, numMaxParticipantes);
         c.darDorsalesCorredores();
         //logicaAplicacion.getListaCarreras().add(c);
         pp.getLogicaAplicacion().aniadirCarrera(c);
-       
+
         //hacemos visible la pantalla principal
         pp.setVisible(true);
         //Cerramos la ventana
-        dispose();      
-    
+        dispose();
+
     }//GEN-LAST:event_jButtonModificarCarreraActionPerformed
 
-    private void cargarListaParticipantes(Carrera carrera){
-        
+    private void cargarListaParticipantes(Carrera carrera) {
+
         Iterator it = carrera.getListaParticipantes().iterator();
         for (Corredor corredor : carrera.getListaParticipantes()) {
-            corredor=(Corredor)it.next();
+            corredor = (Corredor) it.next();
             dlm2.addCorredor(corredor);
         }
         jListCorredoresAniadidos.setModel(dlm2);
-        
-     
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

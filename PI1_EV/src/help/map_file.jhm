@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding='ISO-8859-1' ?>
+<map version="1.0">
+   <mapID target="principal"  url="html/principal.html" />
+   <mapID target="corredores"  url="html/corredores.html" />
+   <mapID target="carreras"  url="html/carreras.html" />
+</map>

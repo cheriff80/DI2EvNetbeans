@@ -219,16 +219,16 @@ public class PantallaCarrera extends javax.swing.JDialog {
             this.setVisible(false);
             pp.setVisible(true);
             dispose();
-        } if (jTableCarrerasAcabadas.getSelectedRow() == 0) {
-          
-                index = jTableCarrerasAcabadas.convertRowIndexToModel(jTableCarrerasAcabadas.getSelectedRow());
-                carrera = pp.getLogicaAplicacion().getListaCarrerasAcabadas().get(index);
-                pp.getLogicaAplicacion().borrarCarreraAcabada(carrera);
-                cargarTablaCarrerasAcabadas();
-                this.setVisible(false);
-                pp.setVisible(true);
-                dispose();
-            
+        }
+        if (jTableCarrerasAcabadas.getSelectedRow() == 0) {
+
+            index = jTableCarrerasAcabadas.convertRowIndexToModel(jTableCarrerasAcabadas.getSelectedRow());
+            carrera = pp.getLogicaAplicacion().getListaCarrerasAcabadas().get(index);
+            pp.getLogicaAplicacion().borrarCarreraAcabada(carrera);
+            cargarTablaCarrerasAcabadas();
+            this.setVisible(false);
+            pp.setVisible(true);
+            dispose();
 
         }
     }//GEN-LAST:event_jButtonBajaCarreraActionPerformed
@@ -258,7 +258,6 @@ public class PantallaCarrera extends javax.swing.JDialog {
         PantallaCronometro pantallaCronometro = new PantallaCronometro(pp, true, logicaAplicacion, carrera);
         pantallaCronometro.setVisible(true);
         dispose();
-
 
     }//GEN-LAST:event_jButtonStartCarreraActionPerformed
 
@@ -301,7 +300,6 @@ public class PantallaCarrera extends javax.swing.JDialog {
 
         }
     }
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAltaCarrera;
