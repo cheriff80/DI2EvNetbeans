@@ -7,9 +7,7 @@ package beans;
 
 import java.util.List;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.LinkedList;
-import java.util.Set;
 
 /**
  *
@@ -25,6 +23,7 @@ public class Carrera {
     private int numMaxParticipantes;
     private int dorsales;
     private boolean acabada;
+    
 
     public Carrera(String nombreCarrera, String fecha, String lugar, int numMaxParticipantes) {
         this.listaParticipantes = new LinkedList<>();
@@ -36,6 +35,7 @@ public class Carrera {
         this.acabada = false;
         this.dorsales = 1;
         this.listaFinalCarrera=listaFinalCarrera;
+     
     }
 
     public Carrera(LinkedList<Corredor> listaParticipantes, String nombreCarrera, String fecha, String lugar, int numMaxParticipantes) {
@@ -47,12 +47,17 @@ public class Carrera {
         this.numMaxParticipantes = numMaxParticipantes;
         this.acabada = false;
         this.dorsales = 1;
+       
         
     }
-    
-    
-    
 
+    public Carrera(String nombreCarrera, String lugar, int dorsales) {
+        this.nombreCarrera = nombreCarrera;
+        this.lugar = lugar;
+        this.dorsales = dorsales;
+    }
+    
+   
     public int getDorsales() {
         return dorsales;
     }
@@ -109,9 +114,8 @@ public class Carrera {
     public void setNumMaxParticipantes(int numMaxParticipantes) {
         this.numMaxParticipantes = numMaxParticipantes;
     }
-    
-    
 
+    
     public void darDorsalesCorredores() {
         Iterator it = listaParticipantes.iterator();
         Corredor c;
@@ -120,6 +124,7 @@ public class Carrera {
                 c = (Corredor) it.next();
                 c.setDorsal(dorsales);
                 dorsales++;
+                
             }
         }
     }

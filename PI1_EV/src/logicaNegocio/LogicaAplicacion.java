@@ -36,7 +36,6 @@ public class LogicaAplicacion {
 
     //declaramos la ruta absoluta del archivo CSV
     private final File NOMBRE_ARCHIVO_CSV = new File("resources\\listaCorredores.csv");
-    private final File NOMBRE_ARCHIVO = new File("resources\\listaCorredores.dat");
     private final File NOMBRE_ARCHIVO_CSV_CARRERAS = new File("resources\\carreras.csv");
     private final File NOMBRE_ARCHIVO_CSV_CARRERAS_ACABADAS = new File("resources\\carrerasAcabadas.csv");
     private final File NOMBRE_ARCHIVO_TEMPORAL = new File("resources\\lista.tmp");
@@ -50,14 +49,7 @@ public class LogicaAplicacion {
         return NOMBRE_ARCHIVO_CSV;
     }
 
-    /**
-     *
-     * @return
-     */
-    public File getNOMBRE_ARCHIVO() {
-        return NOMBRE_ARCHIVO;
-    }
-
+    
     /**
      *
      * @return

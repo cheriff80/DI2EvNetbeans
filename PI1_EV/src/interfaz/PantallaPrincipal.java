@@ -5,20 +5,12 @@
  */
 package interfaz;
 
-import com.easynth.lookandfeel.EaSynthLookAndFeel;
-import java.awt.HeadlessException;
 import java.io.File;
 import java.net.URL;
 import java.util.Locale;
 import javax.help.HelpBroker;
 import javax.help.HelpSet;
-import javax.swing.JButton;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import logicaNegocio.LogicaAplicacion;
-import org.openide.util.Exceptions;
 
 /**
  *
@@ -50,7 +42,6 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         }
 
         initComponents();
-        cambiarLookAndFeel();
         cargarAyuda();
     }
 
@@ -205,12 +196,5 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 
-    private void cambiarLookAndFeel() {
-        try {
-            UIManager.setLookAndFeel(EaSynthLookAndFeel.class.getCanonicalName());
-            SwingUtilities.updateComponentTreeUI(this);
-        } catch (Throwable e) {
-            JOptionPane.showConfirmDialog(this, "Error estableciendo Look And Feel.");
-        }
-    }
+  
 }
