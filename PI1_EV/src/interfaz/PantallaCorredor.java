@@ -10,10 +10,6 @@ import javax.swing.JTextField;
 import beans.Corredor;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import javax.swing.SpinnerDateModel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.text.DateFormatter;
 import logicaNegocio.LogicaAplicacion;
 import org.netbeans.validation.api.builtin.stringvalidation.StringValidators;
 import org.netbeans.validation.api.ui.ValidationGroup;
@@ -38,13 +34,13 @@ public class PantallaCorredor extends javax.swing.JDialog {
         initComponents();
 
         //validamos el botón Aceptar
-        validationPanel.addChangeListener((ChangeEvent ce) -> {
+            //validationPanel.addChangeListener((ChangeEvent ce) -> {
             if (validationPanel.getProblem() == null) {
                 jButtonAniadir.setEnabled(true);
             } else {
                 jButtonAniadir.setEnabled(false);
             }
-        });
+       // });
 
         //bloque validación de los campos
         ValidationGroup group = validationPanel.getValidationGroup();

@@ -8,6 +8,7 @@ package beans;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import logicaNegocio.LogicaAplicacion;
 
 
 /**
@@ -16,12 +17,13 @@ import java.util.List;
  */
 public class carrerasInforme1 {
     
-    //importo la clase logica aplicación para cargar la lista de carreras
-    static logicaNegocio.LogicaAplicacion la;
+    
    
     //método estático que devuelva la lista de carreras
     public static List<Carrera> listaCarrerasInforme1(){
        List<Carrera> listaCarrerasInforme1 = new ArrayList<>();
+       //importo la clase logica aplicación para cargar la lista de carreras
+       logicaNegocio.LogicaAplicacion la = new LogicaAplicacion();
         //recorro la lista de carreras
     
         for (Carrera carrera : la.getListaCarreras()) {

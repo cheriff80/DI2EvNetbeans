@@ -5,7 +5,7 @@
  */
 package interfaz;
 
-import com.sun.javafx.scene.SceneHelper;
+
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import beans.Corredor;
@@ -23,9 +23,9 @@ public class PantallaListaCorredores extends javax.swing.JDialog {
     private LogicaAplicacion logicaAplicacion;
     PantallaPrincipal pp;
 
-    public PantallaListaCorredores(java.awt.Frame paren, boolean modal, LogicaAplicacion logicaAplicacion) {
-        super(paren, modal);
-        pp = (PantallaPrincipal) paren;
+    public PantallaListaCorredores(java.awt.Frame parent, boolean modal, LogicaAplicacion logicaAplicacion) {
+        super(parent, modal);
+        pp = (PantallaPrincipal) parent;
 
         initComponents();
         verTablaCorredores();
