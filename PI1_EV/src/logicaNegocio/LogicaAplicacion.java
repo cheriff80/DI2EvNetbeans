@@ -27,9 +27,10 @@ import org.openide.util.Exceptions;
 public class LogicaAplicacion {
 
     //instanciamos la lista de corredores, sin duplicados y ordenados por el nombre de insercion
-    private LinkedList<Corredor> listaCorredores = new LinkedList<>();
-    private LinkedList<Carrera> listaCarreras = new LinkedList<>();
-    private LinkedList<Carrera> listaCarrerasAcabadas = new LinkedList<>();
+    private List<Corredor> listaCorredores = new LinkedList<>();
+    private List<Carrera> listaCarreras = new LinkedList<>();
+    private List<Carrera> listaCarrerasAcabadas = new LinkedList<>();
+    private List<Carrera> todasCarreras = new LinkedList<>();
 
     //dar formato a la fecha
     SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
@@ -151,7 +152,7 @@ public class LogicaAplicacion {
                 while (it.hasNext()) {
                     corredor = (Corredor) it.next();
                     corredor.setDorsal(dorsal);
-                    if (corredor.getDNI().equalsIgnoreCase(DNI)) {
+                    if (corredor.getDni().equalsIgnoreCase(DNI)) {
                         carrera.getListaParticipantes().add(corredor);
                     }
                 }
@@ -181,7 +182,7 @@ public class LogicaAplicacion {
                     corredor.setPosicionCarrera(posicion);
                     corredor.setDorsal(dorsal);
                     corredor.setTiempoFinal(tiempoCarrera);
-                    if (corredor.getDNI().equalsIgnoreCase(DNI)) {
+                    if (corredor.getDni().equalsIgnoreCase(DNI)) {
                         carrera.getListaFinalCarrera().add(corredor);
                     }
                 }
@@ -234,7 +235,7 @@ public class LogicaAplicacion {
             //declaro el bucle 
             if (NOMBRE_ARCHIVO_CSV.exists()) {
                 for (Corredor corredor : listaCorredores) {
-                    bw.write(corredor.getNombre() + "," + corredor.getDNI() + "," + corredor.getFechaNacimiento() + ","
+                    bw.write(corredor.getNombre() + "," + corredor.getDni() + "," + corredor.getFechaNacimiento() + ","
                             + corredor.getDireccion() + "," + corredor.getTelefonoContacto() + '\n');
                 }
             }
@@ -333,7 +334,7 @@ public class LogicaAplicacion {
                         + carrera.getLugar() + ","
                         + carrera.getNumMaxParticipantes() + '\n');
                 for (Corredor corredor : carrera.getListaParticipantes()) {
-                    bw.write(corredor.getDorsal() + "," + corredor.getDNI() + ",");
+                    bw.write(corredor.getDorsal() + "," + corredor.getDni() + ",");
 
                 }
                 bw.write("\n");
@@ -365,16 +366,18 @@ public class LogicaAplicacion {
 
             //declaro el bucle 
             for (Carrera carrera : listaCarreras) {
-
-                bw.write(carrera.getNombreCarrera() + "," + carrera.getFecha() + ","
+                if(carrera.isAcabada()){
+                    bw.write(carrera.getNombreCarrera() + "," + carrera.getFecha() + ","
                         + carrera.getLugar() + ","
                         + carrera.getNumMaxParticipantes() + '\n');
                 for (Corredor corredor : carrera.getListaFinalCarrera()) {
                     bw.write(corredor.getPosicionCarrera() + "," + corredor.getDorsal() + "," + corredor.getTiempoFinal()
-                            + "," + corredor.getDNI()
+                            + "," + corredor.getDni()
                             + ",");
                 }
                 bw.write("\n");
+                }
+                
             }
             //cierro el buffer
             bw.flush();
@@ -454,14 +457,42 @@ public class LogicaAplicacion {
         //nombre el archivo temporal que he creado como el antiguo
         NOMBRE_ARCHIVO_TEMPORAL.renameTo(NOMBRE_ARCHIVO_CSV);
     }
+    
+    public void generarTodasCarreras(){
+        
+        Iterator it = listaCarreras.iterator();
+        Iterator at = listaCarrerasAcabadas.iterator();
+        
+        //Cargo en todasCarreras la lista de carreras sin acabar
+        for (it = listaCarreras.iterator(); it.hasNext();) {
+            Carrera c = (Carrera) it.next();
+            todasCarreras.add(c);
+        }   
+        //Cargo en todasCarreras la lista de carreras acabadas
+        for (at = listaCarrerasAcabadas.iterator(); at.hasNext();) {
+            Carrera h = (Carrera) at.next();
+            todasCarreras.add(h);
+         
+       
+        }
+    }
 
     /**
      *
      * @return
      */
-    public LinkedList<Corredor> getListaCorredores() {
+    public List<Corredor> getListaCorredores() {
         return listaCorredores;
     }
+
+    public List<Carrera> getTodasCarreras() {
+        return todasCarreras;
+    }
+
+    public void setTodasCarreras(List<Carrera> todasCarreras) {
+        this.todasCarreras = todasCarreras;
+    }
+    
 
     /**
      *
@@ -490,7 +521,7 @@ public class LogicaAplicacion {
      *
      * @return
      */
-    public LinkedList<Carrera> getListaCarreras() {
+    public List<Carrera> getListaCarreras() {
         return listaCarreras;
     }
 
@@ -506,7 +537,7 @@ public class LogicaAplicacion {
      *
      * @return
      */
-    public LinkedList<Carrera> getListaCarrerasAcabadas() {
+    public List<Carrera> getListaCarrerasAcabadas() {
         return listaCarrerasAcabadas;
     }
 

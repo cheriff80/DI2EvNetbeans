@@ -8,13 +8,11 @@ package interfaz;
 import beans.Carrera;
 import beans.Corredor;
 import beans.ListaCorredores;
-import java.awt.Frame;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import javax.swing.DefaultListModel;
 import logicaNegocio.LogicaAplicacion;
 
 /**
@@ -32,7 +30,9 @@ public class PantallaAltaCarrera extends javax.swing.JDialog {
     private ListaCorredores dlm2 = new ListaCorredores();
     private Carrera c;
     private Corredor corredor;
-    private int dorsal = 1;
+    
+    
+    
 
     public PantallaAltaCarrera(java.awt.Frame parent, boolean modal, LogicaAplicacion logicaAplicacion) {
         pp = (PantallaPrincipal) parent;
@@ -352,7 +352,7 @@ public class PantallaAltaCarrera extends javax.swing.JDialog {
         LinkedList<Corredor> listaCorredores = (LinkedList<Corredor>) c.getListaParticipantes();
 
         c = new Carrera(listaCorredores, nombre, fecha, lugar, numMaxParticipantes);
-        c.darDorsalesCorredores();
+       // c.darDorsalesCorredores();
         //logicaAplicacion.getListaCarreras().add(c);
         pp.getLogicaAplicacion().aniadirCarrera(c);
 
@@ -366,10 +366,19 @@ public class PantallaAltaCarrera extends javax.swing.JDialog {
     private void cargarListaParticipantes(Carrera carrera) {
 
         Iterator it = carrera.getListaParticipantes().iterator();
-        for (Corredor corredor : carrera.getListaParticipantes()) {
-            corredor = (Corredor) it.next();
-            dlm2.addCorredor(corredor);
+        if(carrera.getListaParticipantes()!=null){
+        for (Corredor c : carrera.getListaParticipantes()) {
+            c = (Corredor) it.next();
+            dlm2.addCorredor(c);
         }
+        }else{
+            for (Corredor c: carrera.getListaFinalCarrera()) {
+            c = (Corredor) it.next();
+            dlm2.addCorredor(c);
+        }
+        
+        }
+        
         jListCorredoresAniadidos.setModel(dlm2);
 
     }

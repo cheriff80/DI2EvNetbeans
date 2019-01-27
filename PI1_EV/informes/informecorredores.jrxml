@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="informecorredores" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d302c4bf-e0ad-4927-b862-f43c6298d4e7">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="NOMBRECARRERA" class="java.lang.String"/>
+	<parameter name="LUGARCARRERA" class="java.lang.String"/>
+	<parameter name="CARRERAACABADA" class="java.lang.String"/>
+	<parameter name="TOTALCORREDORES" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="direccion" class="java.lang.String">
+		<fieldDescription><![CDATA[direccion]]></fieldDescription>
+	</field>
+	<field name="dni" class="java.lang.String">
+		<fieldDescription><![CDATA[dni]]></fieldDescription>
+	</field>
+	<field name="dorsal" class="java.lang.Integer">
+		<fieldDescription><![CDATA[dorsal]]></fieldDescription>
+	</field>
+	<field name="fechaNacimiento" class="java.lang.String">
+		<fieldDescription><![CDATA[fechaNacimiento]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[nombre]]></fieldDescription>
+	</field>
+	<field name="posicionCarrera" class="java.lang.Integer">
+		<fieldDescription><![CDATA[posicionCarrera]]></fieldDescription>
+	</field>
+	<field name="telefonoContacto" class="java.lang.String">
+		<fieldDescription><![CDATA[telefonoContacto]]></fieldDescription>
+	</field>
+	<field name="tiempoFinal" class="java.lang.String">
+		<fieldDescription><![CDATA[tiempoFinal]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="203" height="62" uuid="1534afe9-5ebc-4e8a-b2a3-a47a958c14a6"/>
+				<text><![CDATA[Carreras del Principado S.A.]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="71" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="158" height="20" uuid="223726c5-5910-44b5-a504-f29c0c3380ab"/>
+				<textFieldExpression><![CDATA["Nombre de la carrera: "+$P{NOMBRECARRERA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="37" width="158" height="20" uuid="9f12fc52-763c-4c98-beac-8817c57f1430"/>
+				<textFieldExpression><![CDATA["Lugar: "+$P{LUGARCARRERA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="201" y="0" width="213" height="20" uuid="7c5ed7a5-2f83-4181-a719-74ac0bd5c6b1"/>
+				<textFieldExpression><![CDATA["Carrera acabada: "+$P{CARRERAACABADA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="201" y="37" width="269" height="20" uuid="4bac8660-9825-4ee3-b42e-e92350160d7e"/>
+				<textFieldExpression><![CDATA["Total corredores: "+$P{TOTALCORREDORES}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="39" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="138" height="20" uuid="9eaea1da-f282-4cc6-8c27-092e9518a61a"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<text><![CDATA[telefonoContacto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="138" y="0" width="138" height="20" uuid="ce59de78-ed60-4717-af0b-e707ee4db0a5"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<text><![CDATA[nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="276" y="0" width="138" height="20" uuid="d28e6300-6489-4e1d-af3b-14dc5aca80bd"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<text><![CDATA[dni]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="414" y="0" width="138" height="20" uuid="e072239a-a7ac-4dc8-af83-2ce4c8d51f1c"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<text><![CDATA[fechaNacimiento]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="43" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="138" height="20" uuid="eb6a6ede-edf0-4b60-bf1e-27e21d65bbfc"/>
+				<textFieldExpression><![CDATA[$F{telefonoContacto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="138" y="0" width="138" height="20" uuid="463dbb80-bb88-4494-ae9f-d9b2c22d5696"/>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="276" y="0" width="138" height="20" uuid="dcf9408d-cc9c-4f9d-a51d-4bc6818d4bec"/>
+				<textFieldExpression><![CDATA[$F{dni}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="414" y="0" width="138" height="20" uuid="e1de19ff-3c7d-44c5-a5a7-e7407573b07b"/>
+				<textFieldExpression><![CDATA[$F{fechaNacimiento}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

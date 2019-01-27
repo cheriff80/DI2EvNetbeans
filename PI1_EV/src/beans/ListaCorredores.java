@@ -5,6 +5,7 @@
  */
 package beans;
 
+import com.lowagie.text.pdf.codec.CCITTG4Encoder;
 import java.util.ArrayList;
 import javax.swing.AbstractListModel;
 
@@ -14,7 +15,7 @@ import javax.swing.AbstractListModel;
  */
 public class ListaCorredores extends AbstractListModel {
     
-    private ArrayList<Corredor> lista = new ArrayList<>();
+    private  ArrayList<Corredor> lista = new ArrayList<>();
 
     @Override
     public int getSize() {
@@ -24,11 +25,11 @@ public class ListaCorredores extends AbstractListModel {
     @Override
     public Object getElementAt(int i) {
       Corredor c = lista.get(i);
-      return c.getNombre()+" , " +c.getDNI();
+      return c.getNombre()+" , " +c.getDni();
     }
     
-    public void addCorredor(Corredor c){
-        lista.add(c);
+    public void addCorredor(Corredor corredor){
+        lista.add(corredor);
         this.fireIntervalAdded(this, getSize(), getSize()+1);
     }
     

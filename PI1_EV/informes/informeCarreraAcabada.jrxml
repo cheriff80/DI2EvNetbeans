@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="informeCarreraAcabada" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="674f25a1-755e-4420-9de0-716dc805505a">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="NOMBRECARRERA" class="java.lang.String"/>
+	<parameter name="LUGARCARRERA" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[nombre]]></fieldDescription>
+	</field>
+	<field name="posicionCarrera" class="java.lang.Integer">
+		<fieldDescription><![CDATA[posicionCarrera]]></fieldDescription>
+	</field>
+	<field name="tiempoFinal" class="java.lang.String">
+		<fieldDescription><![CDATA[tiempoFinal]]></fieldDescription>
+	</field>
+	<field name="dorsal" class="java.lang.Integer">
+		<fieldDescription><![CDATA[dorsal]]></fieldDescription>
+	</field>
+	<field name="telefonoContacto" class="java.lang.String">
+		<fieldDescription><![CDATA[telefonoContacto]]></fieldDescription>
+	</field>
+	<field name="fechaNacimiento" class="java.lang.String">
+		<fieldDescription><![CDATA[fechaNacimiento]]></fieldDescription>
+	</field>
+	<field name="dni" class="java.lang.String">
+		<fieldDescription><![CDATA[dni]]></fieldDescription>
+	</field>
+	<field name="direccion" class="java.lang.String">
+		<fieldDescription><![CDATA[direccion]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="203" height="62" uuid="85084476-3fc7-41d5-b13d-70a7dac2d73d"/>
+				<text><![CDATA[Carreras del Principado S.A.]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="83" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="37" width="158" height="20" uuid="3b07379f-9b4e-4f73-8c6d-ce11c0017e43"/>
+				<textFieldExpression><![CDATA["Lugar: "+$P{LUGARCARRERA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="191" height="20" uuid="ee7abf73-09b4-4039-951d-4f42eb2c8622"/>
+				<textFieldExpression><![CDATA["Nombre de la carrera: "+$P{NOMBRECARRERA}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="28" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="185" height="20" uuid="24118898-f664-43d3-ab4f-e981cdf32521"/>
+				<text><![CDATA[dorsal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="185" y="0" width="185" height="20" uuid="489c6d6c-c0e0-42d9-b4f7-247495a94b1b"/>
+				<text><![CDATA[nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="370" y="0" width="185" height="20" uuid="ae6c9313-1976-4cc1-85e0-d3c6be0dfd82"/>
+				<text><![CDATA[tiempoFinal]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="32" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="185" height="20" uuid="d100beca-aef0-464e-ae25-8fb8ccf6a996"/>
+				<textFieldExpression><![CDATA[$F{dorsal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="185" y="0" width="185" height="20" uuid="3edf2ba3-a579-4008-ae2c-fd0f2bc54bcd"/>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="370" y="0" width="185" height="20" uuid="04b8b361-25f6-44ad-9b96-82f8145ae0f4"/>
+				<textFieldExpression><![CDATA[$F{tiempoFinal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

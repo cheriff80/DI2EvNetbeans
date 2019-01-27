@@ -22,7 +22,8 @@ public class PantallaCronometro extends javax.swing.JDialog {
      */
     private LogicaAplicacion logicaAplicacion;
     private Carrera carrera;
-    
+    private int j=1;
+
     public PantallaCronometro(java.awt.Frame parent, boolean modal, LogicaAplicacion logicaAplicacion, Carrera carrera) {
         super(parent, modal);
         this.carrera = carrera;
@@ -36,10 +37,10 @@ public class PantallaCronometro extends javax.swing.JDialog {
                 jLabelDorsalCorredor.setVisible(true);
                 jTextFieldDorsal.setText(null);
                 jTextFieldDorsal.setVisible(true);
-                
+
             }
         });
-        
+
     }
 
     /**
@@ -110,16 +111,15 @@ public class PantallaCronometro extends javax.swing.JDialog {
                         .addComponent(jLabelDorsalCorredor))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(87, 87, 87)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButtonStop, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jTextFieldDorsal, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cronometro, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jButtonStart)
-                                        .addGap(80, 80, 80)
-                                        .addComponent(jButtonPause)))))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jTextFieldDorsal, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(cronometro, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jButtonStart)
+                                    .addGap(80, 80, 80)
+                                    .addComponent(jButtonPause)))
+                            .addComponent(jButtonStop, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(122, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -151,26 +151,27 @@ public class PantallaCronometro extends javax.swing.JDialog {
         jButtonPause.setEnabled(true);
         jButtonStop.setEnabled(true);
     }//GEN-LAST:event_jButtonStartActionPerformed
-    
+
     private void jButtonStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStopActionPerformed
-        
+        carrera.setAcabada(true);
         logicaAplicacion.guardarCsvCarrerasAcabadas(logicaAplicacion.getNOMBRE_ARCHIVO_CSV_CARRERAS_ACABADAS());
         logicaAplicacion.getListaCarrerasAcabadas().add(carrera);
+        
         logicaAplicacion.borrarCarrera(carrera);
         logicaAplicacion.informeCarreraAcabada(carrera);
         dispose();
     }//GEN-LAST:event_jButtonStopActionPerformed
-    
+
     private void jButtonPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPauseActionPerformed
         cronometro.stop();
         jButtonStart.setEnabled(true);
         jButtonPause.setEnabled(false);
     }//GEN-LAST:event_jButtonPauseActionPerformed
-    
+
     private void jTextFieldDorsalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldDorsalActionPerformed
-        
+
         int dorsal = Integer.parseInt(jTextFieldDorsal.getText());
-        int j = 1;
+
         String tiempoFinal = cronometro.getTiempoFinal();
         Iterator it = carrera.getListaParticipantes().iterator();
         for (Corredor corredor : carrera.getListaParticipantes()) {
@@ -179,15 +180,15 @@ public class PantallaCronometro extends javax.swing.JDialog {
                 if (corredor.getDorsal() == dorsal) {
                     corredor.setTiempoFinal(tiempoFinal);
                     corredor.setPosicionCarrera(j);
-                    j++;
                     carrera.getListaFinalCarrera().add(corredor);
-                    
+                    j++;
+
                 }
             }
-        }
-        jTextFieldDorsal.setVisible(false);
-        jLabelDorsalCorredor.setVisible(false);
-        
+            }
+            jTextFieldDorsal.setVisible(false);
+            jLabelDorsalCorredor.setVisible(false);
+
     }//GEN-LAST:event_jTextFieldDorsalActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

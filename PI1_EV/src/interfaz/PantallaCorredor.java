@@ -62,7 +62,7 @@ public class PantallaCorredor extends javax.swing.JDialog {
         jButtonModificar.setVisible(false);
         jButtonVerLista.setVisible(false);
         jTextFieldNombre.setText(corredorModificar.getNombre());
-        jTextFieldDni.setText(corredorModificar.getDNI());
+        jTextFieldDni.setText(corredorModificar.getDni());
         jTextFieldDireccion.setText(corredorModificar.getDireccion());
         jTextFieldTelefono.setText(corredorModificar.getTelefonoContacto());
     }

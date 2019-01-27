@@ -6,8 +6,6 @@
 package beans;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  *
@@ -17,23 +15,35 @@ public class Corredor implements Serializable {
 
     //atributos
     private String nombre;
-    private String DNI;
+    private String dni;
     private String fechaNacimiento;
     private String direccion;
     private String telefonoContacto;
     private int dorsal;
     private String tiempoFinal;
     private int posicionCarrera;
+    
 
     //constructor
     public Corredor(String nombre, String DNI, String fechaNacimiento, String direccion, String telefonoContacto) {
         this.nombre = nombre;
-        this.DNI = DNI;
+        this.dni = DNI;
         this.fechaNacimiento = fechaNacimiento;
         this.direccion = direccion;
         this.telefonoContacto = telefonoContacto;
+        this.dorsal=0;
     }
 
+    public Corredor(String nombre, String dni, String fechaNacimiento, String direccion, String telefonoContacto, int dorsal) {
+        this.nombre = nombre;
+        this.dni = dni;
+        this.fechaNacimiento = fechaNacimiento;
+        this.direccion = direccion;
+        this.telefonoContacto = telefonoContacto;
+        this.dorsal = dorsal;
+    }
+
+    
     //getter and setter
 
     public int getPosicionCarrera() {
@@ -72,12 +82,12 @@ public class Corredor implements Serializable {
         this.nombre = nombre;
     }
 
-    public String getDNI() {
-        return DNI;
+    public String getDni() {
+        return dni;
     }
 
-    public void setDNI(String DNI) {
-        this.DNI = DNI;
+    public void setDni(String dni) {
+        this.dni = dni;
     }
 
     public String getFechaNacimiento() {
@@ -108,7 +118,7 @@ public class Corredor implements Serializable {
 
     @Override
     public String toString() {
-        return   nombre + ", " + DNI + " , "+ telefonoContacto;
+        return   nombre + ", " + dni + " , "+ telefonoContacto;
     }
     
     
@@ -117,7 +127,7 @@ public class Corredor implements Serializable {
        
         String[] s = new String[5];
         s[0] = nombre;
-        s[1] = DNI;
+        s[1] = dni;
         s[2] = fechaNacimiento;
         s[3] = direccion;
         s[4] = telefonoContacto;
@@ -129,7 +139,7 @@ public class Corredor implements Serializable {
         String[] s = new String[6];
         
         s[0] = nombre;
-        s[1] = DNI;
+        s[1] = dni;
         s[2] = fechaNacimiento;
         s[3] = direccion;
         s[4] = telefonoContacto;

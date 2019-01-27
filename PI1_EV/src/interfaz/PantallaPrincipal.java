@@ -5,8 +5,10 @@
  */
 package interfaz;
 
+import beans.Carrera;
 import java.io.File;
 import java.net.URL;
+import java.util.Iterator;
 import java.util.Locale;
 import javax.help.HelpBroker;
 import javax.help.HelpSet;
@@ -39,6 +41,11 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         //cargo las carreras acabadas
         if (NOMBRE_ARCHIVO_CSV_CARRERAS_ACABADAS.exists()) {
             logicaAplicacion.cargarCSVCarrerasAcabadas();
+            Iterator it = logicaAplicacion.getListaCarrerasAcabadas().iterator();
+            for(Carrera carrera : logicaAplicacion.getListaCarrerasAcabadas()){
+               carrera = (Carrera)  it.next();
+               carrera.setAcabada(true);
+            }
         }
 
         initComponents();

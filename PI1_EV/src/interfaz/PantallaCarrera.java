@@ -6,7 +6,6 @@
 package interfaz;
 
 import beans.Carrera;
-import beans.Corredor;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import logicaNegocio.LogicaAplicacion;
@@ -26,8 +25,8 @@ public class PantallaCarrera extends javax.swing.JDialog {
      */
     private LogicaAplicacion logicaAplicacion;
     private PantallaPrincipal pp;
-    private PantallaListaCorredores plc;
-    private Carrera carreraModificar;
+    //private PantallaListaCorredores plc;
+    //private Carrera carreraModificar;
 
     public PantallaCarrera(java.awt.Frame parent, boolean modal, LogicaAplicacion logicaAplicacion) {
 
@@ -208,22 +207,25 @@ public class PantallaCarrera extends javax.swing.JDialog {
     }//GEN-LAST:event_formComponentResized
 
     private void jButtonBajaCarreraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBajaCarreraActionPerformed
-        int index;
+        
         Carrera carrera;
         //tengo el foco en una carrera de la tabla carreras
-        if (jTableCarreras.getSelectedRow() == 0) {
-            index = jTableCarreras.convertRowIndexToModel(jTableCarreras.getSelectedRow());
-            carrera = pp.getLogicaAplicacion().getListaCarreras().get(index);
+        if (jTableCarreras.getSelectedRow()!= -1) {
+             
+             
+         int index1 = jTableCarreras.convertRowIndexToModel(jTableCarreras.getSelectedRow());
+        
+            carrera = pp.getLogicaAplicacion().getListaCarreras().get(index1);
             pp.getLogicaAplicacion().borrarCarrera(carrera);
             cargarTablaCarreras();
             this.setVisible(false);
             pp.setVisible(true);
             dispose();
         }
-        if (jTableCarrerasAcabadas.getSelectedRow() == 0) {
+        if (jTableCarrerasAcabadas.getSelectedRow() != -1) {
 
-            index = jTableCarrerasAcabadas.convertRowIndexToModel(jTableCarrerasAcabadas.getSelectedRow());
-            carrera = pp.getLogicaAplicacion().getListaCarrerasAcabadas().get(index);
+            int index2 = jTableCarrerasAcabadas.convertRowIndexToModel(jTableCarrerasAcabadas.getSelectedRow());
+            carrera = pp.getLogicaAplicacion().getListaCarrerasAcabadas().get(index2);
             pp.getLogicaAplicacion().borrarCarreraAcabada(carrera);
             cargarTablaCarrerasAcabadas();
             this.setVisible(false);
@@ -234,27 +236,72 @@ public class PantallaCarrera extends javax.swing.JDialog {
     }//GEN-LAST:event_jButtonBajaCarreraActionPerformed
 
     private void jButtonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonModificarActionPerformed
-        int index = jTableCarreras.convertRowIndexToModel(jTableCarreras.getSelectedRow());
-        Carrera carrera = pp.getLogicaAplicacion().getListaCarreras().get(index);
-        PantallaAltaCarrera pac = new PantallaAltaCarrera(pp, logicaAplicacion, carrera, true);
-        pac.setVisible(true);
-        dispose();
+
+        
+        
+        Carrera carrera;
+        //tengo el foco en una carrera de la tabla carreras
+        System.out.println(jTableCarreras.getSelectedRow());
+        if (jTableCarreras.getSelectedRow() != -1) {
+            int index1 = jTableCarreras.convertRowIndexToModel(jTableCarreras.getSelectedRow()); 
+            carrera = pp.getLogicaAplicacion().getListaCarreras().get(index1);
+            PantallaAltaCarrera pac = new PantallaAltaCarrera(pp, logicaAplicacion, carrera, true);
+            pac.setVisible(true);
+            dispose();
+        }
+        if (jTableCarrerasAcabadas.getSelectedRow() != -1) {
+
+           int index2 = jTableCarrerasAcabadas.convertRowIndexToModel(jTableCarrerasAcabadas.getSelectedRow());
+            carrera = pp.getLogicaAplicacion().getListaCarrerasAcabadas().get(index2);
+            PantallaAltaCarrera pac = new PantallaAltaCarrera(pp, logicaAplicacion, carrera, true);
+            pac.setVisible(true);
+            dispose();
+
+        }
+       // int index = jTableCarreras.convertRowIndexToModel(jTableCarreras.getSelectedRow());
+        //Carrera carrera = pp.getLogicaAplicacion().getListaCarreras().get(index);
+        //PantallaAltaCarrera pac = new PantallaAltaCarrera(pp, logicaAplicacion, carrera, true);
+        //pac.setVisible(true);
+        //dispose();
 
     }//GEN-LAST:event_jButtonModificarActionPerformed
 
     private void jButtonConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConsultarActionPerformed
 
-        int index = jTableCarreras.convertRowIndexToModel(jTableCarreras.getSelectedRow());
-        Carrera carrera = pp.getLogicaAplicacion().getListaCarreras().get(index);
-        PantallaAltaCarrera pac = new PantallaAltaCarrera(pp, logicaAplicacion, carrera, true, true);
-        pac.setVisible(true);
-        dispose();
+         
+        Carrera carrera;
+        //tengo el foco en una carrera de la tabla carreras
+        if (jTableCarreras.getSelectedRow() != -1) {
+            int index1 = jTableCarreras.convertRowIndexToModel(jTableCarreras.getSelectedRow());
+            carrera = pp.getLogicaAplicacion().getListaCarreras().get(index1);
+            PantallaAltaCarrera pac = new PantallaAltaCarrera(pp, logicaAplicacion, carrera, true);
+            pac.setVisible(true);
+            dispose();
+        }
+        if (jTableCarrerasAcabadas.getSelectedRow() != -1) {
+
+            int index2 = jTableCarrerasAcabadas.convertRowIndexToModel(jTableCarrerasAcabadas.getSelectedRow());
+            carrera = pp.getLogicaAplicacion().getListaCarrerasAcabadas().get(index2);
+            PantallaAltaCarrera pac = new PantallaAltaCarrera(pp, logicaAplicacion, carrera, true);
+            pac.setVisible(true);
+            dispose();
+
+        }
+
+        //int index = jTableCarreras.convertRowIndexToModel(jTableCarreras.getSelectedRow());
+        //Carrera carrera = pp.getLogicaAplicacion().getListaCarreras().get(index);
+        //PantallaAltaCarrera pac = new PantallaAltaCarrera(pp, logicaAplicacion, carrera, true, true);
+        //pac.setVisible(true);
+        //dispose();
     }//GEN-LAST:event_jButtonConsultarActionPerformed
 
     private void jButtonStartCarreraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStartCarreraActionPerformed
-
+        
+        
         int index = jTableCarreras.convertRowIndexToModel(jTableCarreras.getSelectedRow());
         Carrera carrera = logicaAplicacion.getListaCarreras().get(index);
+        carrera.darDorsalesCorredores();
+        
         PantallaCronometro pantallaCronometro = new PantallaCronometro(pp, true, logicaAplicacion, carrera);
         pantallaCronometro.setVisible(true);
         dispose();
@@ -275,7 +322,7 @@ public class PantallaCarrera extends javax.swing.JDialog {
         jTableCarreras.setRowSorter(sorter);
 
         //jTableCarrerasAcabadas.setRowSorter(sorter);
-        for (Carrera carrera : pp.getLogicaAplicacion().getListaCarreras()) {
+        for (Carrera carrera : logicaAplicacion.getListaCarreras()) {
             akf.addRow(carrera.toStringArray());
 
         }

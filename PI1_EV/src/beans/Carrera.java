@@ -15,8 +15,8 @@ import java.util.LinkedList;
  */
 public class Carrera {
 
-    private LinkedList<Corredor> listaParticipantes;
-    private LinkedList<Corredor> listaFinalCarrera;
+    private List<Corredor> listaParticipantes ;
+    private List<Corredor> listaFinalCarrera;
     private String nombreCarrera;
     private String fecha;
     private String lugar;
@@ -33,20 +33,32 @@ public class Carrera {
         this.lugar = lugar;
         this.numMaxParticipantes = numMaxParticipantes;
         this.acabada = false;
-        this.dorsales = 1;
+       //this.dorsales = 1
         this.listaFinalCarrera=listaFinalCarrera;
      
     }
 
-    public Carrera(LinkedList<Corredor> listaParticipantes, String nombreCarrera, String fecha, String lugar, int numMaxParticipantes) {
+    public Carrera(List<Corredor> listaParticipantes, String nombreCarrera, int numMaxParticipantes, boolean acabada) {
         this.listaParticipantes = listaParticipantes;
+        listaParticipantes = new LinkedList<>();
+        this.nombreCarrera = nombreCarrera;
+        this.numMaxParticipantes = numMaxParticipantes;
+        this.acabada = false;
+        //this.dorsales = 1;
+    }
+    
+    
+
+    public Carrera(List<Corredor> listaP, String nombreCarrera, String fecha, String lugar, int numMaxParticipantes) {
+        this.listaParticipantes = new LinkedList<>();
+        listaParticipantes = listaP;
         this.listaFinalCarrera = new LinkedList<>();
         this.nombreCarrera = nombreCarrera;
         this.fecha = fecha;
         this.lugar = lugar;
         this.numMaxParticipantes = numMaxParticipantes;
         this.acabada = false;
-        this.dorsales = 1;
+        //this.dorsales = 1;
        
         
     }
@@ -54,7 +66,7 @@ public class Carrera {
     public Carrera(String nombreCarrera, String lugar, int dorsales) {
         this.nombreCarrera = nombreCarrera;
         this.lugar = lugar;
-        this.dorsales = dorsales;
+        //this.dorsales = 1;
     }
     
    
@@ -122,8 +134,8 @@ public class Carrera {
         for (int i = 1; i < listaParticipantes.size(); i++) {
             while (it.hasNext()) {
                 c = (Corredor) it.next();
-                c.setDorsal(dorsales);
-                dorsales++;
+                c.setDorsal(i);
+                i++;
                 
             }
         }
