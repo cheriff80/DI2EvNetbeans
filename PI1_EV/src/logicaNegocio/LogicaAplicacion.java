@@ -41,6 +41,19 @@ public class LogicaAplicacion {
     private final File NOMBRE_ARCHIVO_CSV_CARRERAS_ACABADAS = new File("resources\\carrerasAcabadas.csv");
     private final File NOMBRE_ARCHIVO_TEMPORAL = new File("resources\\lista.tmp");
     
+    //ruta donde guardar los informes
+    private String rutaInformes;
+
+    
+
+    //getter y setter
+    public void setRutaInformes(String rutaInformes) {    
+        this.rutaInformes = rutaInformes;
+    }
+    
+    public String getRutaInformes() {
+        return rutaInformes;
+    }
 
     /**
      *

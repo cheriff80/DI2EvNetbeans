@@ -321,6 +321,10 @@ public class PantallaAltaCarrera extends javax.swing.JDialog {
 
         int index = jListCorrredores.getSelectedIndex();
         Corredor corredor = pp.getLogicaAplicacion().getListaCorredores().get(index);
+        //cada vez que añado un corredor a la lista de una carrera añado la 
+        //carrera a su lista de carreras
+        corredor.getCarrerasInscrito().add(c);
+        
         dlm2.addCorredor(corredor);
         c.getListaParticipantes().add(corredor);
         jListCorredoresAniadidos.setModel(dlm2);

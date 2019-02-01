@@ -6,6 +6,8 @@
 package beans;
 
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
@@ -22,7 +24,8 @@ public class Corredor implements Serializable {
     private int dorsal;
     private String tiempoFinal;
     private int posicionCarrera;
-    
+    //listaCarreras
+    private List<Carrera> carrerasInscrito;
 
     //constructor
     public Corredor(String nombre, String DNI, String fechaNacimiento, String direccion, String telefonoContacto) {
@@ -32,6 +35,7 @@ public class Corredor implements Serializable {
         this.direccion = direccion;
         this.telefonoContacto = telefonoContacto;
         this.dorsal=0;
+        this.carrerasInscrito=new LinkedList<>();
     }
 
     public Corredor(String nombre, String dni, String fechaNacimiento, String direccion, String telefonoContacto, int dorsal) {
@@ -41,10 +45,21 @@ public class Corredor implements Serializable {
         this.direccion = direccion;
         this.telefonoContacto = telefonoContacto;
         this.dorsal = dorsal;
+        this.carrerasInscrito= new LinkedList<>();
     }
 
     
     //getter and setter
+
+    public List<Carrera> getCarrerasInscrito() {
+        return carrerasInscrito;
+    }
+
+    public void setCarrerasInscrito(List<Carrera> carrerasInscrito) {
+        this.carrerasInscrito = carrerasInscrito;
+    }
+    
+    
 
     public int getPosicionCarrera() {
         return posicionCarrera;
@@ -119,6 +134,11 @@ public class Corredor implements Serializable {
     @Override
     public String toString() {
         return   nombre + ", " + dni + " , "+ telefonoContacto;
+    }
+    
+    //método para cargar en el combobox dni y nombre
+    public String cargarCombo(){
+        return nombre + " " + dni;
     }
     
     

@@ -44,7 +44,8 @@ public class PantallaInformes extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         jButtonInformeCarrerasSin = new javax.swing.JButton();
         jButtonInformeCarrera = new javax.swing.JButton();
-        jButtonInformeCarrera1 = new javax.swing.JButton();
+        jButtonInformeCarreraAcabada = new javax.swing.JButton();
+        jButtonInformeCorredor = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -62,10 +63,17 @@ public class PantallaInformes extends javax.swing.JDialog {
             }
         });
 
-        jButtonInformeCarrera1.setText(org.openide.util.NbBundle.getMessage(PantallaInformes.class, "PantallaInformes.jButtonInformeCarrera1.text")); // NOI18N
-        jButtonInformeCarrera1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonInformeCarreraAcabada.setText(org.openide.util.NbBundle.getMessage(PantallaInformes.class, "PantallaInformes.jButtonInformeCarreraAcabada.text")); // NOI18N
+        jButtonInformeCarreraAcabada.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonInformeCarrera1ActionPerformed(evt);
+                jButtonInformeCarreraAcabadaActionPerformed(evt);
+            }
+        });
+
+        jButtonInformeCorredor.setText(org.openide.util.NbBundle.getMessage(PantallaInformes.class, "PantallaInformes.jButtonInformeCorredor.text")); // NOI18N
+        jButtonInformeCorredor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonInformeCorredorActionPerformed(evt);
             }
         });
 
@@ -78,7 +86,8 @@ public class PantallaInformes extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButtonInformeCarrerasSin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonInformeCarrera, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonInformeCarrera1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButtonInformeCarreraAcabada, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonInformeCorredor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(149, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -89,8 +98,10 @@ public class PantallaInformes extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonInformeCarrera)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButtonInformeCarrera1)
-                .addContainerGap(59, Short.MAX_VALUE))
+                .addComponent(jButtonInformeCarreraAcabada)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButtonInformeCorredor)
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -105,9 +116,9 @@ public class PantallaInformes extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(31, 31, 31)
+                .addGap(23, 23, 23)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(90, Short.MAX_VALUE))
+                .addContainerGap(98, Short.MAX_VALUE))
         );
 
         pack();
@@ -115,7 +126,10 @@ public class PantallaInformes extends javax.swing.JDialog {
 
     private void jButtonInformeCarrerasSinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInformeCarrerasSinActionPerformed
 
-        
+        ComponenteGuardar cg = new ComponenteGuardar(pa,true,la);
+        cg.setVisible(true);
+        dispose();
+    /**    
         try {
             //La encapsulamos en el objeto adecuado
             JRDataSource dataSource = new JRBeanCollectionDataSource(la.getListaCarreras());
@@ -129,27 +143,38 @@ public class PantallaInformes extends javax.swing.JDialog {
         } catch (JRException ex) {
             Exceptions.printStackTrace(ex);
         }
+        * */
     }//GEN-LAST:event_jButtonInformeCarrerasSinActionPerformed
 
     private void jButtonInformeCarreraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInformeCarreraActionPerformed
         
         int modeloCombo = 1;
        //muestro la pantalla con el combo con todas las carreras
-       PantallaTodasCarreras pantallaTodasCarreras = new PantallaTodasCarreras(pa,true,la,1);
+       PantallaTodasCarreras pantallaTodasCarreras = new PantallaTodasCarreras(pa,true,la,modeloCombo);
        pantallaTodasCarreras.setVisible(true);
        //borro la pantalla
        dispose();
     }//GEN-LAST:event_jButtonInformeCarreraActionPerformed
 
-    private void jButtonInformeCarrera1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInformeCarrera1ActionPerformed
+    private void jButtonInformeCarreraAcabadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInformeCarreraAcabadaActionPerformed
         
         int modeloCombo = 2;
        //muestro la pantalla con el combo con las carreras acabadas
-       PantallaTodasCarreras pantallaTodasCarreras = new PantallaTodasCarreras(pa,true,la,2);
+       PantallaTodasCarreras pantallaTodasCarreras = new PantallaTodasCarreras(pa,true,la,modeloCombo);
        pantallaTodasCarreras.setVisible(true);
        //borro la pantalla
        dispose();
-    }//GEN-LAST:event_jButtonInformeCarrera1ActionPerformed
+    }//GEN-LAST:event_jButtonInformeCarreraAcabadaActionPerformed
+
+    private void jButtonInformeCorredorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInformeCorredorActionPerformed
+        
+         int modeloCombo = 3;
+       //muestro la pantalla con el combo con las carreras acabadas
+       PantallaTodasCarreras pantallaTodasCarreras = new PantallaTodasCarreras(pa,true,la,modeloCombo);
+       pantallaTodasCarreras.setVisible(true);
+       //borro la pantalla
+       dispose();
+    }//GEN-LAST:event_jButtonInformeCorredorActionPerformed
 
     /**
      * @param args the command line arguments
@@ -158,8 +183,9 @@ public class PantallaInformes extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonInformeCarrera;
-    private javax.swing.JButton jButtonInformeCarrera1;
+    private javax.swing.JButton jButtonInformeCarreraAcabada;
     private javax.swing.JButton jButtonInformeCarrerasSin;
+    private javax.swing.JButton jButtonInformeCorredor;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

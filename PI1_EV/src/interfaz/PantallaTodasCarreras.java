@@ -7,13 +7,10 @@ package interfaz;
 
 import beans.Carrera;
 import beans.Corredor;
-import com.lowagie.text.pdf.codec.CCITTG4Encoder;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import javax.swing.DefaultListModel;
 import logicaNegocio.LogicaAplicacion;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -32,46 +29,50 @@ public class PantallaTodasCarreras extends javax.swing.JDialog {
     private LogicaAplicacion la;
     PantallaPrincipal pa;
     private int modeloCombo;
-    
 
-    public PantallaTodasCarreras(java.awt.Frame parent,boolean modal , LogicaAplicacion la,int modeloCombo) {
+    public PantallaTodasCarreras(java.awt.Frame parent, boolean modal, LogicaAplicacion la, int modeloCombo) {
         super(parent, modal);
         pa = (PantallaPrincipal) parent;
         this.la = la;
         this.modeloCombo = modeloCombo;
         initComponents();
-        if(modeloCombo == 1){
-        //genero la lista de todas las carreras
-        la.generarTodasCarreras();
-        //cargarLista();
-        cargarCombo();
-        }
-        if(modeloCombo == 2){
-        cargarCombo();
-        }
         
-        
-       
-    }
-    
+        //dependiendo del informe 
+        if (modeloCombo == 1) {
+            //genero la lista de todas las carreras
+            la.generarTodasCarreras();
+            //cargarLista();
+            cargarCombo();
+        }
+        if (modeloCombo == 2) {
+            cargarCombo();
+        }
+        if (modeloCombo == 3) {
+            cargarCombo();
+        }
 
-    
+    }
+
     //cargar combo box
-    
-   private void cargarCombo(){
-       
-       if(modeloCombo ==1){
-           for(Carrera carrera : la.getTodasCarreras()){
-           jComboBoxCarreras.addItem(carrera.getNombreCarrera());
-       }
-       }else if(modeloCombo ==2){
-            for(Carrera carrera : la.getListaCarrerasAcabadas()){
-           jComboBoxCarreras.addItem(carrera.getNombreCarrera());
-       }
-       }
-     }
-   
- 
+    private void cargarCombo() {
+
+        if (modeloCombo == 1) {
+            for (Carrera carrera : la.getTodasCarreras()) {
+                jComboBoxCarreras.addItem(carrera.getNombreCarrera());
+            }
+        }
+        if (modeloCombo == 2) {
+            for (Carrera carrera : la.getListaCarrerasAcabadas()) {
+                jComboBoxCarreras.addItem(carrera.getNombreCarrera());
+            }
+        }
+        if (modeloCombo == 3) {
+            for (Corredor corredor : la.getListaCorredores()) {
+                jComboBoxCarreras.addItem(corredor.getNombre());
+            }
+
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -119,119 +120,169 @@ public class PantallaTodasCarreras extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonInformeCarreraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInformeCarreraActionPerformed
-        
-       if(modeloCombo == 1){
-          informeCarrera();
-       }else if (modeloCombo ==2 ){
-           informeCarreraAcabada();
-       }
-       
+
+        if (modeloCombo == 1) {
+            ComponenteGuardar cg = new ComponenteGuardar(pa,true,la);
+            cg.setVisible(true);
+            
+            informeCarrera(la.getRutaInformes());
+        }
+        if (modeloCombo == 2) {
+            ComponenteGuardar cg = new ComponenteGuardar(pa,true,la);
+            cg.setVisible(true);
+            informeCarreraAcabada(la.getRutaInformes());
+        }
+        if (modeloCombo == 3) {
+            ComponenteGuardar cg = new ComponenteGuardar(pa,true,la);
+            cg.setVisible(true);
+            informeCorredor(la.getRutaInformes());
+        }
+
     }//GEN-LAST:event_jButtonInformeCarreraActionPerformed
 
-    public void informeCarrera(){
-          try {
-            String nombreCarrera = (String) jComboBoxCarreras.getSelectedItem();
-            //Buscar por el nombre de la carrera en lugar de coger la priemra
-            Carrera carreraInforme=null; 
-            List<Corredor> listaCorredoresInforme = null;
-            String acabada="";
-            int totalCorredores=0;
-            //itero la lista de todas las carreras
-            Iterator it = la.getTodasCarreras().iterator();
-            for (Carrera carrera : la.getTodasCarreras()) {
-               while (it.hasNext()) {
-                carrera = (Carrera) it.next();
-                
-                if(carrera.getNombreCarrera().equalsIgnoreCase(nombreCarrera)){
-                    
-                    if(carrera.isAcabada()){
-                        carreraInforme = carrera;
-                         listaCorredoresInforme = carrera.getListaFinalCarrera();
-                            acabada="SI";
-                            totalCorredores = carrera.getListaFinalCarrera().size();
-                    }else if (!carrera.isAcabada()){
-                       carreraInforme = carrera;
-                    listaCorredoresInforme = carrera.getListaParticipantes();
-                    totalCorredores = carrera.getListaParticipantes().size();
-                    acabada="NO"; 
-                    }
-                 }  
-            }
-            }
-            //La encapsulamos en el objeto adecuado
-            JRDataSource dataSource = new JRBeanCollectionDataSource(listaCorredoresInforme);
-            //Creamos el map para los parametros, en este caso va vacío.
-            Map<String,Object> parametros = new HashMap<>();
-            
-            parametros.put("NOMBRECARRERA", carreraInforme.getNombreCarrera());
-            parametros.put("LUGARCARRERA", carreraInforme.getLugar());
-            parametros.put("CARRERAACABADA", acabada );
-            parametros.put("TOTALCORREDORES", totalCorredores);
-            
-            JasperPrint print
-                    = JasperFillManager.fillReport("informes/informecorredores.jasper", parametros,
-                            dataSource);
-          
-            JasperExportManager.exportReportToPdfFile(print, "informes/informecorredores.pdf");
-            
-        } catch (JRException ex) {
-            Exceptions.printStackTrace(ex);
-        }
-        dispose(); 
-    }
-     public void informeCarreraAcabada(){
-          try {
-            String nombreCarrera = (String) jComboBoxCarreras.getSelectedItem();
-            //Buscar por el nombre de la carrera en lugar de coger la priemra
-            Carrera carreraInforme=null; 
-            List<Corredor> listaCorredoresInforme = null;
-            String acabada="";
-           
-            //itero la lista de todas las carreras
-            Iterator it = la.getListaCarrerasAcabadas().iterator();
-            for (Carrera carrera : la.getListaCarrerasAcabadas()) {
-               while (it.hasNext()) {
-                carrera = (Carrera) it.next();
-                
-                if(carrera.getNombreCarrera().equalsIgnoreCase(nombreCarrera)){
-                
-                        carreraInforme = carrera;
-                        listaCorredoresInforme = carrera.getListaFinalCarrera();
-                    }
-                 }  
-            }
-            
-            //La encapsulamos en el objeto adecuado
-            JRDataSource dataSource = new JRBeanCollectionDataSource(listaCorredoresInforme);
-            //Creamos el map para los parametros, en este caso va vacío.
-            Map<String,Object> parametros = new HashMap<>();
-            
-            parametros.put("NOMBRECARRERA", carreraInforme.getNombreCarrera());
-            parametros.put("LUGARCARRERA", carreraInforme.getLugar());
-            
-            
-            
-            JasperPrint print
-                    = JasperFillManager.fillReport("informes/informeCarreraAcabada.jasper", parametros,
-                            dataSource);
-          
-            JasperExportManager.exportReportToPdfFile(print, "informes/informeCarreraAcabada.pdf");
-            
-        } catch (JRException ex) {
-            Exceptions.printStackTrace(ex);
-        }
-        dispose();
-
-}
-
-    
     /**
      * @param args the command line arguments
      */
-   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonInformeCarrera;
     private javax.swing.JComboBox<String> jComboBoxCarreras;
     // End of variables declaration//GEN-END:variables
+
+    private void informeCorredor(String rutaInforme) {
+
+        try { //variable nombre que saco del combo
+            String nombre = (String) jComboBoxCarreras.getSelectedItem();
+            Corredor corredorInforme = null;
+            List<Carrera> listaCorredorCarreras = null;
+
+            Iterator it = la.getListaCorredores().iterator();
+            for (Corredor corredor : la.getListaCorredores()) {
+                while (it.hasNext()) {
+                    corredor = (Corredor) it.next();
+                    if (corredor.getNombre().equalsIgnoreCase(nombre)) {
+                      
+                        corredorInforme = corredor;
+                        listaCorredorCarreras = corredor.getCarrerasInscrito();  
+                        }
+                        
+
+                    }
+                }
+
+            
+            //La encapsulamos en el objeto adecuado
+            JRDataSource dataSource = new JRBeanCollectionDataSource(listaCorredorCarreras);
+            //Creamos el map para los parametros, en este caso va vacío.
+            Map<String, Object> parametros = new HashMap<>();
+
+            parametros.put("NOMBRECORREDOR", corredorInforme.getNombre());
+            parametros.put("DNICORREDOR", corredorInforme.getDni());
+
+            JasperPrint print
+                    = JasperFillManager.fillReport("informes/informecorredorcarreras.jasper", parametros,
+                            dataSource);
+
+            JasperExportManager.exportReportToPdfFile(print, rutaInforme);
+
+        } catch (JRException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+        dispose();
+    }
+
+    public void informeCarrera(String rutaInforme) {
+        try {
+            String nombreCarrera = (String) jComboBoxCarreras.getSelectedItem();
+            //Buscar por el nombre de la carrera en lugar de coger la priemra
+            Carrera carreraInforme = null;
+            List<Corredor> listaCorredoresInforme = null;
+            String acabada = "";
+            int totalCorredores = 0;
+            //itero la lista de todas las carreras
+            Iterator it = la.getTodasCarreras().iterator();
+            for (Carrera carrera : la.getTodasCarreras()) {
+                while (it.hasNext()) {
+                    carrera = (Carrera) it.next();
+
+                    if (carrera.getNombreCarrera().equalsIgnoreCase(nombreCarrera)) {
+
+                        if (carrera.isAcabada()) {
+                            carreraInforme = carrera;
+                            listaCorredoresInforme = carrera.getListaFinalCarrera();
+                            acabada = "SI";
+                            totalCorredores = carrera.getListaFinalCarrera().size();
+                        } else if (!carrera.isAcabada()) {
+                            carreraInforme = carrera;
+                            listaCorredoresInforme = carrera.getListaParticipantes();
+                            totalCorredores = carrera.getListaParticipantes().size();
+                            acabada = "NO";
+                        }
+                    }
+                }
+            }
+            //La encapsulamos en el objeto adecuado
+            JRDataSource dataSource = new JRBeanCollectionDataSource(listaCorredoresInforme);
+            //Creamos el map para los parametros, en este caso va vacío.
+            Map<String, Object> parametros = new HashMap<>();
+
+            parametros.put("NOMBRECARRERA", carreraInforme.getNombreCarrera());
+            parametros.put("LUGARCARRERA", carreraInforme.getLugar());
+            parametros.put("CARRERAACABADA", acabada);
+            parametros.put("TOTALCORREDORES", totalCorredores);
+
+            JasperPrint print
+                    = JasperFillManager.fillReport("informes/informecorredores.jasper", parametros,
+                            dataSource);
+
+            JasperExportManager.exportReportToPdfFile(print, rutaInforme);
+
+        } catch (JRException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+        dispose();
+    }
+
+    public void informeCarreraAcabada(String rutaInforme) {
+        try {
+            String nombreCarrera = (String) jComboBoxCarreras.getSelectedItem();
+            //Buscar por el nombre de la carrera en lugar de coger la priemra
+            Carrera carreraInforme = null;
+            List<Corredor> listaCorredoresInforme = null;
+            String acabada = "";
+
+            //itero la lista de todas las carreras
+            Iterator it = la.getListaCarrerasAcabadas().iterator();
+            for (Carrera carrera : la.getListaCarrerasAcabadas()) {
+                while (it.hasNext()) {
+                    carrera = (Carrera) it.next();
+
+                    if (carrera.getNombreCarrera().equalsIgnoreCase(nombreCarrera)) {
+
+                        carreraInforme = carrera;
+                        listaCorredoresInforme = carrera.getListaFinalCarrera();
+                    }
+                }
+            }
+
+            //La encapsulamos en el objeto adecuado
+            JRDataSource dataSource = new JRBeanCollectionDataSource(listaCorredoresInforme);
+            //Creamos el map para los parametros, en este caso va vacío.
+            Map<String, Object> parametros = new HashMap<>();
+
+            parametros.put("NOMBRECARRERA", carreraInforme.getNombreCarrera());
+            parametros.put("LUGARCARRERA", carreraInforme.getLugar());
+
+            JasperPrint print
+                    = JasperFillManager.fillReport("informes/informeCarreraAcabada.jasper", parametros,
+                            dataSource);
+
+            JasperExportManager.exportReportToPdfFile(print, rutaInforme);
+
+        } catch (JRException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+        dispose();
+
+    }
 }

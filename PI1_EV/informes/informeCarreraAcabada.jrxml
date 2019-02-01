@@ -47,10 +47,16 @@
 		<band height="83" splitType="Stretch">
 			<textField>
 				<reportElement x="0" y="37" width="158" height="20" uuid="3b07379f-9b4e-4f73-8c6d-ce11c0017e43"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
 				<textFieldExpression><![CDATA["Lugar: "+$P{LUGARCARRERA}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="0" y="0" width="191" height="20" uuid="ee7abf73-09b4-4039-951d-4f42eb2c8622"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
 				<textFieldExpression><![CDATA["Nombre de la carrera: "+$P{NOMBRECARRERA}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -58,31 +64,43 @@
 	<columnHeader>
 		<band height="28" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="185" height="20" uuid="24118898-f664-43d3-ab4f-e981cdf32521"/>
-				<text><![CDATA[dorsal]]></text>
+				<reportElement mode="Transparent" x="0" y="0" width="113" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="24118898-f664-43d3-ab4f-e981cdf32521"/>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="SansSerif" size="12" isBold="true" isItalic="false" isUnderline="true" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Dorsal]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="185" y="0" width="185" height="20" uuid="489c6d6c-c0e0-42d9-b4f7-247495a94b1b"/>
-				<text><![CDATA[nombre]]></text>
+				<reportElement mode="Transparent" x="113" y="0" width="257" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="489c6d6c-c0e0-42d9-b4f7-247495a94b1b"/>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="SansSerif" size="12" isBold="true" isItalic="false" isUnderline="true" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Nombre]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="370" y="0" width="185" height="20" uuid="ae6c9313-1976-4cc1-85e0-d3c6be0dfd82"/>
-				<text><![CDATA[tiempoFinal]]></text>
+				<reportElement mode="Transparent" x="394" y="0" width="161" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="ae6c9313-1976-4cc1-85e0-d3c6be0dfd82"/>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="SansSerif" size="12" isBold="true" isItalic="false" isUnderline="true" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Tiempo]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="32" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="0" width="185" height="20" uuid="d100beca-aef0-464e-ae25-8fb8ccf6a996"/>
+				<reportElement x="0" y="0" width="113" height="20" uuid="d100beca-aef0-464e-ae25-8fb8ccf6a996"/>
 				<textFieldExpression><![CDATA[$F{dorsal}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="185" y="0" width="185" height="20" uuid="3edf2ba3-a579-4008-ae2c-fd0f2bc54bcd"/>
+				<reportElement x="113" y="0" width="281" height="20" uuid="3edf2ba3-a579-4008-ae2c-fd0f2bc54bcd"/>
 				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="370" y="0" width="185" height="20" uuid="04b8b361-25f6-44ad-9b96-82f8145ae0f4"/>
+				<reportElement x="394" y="0" width="161" height="20" uuid="04b8b361-25f6-44ad-9b96-82f8145ae0f4"/>
 				<textFieldExpression><![CDATA[$F{tiempoFinal}]]></textFieldExpression>
 			</textField>
 		</band>
