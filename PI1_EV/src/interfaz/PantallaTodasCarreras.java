@@ -121,6 +121,7 @@ public class PantallaTodasCarreras extends javax.swing.JDialog {
 
     private void jButtonInformeCarreraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInformeCarreraActionPerformed
 
+        
         if (modeloCombo == 1) {
             ComponenteGuardar cg = new ComponenteGuardar(pa,true,la);
             cg.setVisible(true);
